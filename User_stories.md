@@ -81,3 +81,23 @@
 4. As a low-tech attendee,
    I want to receive a reminder notification before the event,
    so that I do not miss the date or forget important details.
+
+---
+
+## Persona 5: Dylan — Corporate Event Buyer
+ 
+1. As a corporate buyer,
+   I want to purchase multiple tickets in a single transaction,
+   so that I can efficiently secure spots for my entire team.
+ 
+2. As a corporate buyer,
+   I want to enter my company's billing details during checkout,
+   so that I automatically receive a proper invoice for my accounting department.
+ 
+3. As a corporate buyer,
+   I want to input my colleagues' email addresses after purchase,
+   so that the platform automatically sends each person their unique QR code ticket.
+ 
+4. As a corporate buyer,
+   I want to view a summary of my bulk order in my account,
+   so that I can verify that all team members have received their tickets.

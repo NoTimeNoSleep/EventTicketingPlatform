@@ -143,3 +143,36 @@ Aldona occasionally attends cultural events, choir concerts, and family celebrat
 - She completes a ticket purchase independently without calling for help.
 - She is able to present her QR code at the venue entrance without assistance.
 - She feels confident the purchase went through (clear confirmation screen and email).
+
+---
+
+## Persona 5: Dylan — Corporate Event Buyer
+ 
+**Profile**
+- Age: 34
+- Role: HR Manager / Corporate Buyer
+- Tech level: High
+- Device preference: Desktop
+ 
+**Background**
+Dylan organizes team-building activities, conference visits, and professional development outings for his company's employees. He frequently needs to buy tickets in bulk, ensure expenses are properly documented for his accounting department, and distribute individual tickets to his colleagues without creating a massive email headache.
+ 
+**Primary Goals**
+- Buy multiple tickets at once in a single transaction.
+- Receive an automated, company-compliant VAT invoice.
+- Easily distribute individual QR code tickets to team members.
+- Keep track of which employees have received their tickets.
+ 
+**Pain Points**
+- Buying tickets one-by-one is tedious and sometimes triggers fraud alerts on corporate credit cards.
+- Getting a proper business invoice usually requires emailing the organizer and waiting days.
+- Manually forwarding 20 different PDF tickets to 20 different coworkers is confusing and time-consuming.
+ 
+**Needs from the Platform**
+- A "buy in bulk" or group ticket option during the checkout flow.
+- A form to enter company details for automatic invoice generation.
+- A feature to input a list of emails so the system sends individual QR tickets directly to the attendees.
+ 
+**Success Criteria**
+- Bulk purchase and invoice generation happen instantly and automatically.
+- Team members receive their individual QR codes directly to their inboxes without Dylan having to forward anything manually.
