@@ -11,7 +11,7 @@ enum Category {
   MOVIE
 }
 
-enum UserType {
+enum RoleType {
   ADMIN
   MANAGER
   EVENTORGANIZER
@@ -61,19 +61,10 @@ enum BulkType {
   CORPORATE
 }
 
-enum AssignmentStatus {
+enum DeliveryStatus {
   PENDING
   SENT
   CLAIMED
-}
-
-enum EmailType {
-  TICKET_DELIVERY
-  ORDER_CONFIRMATION
-  EVENT_REMINDER
-  SYSTEM
-  INVOICE
-  PASSWORD_RESET
 }
 
 enum JobStatus {
@@ -84,6 +75,12 @@ enum JobStatus {
   DEAD
 }
 
+enum QRCodeStatus {
+  ACTIVE
+  INVALIDATED
+  EXPIRED
+}
+
 enum TaxType {
   VAT
   SALES_TAX
@@ -91,9 +88,19 @@ enum TaxType {
 }
 
 enum NotificationType {
-  EVENT_REMINDER
+  TICKET_DELIVERY
   ORDER_CONFIRMATION
+  EVENT_REMINDER
   SYSTEM
+  INVOICE
+  PASSWORD_RESET
+}
+
+enum NotificationStatus {
+  SCHEDULED
+  SENT
+  FAILED
+  CANCELLED
 }
 
 enum OrderStatus {
@@ -149,16 +156,20 @@ class QRCode {
   id: UUID
   codeValue: String
   generatedAt: DateTime
-  status: String
+  status: QRCodeStatus
 }
 
 class User {
   id: UUID
-  type: UserType
   name: String
   surname: String
   email: String
   passwordHash: String
+}
+
+class Role {
+  id: UUID
+  type: RoleType
 }
 
 ' ===================== ORDER & PAYMENT =====================
@@ -169,6 +180,7 @@ class Order {
   taxTotal: Decimal
   totalAmount: Decimal
   createdAt: DateTime
+  updatedAt: DateTime
   status: OrderStatus
 }
 
@@ -177,6 +189,7 @@ class Payment {
   amount: Decimal
   method: PaymentMethod
   status: PaymentStatus
+  createdAt: DateTime
   paidAt: DateTime
 }
 
@@ -190,10 +203,12 @@ class BulkPurchase {
   createdAt: DateTime
 }
 
-class TicketAssignment {
+class TicketDelivery {
   id: UUID
   email: String
-  status: AssignmentStatus
+  status: DeliveryStatus
+  createdAt: DateTime
+  updatedAt: DateTime
   sentAt: DateTime
 }
 
@@ -243,7 +258,6 @@ class TaxLine {
 
 class EmailJob {
   id: UUID
-  emailType: EmailType
   payload: JSON
   recipientEmail: String
   jobStatus: JobStatus
@@ -260,9 +274,40 @@ class Notification {
   type: NotificationType
   title: String
   message: String
+  createdAt: DateTime
   scheduledAt: DateTime
-  status: String
+  sentAt: DateTime
+  status: NotificationStatus
 }
+
+note right of EmailJob
+  Email sender worker.
+  Originates from Notification.
+  Email type is derived from Notification.type.
+  Sends to recipientEmail.
+end note
+
+note right of Notification
+  Exactly one recipient target:
+  - User.email OR
+  - TicketDelivery.email
+end note
+
+note right of Payment
+  Multiple payment attempts per Order are allowed.
+  At most one Payment should reach PAID state.
+end note
+
+note bottom of Ticket
+  Uniqueness hints:
+  - Max one TicketDelivery per Ticket.
+  - Max one QRCode per Ticket.
+end note
+
+note bottom of Role
+  Uniqueness hint:
+  - Role.type should be unique.
+end note
 
 ' ===================== RELATIONSHIPS =====================
 
@@ -281,25 +326,26 @@ Seat "0..1" -- "many" Ticket
 
 Order "1" -- "many" Ticket
 User "1" -- "many" Order
-Order "1" -- "1" Payment
+Order "1" *-- "many" Payment
 
 Order "1" -- "0..1" BulkPurchase
 
-Order "1" -- "1" Invoice
+Order "1" *-- "0..1" Invoice
 
-Ticket "1" -- "0..1" TicketAssignment
-User "1" -- "many" TicketAssignment
+Ticket "1" *-- "1" TicketDelivery
+User "0..1" -- "many" TicketDelivery
 
-Ticket "1" -- "1" QRCode
+Ticket "1" *-- "0..1" QRCode
 
 Order "1" -- "many" TaxLine
 Ticket "0..1" -- "many" TaxLine
 
 Invoice "1" -- "many" InvoiceTaxLine
 
-Notification "many" -- "1" User
+Notification "many" -- "0..1" User : non-TICKET_DELIVERY recipient source
 Notification "1" -- "many" EmailJob
+TicketDelivery "0..1" -- "many" Notification : TICKET_DELIVERY recipient source
 
-TicketAssignment "1" -- "many" EmailJob
+User "many" -- "many" Role
 
 @enduml
