@@ -311,41 +311,41 @@ end note
 
 ' ===================== RELATIONSHIPS =====================
 
-Event "many" -- "1" Venue
-Venue "1" -- "many" Seat
+Event "0..*" -- "1" Venue
+Venue "1" -- "1..*" Seat
 
-Event "1" -- "many" TicketType
-Event "1" -- "many" EventSeat
+Event "1" -- "1..*" TicketType
+Event "1" -- "0..*" EventSeat
 
-Seat "1" -- "many" EventSeat
-TicketType "1" -- "many" EventSeat
+Seat "1" -- "0..*" EventSeat
+TicketType "1" -- "0..*" EventSeat
 
-Event "1" -- "many" Ticket
-TicketType "1" -- "many" Ticket
-Seat "0..1" -- "many" Ticket
+Event "1" -- "0..*" Ticket
+TicketType "1" -- "0..*" Ticket
+Seat "0..1" -- "0..*" Ticket
 
-Order "1" -- "many" Ticket
-User "1" -- "many" Order
-Order "1" *-- "many" Payment
+Order "1" -- "1..*" Ticket
+User "1" -- "0..*" Order
+Order "1" *-- "0..*" Payment
 
 Order "1" -- "0..1" BulkPurchase
 
 Order "1" *-- "0..1" Invoice
 
 Ticket "1" *-- "1" TicketDelivery
-User "0..1" -- "many" TicketDelivery
+User "0..1" -- "0..*" TicketDelivery
 
 Ticket "1" *-- "0..1" QRCode
 
-Order "1" -- "many" TaxLine
-Ticket "0..1" -- "many" TaxLine
+Order "1" -- "0..*" TaxLine
+Ticket "0..1" -- "0..*" TaxLine
 
-Invoice "1" -- "many" InvoiceTaxLine
+Invoice "1" -- "0..*" InvoiceTaxLine
 
-Notification "many" -- "0..1" User : non-TICKET_DELIVERY recipient source
-Notification "1" -- "many" EmailJob
-TicketDelivery "0..1" -- "many" Notification : TICKET_DELIVERY recipient source
+Notification "0..*" -- "0..1" User : non-TICKET_DELIVERY recipient source
+Notification "1" -- "1..*" EmailJob
+TicketDelivery "0..1" -- "0..*" Notification : TICKET_DELIVERY recipient source
 
-User "many" -- "many" Role
+User "0..*" -- "1..*" Role
 
 @enduml
