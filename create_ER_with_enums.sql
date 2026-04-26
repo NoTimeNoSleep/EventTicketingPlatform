@@ -1,3 +1,5 @@
+-- Specifically designed for PostgreSQL
+
 -- ===================== ENUM TYPES =====================
 
 CREATE TYPE role_type_enum AS ENUM ('ADMIN', 'MANAGER', 'EVENTORGANIZER', 'STAFF', 'CUSTOMER');
