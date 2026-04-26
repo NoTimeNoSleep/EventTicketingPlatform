@@ -1,0 +1,305 @@
+@startuml
+
+' ===================== ENUMS =====================
+
+enum Category {
+  CONCERT
+  SPORTS
+  FESTIVAL
+  THEATER
+  MUSEUM
+  MOVIE
+}
+
+enum UserType {
+  ADMIN
+  MANAGER
+  EVENTORGANIZER
+  STAFF
+  CUSTOMER
+}
+
+enum TicketKind {
+  STANDING
+  SEATED
+}
+
+enum SeatStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+}
+
+enum TicketStatus {
+  RESERVED
+  PURCHASED
+  CANCELLED
+  USED
+}
+
+enum PaymentMethod {
+  CARD
+  BANK_TRANSFER
+}
+
+enum PaymentStatus {
+  PAID
+  PENDING
+  FAILED
+  REFUNDED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  PAID
+  CANCELLED
+}
+
+enum BulkType {
+  GROUP
+  CORPORATE
+}
+
+enum AssignmentStatus {
+  PENDING
+  SENT
+  CLAIMED
+}
+
+enum EmailType {
+  TICKET_DELIVERY
+  ORDER_CONFIRMATION
+  EVENT_REMINDER
+  SYSTEM
+  INVOICE
+  PASSWORD_RESET
+}
+
+enum JobStatus {
+  PENDING
+  PROCESSING
+  SENT
+  FAILED
+  DEAD
+}
+
+enum TaxType {
+  VAT
+  SALES_TAX
+  SERVICE_TAX
+}
+
+enum NotificationType {
+  EVENT_REMINDER
+  ORDER_CONFIRMATION
+  SYSTEM
+}
+
+enum OrderStatus {
+  CREATED
+  PENDING_PAYMENT
+  PAID
+  COMPLETED
+}
+
+' ===================== CORE =====================
+
+class Event {
+  id: UUID
+  name: String
+  description: String
+  dateTime: DateTime
+  version: Integer
+  category: Category
+}
+
+class Venue {
+  id: UUID
+  name: String
+  location: String
+}
+
+class Seat {
+  id: UUID
+  section: String
+  row: String
+  number: String
+}
+
+class EventSeat {
+  id: UUID
+  status: SeatStatus
+}
+
+class TicketType {
+  id: UUID
+  name: String
+  type: TicketKind
+  price: Decimal
+  capacity: Integer
+}
+
+class Ticket {
+  id: UUID
+  status: TicketStatus
+}
+
+class QRCode {
+  id: UUID
+  codeValue: String
+  generatedAt: DateTime
+  status: String
+}
+
+class User {
+  id: UUID
+  type: UserType
+  name: String
+  surname: String
+  email: String
+  passwordHash: String
+}
+
+' ===================== ORDER & PAYMENT =====================
+
+class Order {
+  id: UUID
+  subtotal: Decimal
+  taxTotal: Decimal
+  totalAmount: Decimal
+  createdAt: DateTime
+  status: OrderStatus
+}
+
+class Payment {
+  id: UUID
+  amount: Decimal
+  method: PaymentMethod
+  status: PaymentStatus
+  paidAt: DateTime
+}
+
+' ===================== BULK =====================
+
+class BulkPurchase {
+  id: UUID
+  type: BulkType
+  companyName: String
+  companyEmail: String
+  createdAt: DateTime
+}
+
+class TicketAssignment {
+  id: UUID
+  email: String
+  status: AssignmentStatus
+  sentAt: DateTime
+}
+
+' ===================== INVOICE =====================
+
+class Invoice {
+  id: UUID
+  taxId: String
+  companyName: String
+  billingAddress: String
+  subtotal: Decimal
+  taxTotal: Decimal
+  totalAmount: Decimal
+  issuedAt: DateTime
+  status: InvoiceStatus
+}
+
+class InvoiceTaxLine {
+  id: UUID
+  name: String
+  rate: Decimal
+  amount: Decimal
+}
+
+' ===================== TAX =====================
+
+class TaxRule {
+  id: UUID
+  name: String
+  rate: Decimal
+  type: TaxType
+  country: String
+  region: String
+  includedInPrice: Boolean
+  validFrom: DateTime
+  validTo: DateTime
+}
+
+class TaxLine {
+  id: UUID
+  name: String
+  rate: Decimal
+  amount: Decimal
+}
+
+' ===================== EMAIL SYSTEM =====================
+
+class EmailJob {
+  id: UUID
+  emailType: EmailType
+  payload: JSON
+  recipientEmail: String
+  jobStatus: JobStatus
+  attempts: Integer
+  maxAttempts: Integer
+  scheduledAt: DateTime
+  sentAt: DateTime
+}
+
+' ===================== NOTIFICATIONS =====================
+
+class Notification {
+  id: UUID
+  type: NotificationType
+  title: String
+  message: String
+  scheduledAt: DateTime
+  status: String
+}
+
+' ===================== RELATIONSHIPS =====================
+
+Event "many" -- "1" Venue
+Venue "1" -- "many" Seat
+
+Event "1" -- "many" TicketType
+Event "1" -- "many" EventSeat
+
+Seat "1" -- "many" EventSeat
+TicketType "1" -- "many" EventSeat
+
+Event "1" -- "many" Ticket
+TicketType "1" -- "many" Ticket
+Seat "0..1" -- "many" Ticket
+
+Order "1" -- "many" Ticket
+User "1" -- "many" Order
+Order "1" -- "1" Payment
+
+Order "1" -- "0..1" BulkPurchase
+
+Order "1" -- "1" Invoice
+
+Ticket "1" -- "0..1" TicketAssignment
+User "1" -- "many" TicketAssignment
+
+Ticket "1" -- "1" QRCode
+
+Order "1" -- "many" TaxLine
+Ticket "0..1" -- "many" TaxLine
+
+Invoice "1" -- "many" InvoiceTaxLine
+
+Notification "many" -- "1" User
+Notification "1" -- "many" EmailJob
+
+TicketAssignment "1" -- "many" EmailJob
+
+@enduml
