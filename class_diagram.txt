@@ -14,7 +14,7 @@ enum Category {
 enum RoleType {
   ADMIN
   MANAGER
-  EVENTORGANIZER
+  EVENT_ORGANIZER
   STAFF
   CUSTOMER
 }
@@ -145,6 +145,8 @@ class TicketType {
   type: TicketKind
   price: Decimal
   capacity: Integer
+  reservedCount: Integer
+  soldCount: Integer
 }
 
 class Ticket {
@@ -263,6 +265,7 @@ class EmailJob {
   jobStatus: JobStatus
   attempts: Integer
   maxAttempts: Integer
+  createdAt: DateTime
   scheduledAt: DateTime
   sentAt: DateTime
 }
@@ -301,7 +304,7 @@ end note
 note bottom of Ticket
   Uniqueness hints:
   - Max one TicketDelivery per Ticket.
-  - Max one QRCode per Ticket.
+  - Exactly one QRCode per Ticket.
 end note
 
 note bottom of Role
@@ -335,7 +338,7 @@ Order "1" *-- "0..1" Invoice
 Ticket "1" *-- "1" TicketDelivery
 User "0..1" -- "0..*" TicketDelivery
 
-Ticket "1" *-- "0..1" QRCode
+Ticket "1" *-- "1" QRCode
 
 Order "1" -- "0..*" TaxLine
 Ticket "0..1" -- "0..*" TaxLine
