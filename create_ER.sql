@@ -1,3 +1,8 @@
+-- ===================== SCHEMA =====================
+
+CREATE SCHEMA IF NOT EXISTS event_ticketing;
+SET search_path TO event_ticketing;
+
 -- ===================== USERS =====================
 
 CREATE TABLE users (

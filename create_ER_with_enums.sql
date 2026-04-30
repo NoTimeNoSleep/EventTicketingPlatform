@@ -1,5 +1,10 @@
 -- Specifically designed for PostgreSQL
 
+-- ===================== SCHEMA =====================
+
+CREATE SCHEMA IF NOT EXISTS event_ticketing;
+SET search_path TO event_ticketing;
+
 -- ===================== ENUM TYPES =====================
 
 CREATE TYPE role_type_enum AS ENUM ('ADMIN', 'MANAGER', 'EVENTORGANIZER', 'STAFF', 'CUSTOMER');
