@@ -18,6 +18,28 @@ Users can browse events, purchase tickets, receive QR codes and use them for eve
 
 ---
 
+## Data Model
+
+### Class Diagram
+- **File:** `class_diagram.txt`
+- **Format:** PlantUML (`@startuml ... @enduml`)
+- **Covers:** core domain entities, enums, relationships, multiplicities, and composition markers.
+
+### SQL Schema
+- **Base schema file:** `create_ER.sql`
+	- Relational model with foreign keys and `CHECK` constraints for integrity.
+- **Enum-based schema file:** `create_ER_with_enums.sql`
+	- PostgreSQL version using native `ENUM` types for domain statuses and categories.
+
+### Quick Usage
+- Render class diagram (if PlantUML is installed):
+
+```powershell
+plantuml class_diagram.txt
+```
+
+---
+
 ## Documentation
 Further documentation (analysis, personas, story map, etc.):
 

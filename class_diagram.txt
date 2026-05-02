@@ -1,0 +1,354 @@
+@startuml
+
+' ===================== ENUMS =====================
+
+enum Category {
+  CONCERT
+  SPORTS
+  FESTIVAL
+  THEATER
+  MUSEUM
+  MOVIE
+}
+
+enum RoleType {
+  ADMIN
+  MANAGER
+  EVENT_ORGANIZER
+  STAFF
+  CUSTOMER
+}
+
+enum TicketKind {
+  STANDING
+  SEATED
+}
+
+enum SeatStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+}
+
+enum TicketStatus {
+  RESERVED
+  PURCHASED
+  CANCELLED
+  USED
+}
+
+enum PaymentMethod {
+  CARD
+  BANK_TRANSFER
+}
+
+enum PaymentStatus {
+  PAID
+  PENDING
+  FAILED
+  REFUNDED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  PAID
+  CANCELLED
+}
+
+enum BulkType {
+  GROUP
+  CORPORATE
+}
+
+enum DeliveryStatus {
+  PENDING
+  SENT
+  CLAIMED
+}
+
+enum JobStatus {
+  PENDING
+  PROCESSING
+  SENT
+  FAILED
+  DEAD
+}
+
+enum QRCodeStatus {
+  ACTIVE
+  INVALIDATED
+  EXPIRED
+}
+
+enum TaxType {
+  VAT
+  SALES_TAX
+  SERVICE_TAX
+}
+
+enum NotificationType {
+  TICKET_DELIVERY
+  ORDER_CONFIRMATION
+  EVENT_REMINDER
+  SYSTEM
+  INVOICE
+  PASSWORD_RESET
+}
+
+enum NotificationStatus {
+  SCHEDULED
+  SENT
+  FAILED
+  CANCELLED
+}
+
+enum OrderStatus {
+  CREATED
+  PENDING_PAYMENT
+  PAID
+  COMPLETED
+}
+
+' ===================== CORE =====================
+
+class Event {
+  id: UUID
+  name: String
+  description: String
+  dateTime: DateTime
+  version: Integer
+  category: Category
+}
+
+class Venue {
+  id: UUID
+  name: String
+  location: String
+}
+
+class Seat {
+  id: UUID
+  section: String
+  row: String
+  number: String
+}
+
+class EventSeat {
+  id: UUID
+  status: SeatStatus
+}
+
+class TicketType {
+  id: UUID
+  name: String
+  type: TicketKind
+  price: Decimal
+  capacity: Integer
+  reservedCount: Integer
+  soldCount: Integer
+}
+
+class Ticket {
+  id: UUID
+  status: TicketStatus
+}
+
+class QRCode {
+  id: UUID
+  codeValue: String
+  generatedAt: DateTime
+  status: QRCodeStatus
+}
+
+class User {
+  id: UUID
+  name: String
+  surname: String
+  email: String
+  passwordHash: String
+}
+
+class Role {
+  id: UUID
+  type: RoleType
+}
+
+' ===================== ORDER & PAYMENT =====================
+
+class Order {
+  id: UUID
+  subtotal: Decimal
+  taxTotal: Decimal
+  totalAmount: Decimal
+  createdAt: DateTime
+  updatedAt: DateTime
+  status: OrderStatus
+}
+
+class Payment {
+  id: UUID
+  amount: Decimal
+  method: PaymentMethod
+  status: PaymentStatus
+  createdAt: DateTime
+  paidAt: DateTime
+}
+
+' ===================== BULK =====================
+
+class BulkPurchase {
+  id: UUID
+  type: BulkType
+  companyName: String
+  companyEmail: String
+  createdAt: DateTime
+}
+
+class TicketDelivery {
+  id: UUID
+  email: String
+  status: DeliveryStatus
+  createdAt: DateTime
+  updatedAt: DateTime
+  sentAt: DateTime
+}
+
+' ===================== INVOICE =====================
+
+class Invoice {
+  id: UUID
+  taxId: String
+  companyName: String
+  billingAddress: String
+  subtotal: Decimal
+  taxTotal: Decimal
+  totalAmount: Decimal
+  issuedAt: DateTime
+  status: InvoiceStatus
+}
+
+class InvoiceTaxLine {
+  id: UUID
+  name: String
+  rate: Decimal
+  amount: Decimal
+}
+
+' ===================== TAX =====================
+
+class TaxRule {
+  id: UUID
+  name: String
+  rate: Decimal
+  type: TaxType
+  country: String
+  region: String
+  includedInPrice: Boolean
+  validFrom: DateTime
+  validTo: DateTime
+}
+
+class TaxLine {
+  id: UUID
+  name: String
+  rate: Decimal
+  amount: Decimal
+}
+
+' ===================== EMAIL SYSTEM =====================
+
+class EmailJob {
+  id: UUID
+  payload: JSON
+  recipientEmail: String
+  jobStatus: JobStatus
+  attempts: Integer
+  maxAttempts: Integer
+  createdAt: DateTime
+  scheduledAt: DateTime
+  sentAt: DateTime
+}
+
+' ===================== NOTIFICATIONS =====================
+
+class Notification {
+  id: UUID
+  type: NotificationType
+  title: String
+  message: String
+  createdAt: DateTime
+  scheduledAt: DateTime
+  sentAt: DateTime
+  status: NotificationStatus
+}
+
+note right of EmailJob
+  Email sender worker.
+  Originates from Notification.
+  Email type is derived from Notification.type.
+  Sends to recipientEmail.
+end note
+
+note right of Notification
+  Exactly one recipient target:
+  - User.email OR
+  - TicketDelivery.email
+end note
+
+note right of Payment
+  Multiple payment attempts per Order are allowed.
+  At most one Payment should reach PAID state.
+end note
+
+note bottom of Ticket
+  Uniqueness hints:
+  - Max one TicketDelivery per Ticket.
+  - Exactly one QRCode per Ticket.
+end note
+
+note bottom of Role
+  Uniqueness hint:
+  - Role.type should be unique.
+end note
+
+' ===================== RELATIONSHIPS =====================
+
+Event "0..*" -- "1" Venue
+Venue "1" -- "1..*" Seat
+
+Event "1" -- "1..*" TicketType
+Event "1" -- "0..*" EventSeat
+
+Seat "1" -- "0..*" EventSeat
+TicketType "1" -- "0..*" EventSeat
+
+Event "1" -- "0..*" Ticket
+TicketType "1" -- "0..*" Ticket
+Seat "0..1" -- "0..*" Ticket
+
+Order "1" -- "1..*" Ticket
+User "1" -- "0..*" Order
+Order "1" *-- "0..*" Payment
+
+Order "1" -- "0..1" BulkPurchase
+
+Order "1" *-- "0..1" Invoice
+
+Ticket "1" *-- "1" TicketDelivery
+User "0..1" -- "0..*" TicketDelivery
+
+Ticket "1" *-- "1" QRCode
+
+Order "1" -- "0..*" TaxLine
+Ticket "0..1" -- "0..*" TaxLine
+
+Invoice "1" -- "0..*" InvoiceTaxLine
+
+Notification "0..*" -- "0..1" User : non-TICKET_DELIVERY recipient source
+Notification "1" -- "1..*" EmailJob
+TicketDelivery "0..1" -- "0..*" Notification : TICKET_DELIVERY recipient source
+
+User "0..*" -- "1..*" Role
+
+@enduml
