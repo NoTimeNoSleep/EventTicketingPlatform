@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Venues</title>
+</h:head>
+
+<h:body>
+    <h1>Venues</h1>
+
+    <h:dataTable value="#{venueBean.venues}" var="venue" border="1">
+        <h:column>
+            <f:facet name="header">Name</f:facet>
+            <h:outputText value="#{venue.name}" />
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Location</f:facet>
+            <h:outputText value="#{venue.location}" />
+        </h:column>
+    </h:dataTable>
+</h:body>
+</html>

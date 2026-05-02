@@ -39,5 +39,14 @@ build/
 
 ### Other ###
 target/
+*.war
+*.ear
+*.jar
+*.deployed
+*.failed
+*.isdeploying
+
 .idea/
 *.iml
+
+*.log
