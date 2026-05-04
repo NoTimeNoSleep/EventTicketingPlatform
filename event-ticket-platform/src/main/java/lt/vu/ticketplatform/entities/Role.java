@@ -2,6 +2,7 @@ package lt.vu.ticketplatform.entities;
 
 import javax.persistence.*;
 import java.util.UUID;
+import lt.vu.ticketplatform.enums.RoleType;
 
 @Entity
 @Table(name = "roles", schema = "event_ticketing")
@@ -10,8 +11,9 @@ public class Role {
     @Id
     private UUID id;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
-    private String type;
+    private RoleType type;
 
     public Role() {
         this.id = UUID.randomUUID();
@@ -25,11 +27,11 @@ public class Role {
         this.id = id;
     }
 
-    public String getType() {
+    public RoleType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(RoleType type) {
         this.type = type;
     }
 }
