@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Ticket Types</title>
+</h:head>
+
+<h:body>
+    <h1>Ticket Types</h1>
+
+    <h:dataTable value="#{ticketTypeBean.ticketTypes}" var="tt" border="1">
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{tt.id}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Event</f:facet>
+            #{tt.event.name}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Name</f:facet>
+            #{tt.name}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Type</f:facet>
+            #{tt.type}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Price</f:facet>
+            #{tt.price}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Capacity</f:facet>
+            #{tt.capacity}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Reserved</f:facet>
+            #{tt.reserved}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Sold</f:facet>
+            #{tt.sold}
+        </h:column>
+    </h:dataTable>
+
+</h:body>
+</html>
