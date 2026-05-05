@@ -2,7 +2,7 @@
 
 ' ===================== ENUMS =====================
 
-enum Category {
+enum EventCategory {
   CONCERT
   SPORTS
   FESTIVAL

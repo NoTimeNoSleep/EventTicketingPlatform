@@ -1,28 +1,7 @@
--- Specifically designed for PostgreSQL
-
 -- ===================== SCHEMA =====================
 
 CREATE SCHEMA IF NOT EXISTS event_ticketing;
 SET search_path TO event_ticketing;
-
--- ===================== ENUM TYPES =====================
-
-CREATE TYPE role_type_enum AS ENUM ('ADMIN', 'MANAGER', 'EVENTORGANIZER', 'STAFF', 'CUSTOMER');
-CREATE TYPE category_enum AS ENUM ('CONCERT', 'SPORTS', 'FESTIVAL', 'THEATER', 'MUSEUM', 'MOVIE');
-CREATE TYPE ticket_kind_enum AS ENUM ('STANDING', 'SEATED');
-CREATE TYPE seat_status_enum AS ENUM ('AVAILABLE', 'RESERVED', 'SOLD');
-CREATE TYPE ticket_status_enum AS ENUM ('RESERVED', 'PURCHASED', 'CANCELLED', 'USED');
-CREATE TYPE payment_method_enum AS ENUM ('CARD', 'BANK_TRANSFER');
-CREATE TYPE payment_status_enum AS ENUM ('PAID', 'PENDING', 'FAILED', 'REFUNDED');
-CREATE TYPE invoice_status_enum AS ENUM ('DRAFT', 'ISSUED', 'PAID', 'CANCELLED');
-CREATE TYPE bulk_type_enum AS ENUM ('GROUP', 'CORPORATE');
-CREATE TYPE assignment_status_enum AS ENUM ('PENDING', 'SENT', 'CLAIMED');
-CREATE TYPE job_status_enum AS ENUM ('PENDING', 'PROCESSING', 'SENT', 'FAILED', 'DEAD');
-CREATE TYPE tax_type_enum AS ENUM ('VAT', 'SALES_TAX', 'SERVICE_TAX');
-CREATE TYPE notification_type_enum AS ENUM ('TICKET_DELIVERY', 'ORDER_CONFIRMATION', 'EVENT_REMINDER', 'SYSTEM', 'INVOICE', 'PASSWORD_RESET');
-CREATE TYPE notification_status_enum AS ENUM ('SCHEDULED', 'SENT', 'FAILED', 'CANCELLED');
-CREATE TYPE order_status_enum AS ENUM ('CREATED', 'PENDING_PAYMENT', 'PAID', 'COMPLETED');
-CREATE TYPE qr_code_status_enum AS ENUM ('ACTIVE', 'INVALIDATED', 'EXPIRED');
 
 -- ===================== USERS =====================
 
@@ -36,7 +15,8 @@ CREATE TABLE users (
 
 CREATE TABLE roles (
   id UUID PRIMARY KEY,
-  type role_type_enum NOT NULL,
+  type VARCHAR(50) NOT NULL,
+  CHECK (type IN ('ADMIN', 'MANAGER', 'EVENTORGANIZER', 'STAFF', 'CUSTOMER')),
   UNIQUE (type)
 );
 
@@ -72,9 +52,10 @@ CREATE TABLE events (
   name TEXT NOT NULL,
   description TEXT,
   datetime TIMESTAMP NOT NULL,
-  category category_enum,
+  event_category VARCHAR(50),
   venue_id UUID NOT NULL,
-  FOREIGN KEY (venue_id) REFERENCES venues(id)
+  FOREIGN KEY (venue_id) REFERENCES venues(id),
+  CHECK (event_category IN ('CONCERT', 'SPORTS', 'FESTIVAL', 'THEATER', 'MUSEUM', 'MOVIE'))
 );
 
 -- ===================== TICKET TYPES =====================
@@ -83,12 +64,13 @@ CREATE TABLE ticket_types (
   id UUID PRIMARY KEY,
   event_id UUID NOT NULL,
   name TEXT NOT NULL,
-  type ticket_kind_enum NOT NULL,
+  type VARCHAR(20) NOT NULL, -- STANDING / SEATED
   price NUMERIC(12,2) NOT NULL,
   capacity INT,
   reserved_count INT NOT NULL DEFAULT 0,
   sold_count INT NOT NULL DEFAULT 0,
   FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
+  CHECK (type IN ('STANDING', 'SEATED')),
   CHECK (capacity IS NULL OR capacity >= 0),
   CHECK (reserved_count >= 0 AND sold_count >= 0),
   CHECK (capacity IS NULL OR reserved_count + sold_count <= capacity)
@@ -101,11 +83,12 @@ CREATE TABLE event_seats (
   event_id UUID NOT NULL,
   seat_id UUID NOT NULL,
   ticket_type_id UUID NOT NULL,
-  status seat_status_enum NOT NULL,
+  status VARCHAR(20) NOT NULL, -- AVAILABLE / RESERVED / SOLD
   reserved_until TIMESTAMP,
   FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
   FOREIGN KEY (seat_id) REFERENCES seats(id) ON DELETE CASCADE,
   FOREIGN KEY (ticket_type_id) REFERENCES ticket_types(id) ON DELETE CASCADE,
+  CHECK (status IN ('AVAILABLE', 'RESERVED', 'SOLD')),
   UNIQUE (event_id, seat_id)
 );
 
@@ -117,12 +100,13 @@ CREATE TABLE orders (
   subtotal NUMERIC(12,2) NOT NULL,
   tax_total NUMERIC(12,2) NOT NULL,
   total_amount NUMERIC(12,2) NOT NULL,
-  status order_status_enum,
+  status VARCHAR(50),
   created_at TIMESTAMP NOT NULL,
   updated_at TIMESTAMP,
   country TEXT,
   region TEXT,
   FOREIGN KEY (user_id) REFERENCES users(id),
+  CHECK (status IN ('CREATED', 'PENDING_PAYMENT', 'PAID', 'COMPLETED')),
   CHECK (subtotal >= 0 AND tax_total >= 0 AND total_amount >= 0)
 );
 
@@ -132,11 +116,13 @@ CREATE TABLE payments (
   id UUID PRIMARY KEY,
   order_id UUID NOT NULL,
   amount NUMERIC(12,2) NOT NULL,
-  method payment_method_enum,
-  status payment_status_enum,
+  method VARCHAR(50),
+  status VARCHAR(50),
   created_at TIMESTAMP NOT NULL,
   paid_at TIMESTAMP,
-  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  CHECK (method IN ('CARD', 'BANK_TRANSFER')),
+  CHECK (status IN ('PAID', 'PENDING', 'FAILED', 'REFUNDED'))
 );
 
 -- ===================== BULK PURCHASE =====================
@@ -144,12 +130,13 @@ CREATE TABLE payments (
 CREATE TABLE bulk_purchases (
   id UUID PRIMARY KEY,
   order_id UUID UNIQUE NOT NULL,
-  type bulk_type_enum,
+  type VARCHAR(20), -- GROUP / CORPORATE
   company_name TEXT,
   company_email TEXT,
   tax_id TEXT,
   created_at TIMESTAMP,
-  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  CHECK (type IN ('GROUP', 'CORPORATE'))
 );
 
 -- ===================== INVOICES =====================
@@ -163,9 +150,10 @@ CREATE TABLE invoices (
   subtotal NUMERIC(12,2),
   tax_total NUMERIC(12,2),
   total_amount NUMERIC(12,2),
-  status invoice_status_enum,
+  status VARCHAR(50),
   issued_at TIMESTAMP,
-  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  CHECK (status IN ('DRAFT', 'ISSUED', 'PAID', 'CANCELLED'))
 );
 
 CREATE TABLE invoice_tax_lines (
@@ -185,11 +173,12 @@ CREATE TABLE tickets (
   ticket_type_id UUID NOT NULL,
   seat_id UUID,
   order_id UUID NOT NULL,
-  status ticket_status_enum,
+  status VARCHAR(50),
   FOREIGN KEY (event_id) REFERENCES events(id),
   FOREIGN KEY (ticket_type_id) REFERENCES ticket_types(id),
   FOREIGN KEY (seat_id) REFERENCES seats(id),
-  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  CHECK (status IN ('RESERVED', 'PURCHASED', 'CANCELLED', 'USED'))
 );
 
 -- ===================== QR CODES =====================
@@ -199,8 +188,9 @@ CREATE TABLE qr_codes (
   ticket_id UUID UNIQUE NOT NULL,
   code_value TEXT NOT NULL,
   generated_at TIMESTAMP,
-  status qr_code_status_enum,
-  FOREIGN KEY (ticket_id) REFERENCES tickets(id) ON DELETE CASCADE
+  status VARCHAR(50),
+  FOREIGN KEY (ticket_id) REFERENCES tickets(id) ON DELETE CASCADE,
+  CHECK (status IN ('ACTIVE', 'INVALIDATED', 'EXPIRED'))
 );
 
 -- ===================== TICKET DELIVERY =====================
@@ -210,12 +200,13 @@ CREATE TABLE ticket_deliveries (
   ticket_id UUID UNIQUE NOT NULL,
   email TEXT NOT NULL,
   user_id UUID,
-  status assignment_status_enum,
+  status VARCHAR(50),
   created_at TIMESTAMP NOT NULL,
   updated_at TIMESTAMP,
   sent_at TIMESTAMP,
   FOREIGN KEY (ticket_id) REFERENCES tickets(id) ON DELETE CASCADE,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  CHECK (status IN ('PENDING', 'SENT', 'CLAIMED'))
 );
 
 -- ===================== TAX =====================
@@ -224,12 +215,13 @@ CREATE TABLE tax_rules (
   id UUID PRIMARY KEY,
   name TEXT,
   rate NUMERIC(5,2),
-  type tax_type_enum,
+  type VARCHAR(50),
   country TEXT,
   region TEXT,
   included_in_price BOOLEAN,
   valid_from TIMESTAMP,
-  valid_to TIMESTAMP
+  valid_to TIMESTAMP,
+  CHECK (type IN ('VAT', 'SALES_TAX', 'SERVICE_TAX'))
 );
 
 CREATE TABLE tax_lines (
@@ -249,19 +241,21 @@ CREATE TABLE notifications (
   id UUID PRIMARY KEY,
   user_id UUID,
   ticket_delivery_id UUID,
-  type notification_type_enum,
+  type VARCHAR(50), -- TICKET_DELIVERY / ORDER_CONFIRMATION / EVENT_REMINDER / SYSTEM / INVOICE / PASSWORD_RESET
   title TEXT,
   message TEXT,
   created_at TIMESTAMP NOT NULL,
   scheduled_at TIMESTAMP,
   sent_at TIMESTAMP,
-  status notification_status_enum,
+  status VARCHAR(50),
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (ticket_delivery_id) REFERENCES ticket_deliveries(id) ON DELETE CASCADE,
   CHECK (
     (type = 'TICKET_DELIVERY' AND ticket_delivery_id IS NOT NULL AND user_id IS NULL) OR
     (type IS DISTINCT FROM 'TICKET_DELIVERY' AND ticket_delivery_id IS NULL AND user_id IS NOT NULL)
-  )
+  ),
+  CHECK (type IN ('TICKET_DELIVERY', 'ORDER_CONFIRMATION', 'EVENT_REMINDER', 'SYSTEM', 'INVOICE', 'PASSWORD_RESET')),
+  CHECK (status IN ('SCHEDULED', 'SENT', 'FAILED', 'CANCELLED'))
 );
 
 -- ===================== EMAIL JOBS =====================
@@ -271,13 +265,14 @@ CREATE TABLE email_jobs (
   notification_id UUID NOT NULL,
   recipient_email TEXT NOT NULL,
   payload JSONB,
-  job_status job_status_enum,
+  job_status VARCHAR(50),
   attempts INT DEFAULT 0,
   max_attempts INT DEFAULT 3,
   created_at TIMESTAMP NOT NULL,
   scheduled_at TIMESTAMP,
   sent_at TIMESTAMP,
   FOREIGN KEY (notification_id) REFERENCES notifications(id) ON DELETE CASCADE,
+  CHECK (job_status IN ('PENDING', 'PROCESSING', 'SENT', 'FAILED', 'DEAD')),
   CHECK (attempts >= 0),
   CHECK (max_attempts >= 1),
   CHECK (attempts <= max_attempts)

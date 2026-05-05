@@ -1,6 +1,6 @@
 package lt.vu.ticketplatform.enums;
 
-public enum Category {
+public enum EventCategory {
     CONCERT,
     SPORTS,
     FESTIVAL,

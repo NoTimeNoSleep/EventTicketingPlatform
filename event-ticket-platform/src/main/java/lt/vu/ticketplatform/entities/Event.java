@@ -1,7 +1,6 @@
 package lt.vu.ticketplatform.entities;
 
-import lt.vu.ticketplatform.enums.Category;
-
+import lt.vu.ticketplatform.enums.EventCategory;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -27,7 +26,7 @@ public class Event {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Category category;
+    private EventCategory category;
 
     @ManyToOne
     @JoinColumn(name = "venue_id", nullable = false)
@@ -69,11 +68,11 @@ public class Event {
         this.dateTime = dateTime;
     }
 
-    public Category getCategory() {
+    public EventCategory getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(EventCategory category) {
         this.category = category;
     }
 
