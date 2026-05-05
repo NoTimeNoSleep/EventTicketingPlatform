@@ -67,3 +67,6 @@ http://localhost:8080/event-ticket-platform/venues.xhtml
 - To add exampple data you car try something like this in PgAdmin:
 INSERT INTO event_ticketing.venues (id, name, location)
 VALUES (gen_random_uuid(), 'Test Venue', 'Vilnius');
+
+---
+
