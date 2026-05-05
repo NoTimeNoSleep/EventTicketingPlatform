@@ -2,7 +2,7 @@ package lt.vu.ticketplatform.entities;
 
 import lt.vu.ticketplatform.enums.Category;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

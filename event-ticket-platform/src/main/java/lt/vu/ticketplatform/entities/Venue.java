@@ -1,6 +1,6 @@
 package lt.vu.ticketplatform.entities;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.UUID;
 import java.util.List;
 

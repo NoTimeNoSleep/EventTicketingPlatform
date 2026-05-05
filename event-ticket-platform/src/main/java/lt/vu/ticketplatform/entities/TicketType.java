@@ -2,7 +2,7 @@ package lt.vu.ticketplatform.entities;
 
 import lt.vu.ticketplatform.enums.TicketKind;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.UUID;
 
