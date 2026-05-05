@@ -24,6 +24,10 @@ public class Ticket {
     @JoinColumn(name = "seat_id")
     private Seat seat;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TicketStatus status;
@@ -63,6 +67,14 @@ public class Ticket {
 
     public void setSeat(Seat seat) {
         this.seat = seat;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public TicketStatus getStatus() {

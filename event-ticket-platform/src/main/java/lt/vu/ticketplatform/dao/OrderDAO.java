@@ -1,0 +1,29 @@
+package lt.vu.ticketplatform.dao;
+
+import lt.vu.ticketplatform.entities.Order;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
+import java.util.UUID;
+
+@ApplicationScoped
+public class OrderDAO {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    public List<Order> findAll() {
+        return em.createQuery("SELECT o FROM CustomerOrder o", Order.class)
+                .getResultList();
+    }
+
+    public Order findById(UUID id) {
+        return em.find(Order.class, id);
+    }
+
+    public void persist(Order order) {
+        em.persist(order);
+    }
+}
