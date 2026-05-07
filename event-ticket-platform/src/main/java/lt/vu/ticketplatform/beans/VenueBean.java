@@ -5,6 +5,7 @@ import lt.vu.ticketplatform.entities.Venue;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.transaction.Transactional;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.util.List;
@@ -18,6 +19,8 @@ public class VenueBean {
 
     private List<Venue> venues;
 
+    private Venue newVenue = new Venue();
+
     @PostConstruct
     public void init() {
         venues = venueDAO.findAll();
@@ -25,5 +28,20 @@ public class VenueBean {
 
     public List<Venue> getVenues() {
         return venues;
+    }
+
+    public Venue getNewVenue() {
+        return newVenue;
+    }
+
+    public void setNewVenue(Venue newVenue) {
+        this.newVenue = newVenue;
+    }
+
+    @Transactional
+    public String createVenue() {
+        venueDAO.persist(newVenue);
+        newVenue = new Venue();
+        return "venues?faces-redirect=true";
     }
 }
