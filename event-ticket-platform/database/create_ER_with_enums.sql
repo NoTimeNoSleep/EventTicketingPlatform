@@ -16,7 +16,7 @@ CREATE TYPE payment_method_enum AS ENUM ('CARD', 'BANK_TRANSFER');
 CREATE TYPE payment_status_enum AS ENUM ('PAID', 'PENDING', 'FAILED', 'REFUNDED');
 CREATE TYPE invoice_status_enum AS ENUM ('DRAFT', 'ISSUED', 'PAID', 'CANCELLED');
 CREATE TYPE bulk_type_enum AS ENUM ('GROUP', 'CORPORATE');
-CREATE TYPE assignment_status_enum AS ENUM ('PENDING', 'SENT', 'CLAIMED');
+CREATE TYPE delivery_status_enum AS ENUM ('PENDING', 'SENT', 'CLAIMED');
 CREATE TYPE job_status_enum AS ENUM ('PENDING', 'PROCESSING', 'SENT', 'FAILED', 'DEAD');
 CREATE TYPE tax_type_enum AS ENUM ('VAT', 'SALES_TAX', 'SERVICE_TAX');
 CREATE TYPE notification_type_enum AS ENUM ('TICKET_DELIVERY', 'ORDER_CONFIRMATION', 'EVENT_REMINDER', 'SYSTEM', 'INVOICE', 'PASSWORD_RESET');
@@ -210,7 +210,7 @@ CREATE TABLE ticket_deliveries (
   ticket_id UUID UNIQUE NOT NULL,
   email TEXT NOT NULL,
   user_id UUID,
-  status assignment_status_enum,
+  status delivery_status_enum,
   created_at TIMESTAMP NOT NULL,
   updated_at TIMESTAMP,
   sent_at TIMESTAMP,
