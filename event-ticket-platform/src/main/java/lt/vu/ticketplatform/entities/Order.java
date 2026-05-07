@@ -13,11 +13,15 @@ import java.util.List;
 public class Order {
 
     @Id
+    @Column(nullable = false, unique = true)
     private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "order")
+    private List<Payment> payments;
 
     @OneToMany(mappedBy = "order")
     private List<Ticket> tickets;
@@ -31,6 +35,7 @@ public class Order {
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
@@ -40,8 +45,10 @@ public class Order {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column
     private String country;
 
+    @Column
     private String region;
 
     public Order() {
@@ -75,6 +82,14 @@ public class Order {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
     }
 
     public BigDecimal getSubtotal() {

@@ -9,6 +9,7 @@ import java.util.List;
 public class Venue {
 
     @Id
+    @Column(nullable = false, unique = true)
     private UUID id;
 
     @Column(nullable = false)
@@ -19,6 +20,9 @@ public class Venue {
 
     @OneToMany(mappedBy = "venue")
     private List<Seat> seats;
+
+    @OneToMany(mappedBy = "venue")
+    private List<Event> events;
 
     public Venue() {
         this.id = UUID.randomUUID();
@@ -40,6 +44,14 @@ public class Venue {
         this.name = name;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public List<Seat> getSeats() {
         return seats;
     }
@@ -48,11 +60,11 @@ public class Venue {
         this.seats = seats;
     }
 
-    public String getLocation() {
-        return location;
+    public List<Event> getEvents() {
+        return events;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 }

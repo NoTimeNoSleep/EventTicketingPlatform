@@ -8,16 +8,20 @@ import java.util.UUID;
 public class Seat {
 
     @Id
+    @Column(nullable = false, unique = true)
     private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "venue_id", nullable = false)
     private Venue venue;
 
+    @Column
     private String section;
 
+    @Column
     private String row;
 
+    @Column
     private String number;
 
     public Seat() {

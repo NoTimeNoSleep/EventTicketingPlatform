@@ -11,18 +11,18 @@ import java.util.UUID;
 public class TicketDelivery {
 
     @Id
-    @Column
+    @Column(nullable = false, unique = true)
     private UUID id;
 
     @OneToOne
     @JoinColumn(name = "ticket_id", nullable = false,  unique = true)
     private Ticket ticket;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "status")

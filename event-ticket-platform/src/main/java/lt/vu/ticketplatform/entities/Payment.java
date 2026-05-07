@@ -13,27 +13,28 @@ import java.util.UUID;
 public class Payment {
 
     @Id
+    @Column(nullable = false, unique = true)
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "order_id",  nullable = false)
     private Order order;
 
     @Column(nullable = false)
     private BigDecimal amount;
 
-    @Column(name = "method", nullable = false)
+    @Column(name = "method")
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "paid_at", nullable = true)
+    @Column(name = "paid_at")
     private LocalDateTime paidAt;
 
     public UUID getId() {

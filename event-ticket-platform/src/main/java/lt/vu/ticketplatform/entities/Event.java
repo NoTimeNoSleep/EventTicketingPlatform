@@ -3,6 +3,7 @@ package lt.vu.ticketplatform.entities;
 import lt.vu.ticketplatform.enums.EventCategory;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -10,7 +11,12 @@ import java.util.UUID;
 public class Event {
 
     @Id
+    @Column(nullable = false, unique = true)
     private UUID id;
+
+    @ManyToOne
+    @JoinColumn(name = "venue_id", nullable = false)
+    private Venue venue;
 
     @Column(nullable = false)
     private String name;
@@ -24,13 +30,15 @@ public class Event {
     //    @Version
     //    private Integer version;
 
+    @Column
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private EventCategory category;
 
-    @ManyToOne
-    @JoinColumn(name = "venue_id", nullable = false)
-    private Venue venue;
+    @OneToMany(mappedBy = "event")
+    private List<TicketType> ticketTypes;
+
+    @OneToMany(mappedBy = "event")
+    private List<Ticket> tickets;
 
     public Event() {
         this.id = UUID.randomUUID();
@@ -82,5 +90,21 @@ public class Event {
 
     public void setVenue(Venue venue) {
         this.venue = venue;
+    }
+
+    public List<TicketType> getTicketTypes() {
+        return ticketTypes;
+    }
+
+    public void setTicketTypes(List<TicketType> ticketTypes) {
+        this.ticketTypes = ticketTypes;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
     }
 }

@@ -10,6 +10,7 @@ import java.util.UUID;
 public class Ticket {
 
     @Id
+    @Column(nullable = false, unique = true)
     private UUID id;
 
     @ManyToOne
@@ -28,9 +29,12 @@ public class Ticket {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TicketStatus status;
+
+    @OneToOne(mappedBy = "ticket")
+    private QRCode qrCode;
 
     public Ticket() {
         this.id = UUID.randomUUID();
@@ -83,5 +87,13 @@ public class Ticket {
 
     public void setStatus(TicketStatus status) {
         this.status = status;
+    }
+
+    public QRCode getQRCode() {
+        return qrCode;
+    }
+
+    public void setQRCode(QRCode qrCode) {
+        this.qrCode = qrCode;
     }
 }

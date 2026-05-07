@@ -11,13 +11,14 @@ import java.util.UUID;
 public class BulkPurchase {
 
     @Id
+    @Column(nullable = false, unique = true)
     private UUID id;
 
     @OneToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @Column(name = "type",  nullable = false)
+    @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private BulkType type;
 

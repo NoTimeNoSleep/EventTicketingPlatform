@@ -35,6 +35,11 @@
             #{ticket.status}
         </h:column>
 
+        <h:column>
+            <f:facet name="header">QR code value</f:facet>
+            #{ticket.QRCode.codeValue}
+        </h:column>
+
     </h:dataTable>
 
 </h:body>

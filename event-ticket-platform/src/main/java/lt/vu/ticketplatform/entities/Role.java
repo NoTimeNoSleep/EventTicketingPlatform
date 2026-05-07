@@ -9,10 +9,11 @@ import lt.vu.ticketplatform.enums.RoleType;
 public class Role {
 
     @Id
+    @Column(nullable = false, unique = true)
     private UUID id;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
+    @Enumerated(EnumType.STRING)
     private RoleType type;
 
     public Role() {

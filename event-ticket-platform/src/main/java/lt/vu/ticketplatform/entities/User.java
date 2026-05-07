@@ -1,6 +1,8 @@
 package lt.vu.ticketplatform.entities;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -8,6 +10,7 @@ import java.util.UUID;
 public class User {
 
     @Id
+    @Column(nullable = false, unique = true)
     private UUID id;
 
     @Column(nullable = false)
@@ -21,6 +24,9 @@ public class User {
 
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 
     public User() {
         this.id = UUID.randomUUID();
@@ -64,5 +70,13 @@ public class User {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

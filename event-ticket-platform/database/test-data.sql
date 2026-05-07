@@ -45,7 +45,7 @@ VALUES
 
 -- ===================== TICKET TYPES =====================
 
-INSERT INTO event_ticketing.ticket_types (id, event_id, name, type, price, capacity, reserved, sold)
+INSERT INTO event_ticketing.ticket_types (id, event_id, name, type, price, capacity, reserved_count, sold_count)
 VALUES 
   ('00000000-0000-0000-0000-000000000501', '00000000-0000-0000-0000-000000000401', 'VIP Seat', 'SEATED', 150.00, 100, 0, 0),
   ('00000000-0000-0000-0000-000000000502', '00000000-0000-0000-0000-000000000401', 'General Admission', 'STANDING', 50.00, 500, 0, 0),

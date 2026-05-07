@@ -3,7 +3,9 @@ package lt.vu.ticketplatform.entities;
 import lt.vu.ticketplatform.enums.TicketKind;
 
 import jakarta.persistence.*;
+
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -11,6 +13,7 @@ import java.util.UUID;
 public class TicketType {
 
     @Id
+    @Column(nullable = false, unique = true)
     private UUID id;
 
     @ManyToOne
@@ -20,21 +23,27 @@ public class TicketType {
     @Column(nullable = false)
     private String name;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TicketKind type;
 
     @Column(nullable = false)
     private BigDecimal price;
 
-    @Column(nullable = false)
+    @Column
     private Integer capacity;
 
-    @Column(nullable = false)
+    @Column(name = "reserved_count", nullable = false)
     private Integer reserved;
 
-    @Column(nullable = false)
+    @Column(name = "sold_count", nullable = false)
     private Integer sold;
+
+    @OneToMany(mappedBy = "ticketType")
+    private List<EventSeat> eventSeats;
+
+    @OneToMany(mappedBy = "ticketType")
+    private List<Ticket> tickets;
 
     public TicketType() {
         this.id = UUID.randomUUID();
@@ -102,5 +111,21 @@ public class TicketType {
 
     public void setSold(Integer sold) {
         this.sold = sold;
+    }
+
+    public List<EventSeat> getEventSeats() {
+        return eventSeats;
+    }
+
+    public void setEventSeats(List<EventSeat> eventSeats) {
+        this.eventSeats = eventSeats;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
     }
 }

@@ -11,6 +11,7 @@ import java.util.UUID;
 public class QRCode {
 
     @Id
+    @Column(nullable = false, unique = true)
     private UUID id;
 
     @OneToOne
@@ -20,7 +21,7 @@ public class QRCode {
     @Column(name = "code_value", nullable = false, unique = true)
     private String codeValue;
 
-    @Column(name = "generated_at",  nullable = false)
+    @Column(name = "generated_at")
     private LocalDateTime generatedAt;
 
     @Column(name = "status")

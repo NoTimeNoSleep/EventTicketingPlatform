@@ -3,6 +3,8 @@ package lt.vu.ticketplatform.entities;
 import lt.vu.ticketplatform.enums.SeatStatus;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -10,6 +12,7 @@ import java.util.UUID;
 public class EventSeat {
 
     @Id
+    @Column(nullable = false, unique = true)
     private UUID id;
 
     @ManyToOne
@@ -24,9 +27,12 @@ public class EventSeat {
     @JoinColumn(name = "ticket_type_id", nullable = false)
     private TicketType ticketType;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private SeatStatus status;
+
+    @Column(name = "reserved_until")
+    private LocalDateTime reservedUntil;
 
     public EventSeat() {
         this.id = UUID.randomUUID();
@@ -71,5 +77,12 @@ public class EventSeat {
 
     public void setStatus(SeatStatus status) {
         this.status = status;
+    }
+
+    public LocalDateTime getReservedUntil() {
+        return reservedUntil;
+    }
+    public void setReservedUntil(LocalDateTime reservedUntil) {
+        this.reservedUntil = reservedUntil;
     }
 }
