@@ -16,6 +16,9 @@ public class Order {
     @Column(nullable = false, unique = true)
     private UUID id;
 
+    @OneToOne(mappedBy = "order")
+    private Invoice invoice;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -66,6 +69,14 @@ public class Order {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 
     public List<Ticket> getTickets() {
