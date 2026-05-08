@@ -28,6 +28,15 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            schema = "event_ticketing",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles;
+
     public User() {
         this.id = UUID.randomUUID();
     }
@@ -78,5 +87,13 @@ public class User {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

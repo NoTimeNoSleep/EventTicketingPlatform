@@ -2,6 +2,7 @@ package lt.vu.ticketplatform.entities;
 
 import jakarta.persistence.*;
 import java.util.UUID;
+import java.util.List;
 import lt.vu.ticketplatform.enums.RoleType;
 
 @Entity
@@ -15,6 +16,9 @@ public class Role {
     @Column(nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
     private RoleType type;
+
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users;
 
     public Role() {
         this.id = UUID.randomUUID();

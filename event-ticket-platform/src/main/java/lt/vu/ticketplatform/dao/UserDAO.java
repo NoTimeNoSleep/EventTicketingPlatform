@@ -14,7 +14,9 @@ public class UserDAO {
     private EntityManager em;
 
     public List<User> findAll() {
-        return em.createQuery("SELECT u FROM User u", User.class)
-                .getResultList();
+        return em.createQuery(
+                "SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roles",
+                User.class
+        ).getResultList();
     }
 }
