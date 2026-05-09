@@ -1,13 +1,15 @@
 package lt.vu.ticketplatform.entities;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.UUID;
+import java.util.List;
 
 @Entity
 @Table(name = "venues", schema = "event_ticketing")
 public class Venue {
 
     @Id
+    @Column(nullable = false, unique = true)
     private UUID id;
 
     @Column(nullable = false)
@@ -15,6 +17,12 @@ public class Venue {
 
     @Column(nullable = false)
     private String location;
+
+    @OneToMany(mappedBy = "venue")
+    private List<Seat> seats;
+
+    @OneToMany(mappedBy = "venue")
+    private List<Event> events;
 
     public Venue() {
         this.id = UUID.randomUUID();
@@ -42,5 +50,21 @@ public class Venue {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public List<Seat> getSeats() {
+        return seats;
+    }
+
+    public void setSeats(List<Seat> seats) {
+        this.seats = seats;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 }

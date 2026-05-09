@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>Tax Rules</title>
+</h:head>
+
+<h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
+    <h1>Tax Rules</h1>
+
+    <h:dataTable value="#{taxRuleBean.taxRules}" var="taxRule" border="1">
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{taxRule.id}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Name</f:facet>
+            #{taxRule.name}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Rate</f:facet>
+            #{taxRule.rate}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Type</f:facet>
+            #{taxRule.type}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Country</f:facet>
+            #{taxRule.country}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Region</f:facet>
+            #{taxRule.region}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Included In Price</f:facet>
+            #{taxRule.includedInPrice}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Valid From</f:facet>
+            #{taxRule.validFrom}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Valid To</f:facet>
+            #{taxRule.validTo}
+        </h:column>
+    </h:dataTable>
+
+</h:body>
+</html>
