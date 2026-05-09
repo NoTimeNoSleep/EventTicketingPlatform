@@ -16,6 +16,11 @@
     <h:dataTable value="#{ticketBean.tickets}" var="ticket" border="1">
 
         <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{ticket.id}
+        </h:column>
+
+        <h:column>
             <f:facet name="header">Event</f:facet>
             #{ticket.event.name}
         </h:column>

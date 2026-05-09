@@ -180,3 +180,20 @@ UNION ALL
 SELECT 'Notifications', COUNT(*) FROM event_ticketing.notifications
 UNION ALL
 SELECT 'Email Jobs', COUNT(*) FROM event_ticketing.email_jobs;
+
+-- ===================== ADDITIONAL QUERIES =====================
+
+-- Link one tax line to a ticket to test optional TaxLine -> Ticket relationship
+UPDATE event_ticketing.tax_lines
+SET ticket_id = (
+    SELECT id
+    FROM event_ticketing.tickets
+             LIMIT 1
+    )
+WHERE id = (
+    SELECT id
+    FROM event_ticketing.tax_lines
+    LIMIT 1
+    );
+
+

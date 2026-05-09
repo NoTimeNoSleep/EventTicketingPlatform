@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>Tax Lines</title>
+</h:head>
+
+<h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
+    <h1>Tax Lines</h1>
+
+    <h:dataTable value="#{taxLineBean.taxLines}" var="taxLine" border="1">
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{taxLine.id}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Order ID</f:facet>
+            #{taxLine.order.id}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Ticket ID</f:facet>
+            #{empty taxLine.ticket ? 'No ticket' : taxLine.ticket.id}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Name</f:facet>
+            #{taxLine.name}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Rate</f:facet>
+            #{taxLine.rate}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Amount</f:facet>
+            #{taxLine.amount}
+        </h:column>
+    </h:dataTable>
+
+</h:body>
+</html>
