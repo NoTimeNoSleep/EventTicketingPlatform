@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>Invoice Tax Lines</title>
+</h:head>
+
+<h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
+    <h1>Invoice Tax Lines</h1>
+
+    <h:dataTable value="#{invoiceTaxLineBean.invoiceTaxLines}" var="taxLine" border="1">
+
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{taxLine.id}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Invoice ID</f:facet>
+            #{taxLine.invoice.id}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Name</f:facet>
+            #{taxLine.name}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Rate</f:facet>
+            #{taxLine.rate}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Amount</f:facet>
+            #{taxLine.amount}
+        </h:column>
+
+    </h:dataTable>
+
+</h:body>
+</html>

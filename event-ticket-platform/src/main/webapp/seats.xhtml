@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>Seats</title>
+</h:head>
+
+
+<h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
+    <h1>Seats</h1>
+
+    <h:dataTable value="#{seatBean.seats}" var="seat" border="1">
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{seat.id}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Venue</f:facet>
+            #{seat.venue.name}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Section</f:facet>
+            #{seat.section}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Row</f:facet>
+            #{seat.row}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Number</f:facet>
+            #{seat.number}
+        </h:column>
+    </h:dataTable>
+</h:body>
+</html>

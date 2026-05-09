@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>Bulk Purchases</title>
+</h:head>
+
+
+<h:body>
+    <h1>Bulk Purchases</h1>
+
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
+    <h:dataTable value="#{bulkPurchaseBean.bulkPurchases}" var="bulk" border="1">
+        <h:column>
+            <f:facet name="header">Id</f:facet>
+            #{bulk.id}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Order Id</f:facet>
+            #{bulk.order.id}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Bulk Type</f:facet>
+            #{bulk.type}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Company Name</f:facet>
+            #{bulk.companyName}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Company Email</f:facet>
+            #{bulk.companyEmail}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Tax Id</f:facet>
+            #{bulk.taxId}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Created At</f:facet>
+            #{bulk.createdAt}
+        </h:column>
+    </h:dataTable>
+</h:body>
+</html>

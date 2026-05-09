@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>Invoices</title>
+</h:head>
+
+<h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
+    <h1>Invoices</h1>
+
+    <h:dataTable value="#{invoiceBean.invoices}" var="invoice" border="1">
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{invoice.id}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Order ID</f:facet>
+            #{invoice.order.id}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Company</f:facet>
+            #{invoice.companyName}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Tax ID</f:facet>
+            #{invoice.taxId}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Subtotal</f:facet>
+            #{invoice.subtotal}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Tax Total</f:facet>
+            #{invoice.taxTotal}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Total</f:facet>
+            #{invoice.totalAmount}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Status</f:facet>
+            #{invoice.status}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Issued At</f:facet>
+            #{invoice.issuedAt}
+        </h:column>
+    </h:dataTable>
+
+</h:body>
+</html>
