@@ -27,7 +27,11 @@ public class TaxRuleDAO {
         em.persist(taxRule);
     }
 
-    public TaxRule update(TaxRule taxRule) {
+    public TaxRule merge(TaxRule taxRule) {
         return em.merge(taxRule);
+    }
+
+    public void remove(TaxRule taxRule) {
+        em.remove(taxRule);
     }
 }

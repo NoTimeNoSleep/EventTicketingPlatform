@@ -26,4 +26,12 @@ public class TicketDAO {
     public void persist(Ticket ticket) {
         em.persist(ticket);
     }
+
+    public Ticket merge(Ticket ticket) {
+        return em.merge(ticket);
+    }
+
+    public void remove(Ticket ticket) {
+        em.remove(ticket);
+    }
 }

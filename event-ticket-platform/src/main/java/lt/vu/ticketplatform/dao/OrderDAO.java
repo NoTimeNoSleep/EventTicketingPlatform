@@ -26,4 +26,12 @@ public class OrderDAO {
     public void persist(Order order) {
         em.persist(order);
     }
+
+    public Order merge(Order order) {
+        return em.merge(order);
+    }
+
+    public void remove(Order order) {
+        em.remove(order);
+    }
 }

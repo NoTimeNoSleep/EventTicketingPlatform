@@ -31,7 +31,11 @@ public class NotificationDAO {
         em.persist(notification);
     }
 
-    public Notification update(Notification notification) {
+    public Notification merge(Notification notification) {
         return em.merge(notification);
+    }
+
+    public void remove(Notification notification) {
+        em.remove(notification);
     }
 }

@@ -31,7 +31,11 @@ public class TaxLineDAO {
         em.persist(taxLine);
     }
 
-    public TaxLine update(TaxLine taxLine) {
+    public TaxLine merge(TaxLine taxLine) {
         return em.merge(taxLine);
+    }
+
+    public void remove(TaxLine taxLine) {
+        em.remove(taxLine);
     }
 }

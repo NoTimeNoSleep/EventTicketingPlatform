@@ -5,6 +5,8 @@ import lt.vu.ticketplatform.entities.EventSeat;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import lt.vu.ticketplatform.entities.Invoice;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -25,5 +27,13 @@ public class EventSeatDAO {
 
     public void persist(EventSeat eventSeat) {
         em.persist(eventSeat);
+    }
+
+    public Invoice merge(Invoice invoice) {
+        return em.merge(invoice);
+    }
+
+    public void remove(EventSeat eventSeat) {
+        em.remove(eventSeat);
     }
 }

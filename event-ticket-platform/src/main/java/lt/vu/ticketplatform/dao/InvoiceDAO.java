@@ -29,7 +29,11 @@ public class InvoiceDAO {
         em.persist(invoice);
     }
 
-    public Invoice update(Invoice invoice) {
+    public Invoice merge(Invoice invoice) {
         return em.merge(invoice);
+    }
+
+    public void remove(Invoice invoice) {
+        em.remove(invoice);
     }
 }

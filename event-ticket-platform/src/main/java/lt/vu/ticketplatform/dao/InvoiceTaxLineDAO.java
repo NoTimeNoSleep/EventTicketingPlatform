@@ -29,7 +29,11 @@ public class InvoiceTaxLineDAO {
         em.persist(invoiceTaxLine);
     }
 
-    public InvoiceTaxLine update(InvoiceTaxLine invoiceTaxLine) {
+    public InvoiceTaxLine merge(InvoiceTaxLine invoiceTaxLine) {
         return em.merge(invoiceTaxLine);
+    }
+
+    public void remove(InvoiceTaxLine invoiceTaxLine) {
+        em.remove(invoiceTaxLine);
     }
 }
