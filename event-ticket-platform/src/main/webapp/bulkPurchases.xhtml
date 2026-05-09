@@ -7,10 +7,11 @@
     <title>Bulk Purchases</title>
 </h:head>
 
-<ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
 <h:body>
     <h1>Bulk Purchases</h1>
+
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
     <h:dataTable value="#{bulkPurchaseBean.bulkPurchases}" var="bulk" border="1">
         <h:column>

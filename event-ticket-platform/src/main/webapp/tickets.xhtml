@@ -8,9 +8,10 @@
     <title>Tickets</title>
 </h:head>
 
-<ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
 <h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
     <h1>Tickets</h1>
 
     <h:dataTable value="#{ticketBean.tickets}" var="ticket" border="1">

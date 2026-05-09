@@ -8,9 +8,10 @@
     <title>QR Codes</title>
 </h:head>
 
-<ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
 <h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
     <h1>QR Codes</h1>
 
     <h:dataTable value="#{qrCodeBean.qrCodes}" var="qr" border="1">

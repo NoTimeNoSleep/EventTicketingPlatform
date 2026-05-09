@@ -8,9 +8,10 @@
     <title>Users</title>
 </h:head>
 
-<ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
 <h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
     <h1>Users</h1>
 
     <h:dataTable value="#{userBean.users}" var="user" border="1">

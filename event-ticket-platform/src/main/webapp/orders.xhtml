@@ -7,9 +7,10 @@
     <title>Orders</title>
 </h:head>
 
-<ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
 <h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
     <h1>Orders</h1>
 
     <h:dataTable value="#{orderBean.orders}" var="order" border="1">

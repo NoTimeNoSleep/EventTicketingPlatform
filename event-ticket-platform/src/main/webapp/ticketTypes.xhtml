@@ -8,10 +8,11 @@
     <title>Ticket Types</title>
 </h:head>
 
-<ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
 <h:body>
     <h1>Ticket Types</h1>
+
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
     <h:dataTable value="#{ticketTypeBean.ticketTypes}" var="tt" border="1">
         <h:column>
