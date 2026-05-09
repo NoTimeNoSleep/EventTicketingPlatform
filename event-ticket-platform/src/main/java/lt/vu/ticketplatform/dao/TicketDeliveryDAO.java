@@ -17,7 +17,8 @@ public class TicketDeliveryDAO {
     private EntityManager em;
 
     public List<TicketDelivery> findAll() {
-        return em.createQuery("select o from TicketDelivery as o",  TicketDelivery.class)
+        return em.createQuery(
+                "SELECT o FROM TicketDelivery AS o",  TicketDelivery.class)
                 .getResultList();
     }
 
@@ -26,14 +27,18 @@ public class TicketDeliveryDAO {
     }
 
     public List<TicketDelivery> findByEmail(String email) {
-        return em.createQuery("select td from TicketDelivery td where td.email = :email", TicketDelivery.class)
+        return em.createQuery(
+                "SELECT td FROM TicketDelivery td " +
+                        "WHERE td.email = :email", TicketDelivery.class)
                 .setParameter("email", email)
                 .getResultList();
     }
 
-    public List<TicketDelivery> findByUser(User user) {
-        return em.createQuery("select td from TicketDelivery td where td.user.id = :userId", TicketDelivery.class)
-                .setParameter("userId", user.getId())
+    public List<TicketDelivery> findByUserID(String userId) {
+        return em.createQuery(
+                "SELECT td FROM TicketDelivery td " +
+                        "WHERE td.user.id = :userId", TicketDelivery.class)
+                .setParameter("userId", userId)
                 .getResultList();
     }
 

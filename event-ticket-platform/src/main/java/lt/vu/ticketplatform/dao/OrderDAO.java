@@ -15,7 +15,8 @@ public class OrderDAO {
     private EntityManager em;
 
     public List<Order> findAll() {
-        return em.createQuery("SELECT o FROM CustomerOrder o", Order.class)
+        return em.createQuery(
+                "SELECT o FROM CustomerOrder o", Order.class)
                 .getResultList();
     }
 

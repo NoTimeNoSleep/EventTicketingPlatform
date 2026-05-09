@@ -16,7 +16,8 @@ public class TicketTypeDAO {
     private EntityManager em;
 
     public List<TicketType> findAll() {
-        return em.createQuery("SELECT tt FROM TicketType tt", TicketType.class)
+        return em.createQuery(
+                "SELECT tt FROM TicketType tt", TicketType.class)
                 .getResultList();
     }
 
@@ -24,9 +25,11 @@ public class TicketTypeDAO {
         return em.find(TicketType.class, id);
     }
 
-    public List<TicketType> findByEvent(Event event) {
-        return em.createQuery("SELECT tt FROM TicketType tt WHERE tt.event.id = :eventId", TicketType.class)
-                .setParameter("eventId", event.getId())
+    public List<TicketType> findByEventId(String eventId) {
+        return em.createQuery(
+                "SELECT tt FROM TicketType tt " +
+                        "WHERE tt.event.id = :eventId", TicketType.class)
+                .setParameter("eventId", eventId)
                 .getResultList();
     }
 

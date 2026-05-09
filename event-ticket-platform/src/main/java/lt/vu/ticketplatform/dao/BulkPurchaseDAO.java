@@ -15,7 +15,8 @@ public class BulkPurchaseDAO {
     private EntityManager em;
 
     public List<BulkPurchase> findAll() {
-        return em.createQuery("select bp from BulkPurchase bp",  BulkPurchase.class)
+        return em.createQuery(
+                "SELECT bp FROM BulkPurchase bp",  BulkPurchase.class)
                 .getResultList();
     }
 

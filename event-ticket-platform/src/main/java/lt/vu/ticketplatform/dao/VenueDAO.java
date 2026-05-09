@@ -15,7 +15,8 @@ public class VenueDAO {
     private EntityManager em;
 
     public List<Venue> findAll() {
-        return em.createQuery("SELECT v FROM Venue v", Venue.class)
+        return em.createQuery(
+                "SELECT v FROM Venue v", Venue.class)
                 .getResultList();
     }
 
@@ -24,13 +25,17 @@ public class VenueDAO {
     }
 
     public List<Venue> findByName(String name) {
-        return em.createQuery("SELECT v FROM Venue v WHERE v.name LIKE CONCAT('%', :name, '%')", Venue.class)
+        return em.createQuery(
+                "SELECT v FROM Venue v " +
+                        "WHERE v.name LIKE CONCAT('%', :name, '%')", Venue.class)
                 .setParameter("name", name)
                 .getResultList();
     }
 
     public List<Venue> findByLocation(String location) {
-        return em.createQuery("SELECT v FROM Venue v WHERE v.location LIKE CONCAT('%', :location, '%')", Venue.class)
+        return em.createQuery(
+                "SELECT v FROM Venue v " +
+                        "WHERE v.location LIKE CONCAT('%', :location, '%')", Venue.class)
                 .setParameter("location", location)
                 .getResultList();
     }

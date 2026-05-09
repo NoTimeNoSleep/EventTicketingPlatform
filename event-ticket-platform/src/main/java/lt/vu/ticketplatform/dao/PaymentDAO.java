@@ -16,7 +16,8 @@ public class PaymentDAO {
     private EntityManager em;
 
     public List<Payment> findAll() {
-        return em.createQuery("select p from Payment p",Payment.class)
+        return em.createQuery(
+                "SELECT p FROM Payment p",Payment.class)
                 .getResultList();
     }
 
@@ -25,7 +26,9 @@ public class PaymentDAO {
     }
 
     public List<Payment> findByOrder(Order order) {
-        return em.createQuery("select p from Payment p where p.order.id = :orderId", Payment.class)
+        return em.createQuery(
+                "SELECT p FROM Payment p " +
+                        "WHERE p.order.id = :orderId", Payment.class)
                 .setParameter("orderId", order.getId())
                 .getResultList();
     }

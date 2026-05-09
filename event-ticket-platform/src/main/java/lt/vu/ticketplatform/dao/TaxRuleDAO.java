@@ -15,7 +15,8 @@ public class TaxRuleDAO {
     private EntityManager em;
 
     public List<TaxRule> findAll() {
-        return em.createQuery("SELECT tr FROM TaxRule tr", TaxRule.class)
+        return em.createQuery(
+                "SELECT tr FROM TaxRule tr", TaxRule.class)
                 .getResultList();
     }
 

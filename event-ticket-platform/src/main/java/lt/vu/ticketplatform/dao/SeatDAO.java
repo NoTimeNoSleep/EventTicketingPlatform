@@ -17,26 +17,35 @@ public class SeatDAO {
     private EntityManager em;
 
     public List<Seat> findAll() {
-        return em.createQuery("SELECT s FROM Seat s", Seat.class)
+        return em.createQuery(
+                "SELECT s FROM Seat s", Seat.class)
                 .getResultList();
     }
 
-    public List<Seat> findByVenue(Venue venue) {
-        return em.createQuery("select s from Seat s where s.venue.id = :venueId", Seat.class)
-                .setParameter("venueId", venue.getId())
+    public List<Seat> findByVenueId(String venueId) {
+        return em.createQuery(
+                "SELECT s FROM Seat s " +
+                        "WHERE s.venue.id = :venueId", Seat.class)
+                .setParameter("venueId", venueId)
                 .getResultList();
     }
 
-    public List<Seat> findBySection(Venue venue, String section) {
-        return em.createQuery("select s from Seat s where s.venue.id = :venueId and s.section = :section", Seat.class)
-                .setParameter("venueId", venue.getId())
+    public List<Seat> findBySection(String venueId, String section) {
+        return em.createQuery(
+                "SELECT s FROM Seat s " +
+                        "WHERE s.venue.id = :venueId " +
+                        "AND s.section = :section", Seat.class)
+                .setParameter("venueId", venueId)
                 .setParameter("section", section)
                 .getResultList();
     }
 
-    public List<Seat> findByRow(Venue venue, String row) {
-        return em.createQuery("select s from Seat s where s.venue.id = :venueId and s.row = :row", Seat.class)
-            .setParameter("venueId", venue.getId())
+    public List<Seat> findByRow(String venueId, String row) {
+        return em.createQuery(
+                "SELECT s FROM Seat s " +
+                        "WHERE s.venue.id = :venueId " +
+                        "AND s.row = :row", Seat.class)
+            .setParameter("venueId", venueId)
                 .setParameter("row", row)
                 .getResultList();
     }

@@ -16,9 +16,9 @@ public class InvoiceDAO {
 
     public List<Invoice> findAll() {
         return em.createQuery(
-                "SELECT i FROM Invoice i LEFT JOIN FETCH i.order",
-                Invoice.class
-        ).getResultList();
+                "SELECT i FROM Invoice i " +
+                        "LEFT JOIN FETCH i.order", Invoice.class)
+                .getResultList();
     }
 
     public Invoice findById(UUID id) {

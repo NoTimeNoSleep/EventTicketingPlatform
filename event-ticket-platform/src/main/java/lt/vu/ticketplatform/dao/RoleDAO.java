@@ -15,7 +15,8 @@ public class RoleDAO {
     private EntityManager em;
 
     public List<Role> findAll() {
-        return em.createQuery("SELECT r FROM Role r", Role.class)
+        return em.createQuery(
+                "SELECT r FROM Role r", Role.class)
                 .getResultList();
     }
 

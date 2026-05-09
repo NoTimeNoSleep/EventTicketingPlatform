@@ -16,7 +16,8 @@ public class QRCodeDAO {
     private EntityManager em;
 
     public List<QRCode> findAll() {
-        return em.createQuery("SELECT q FROM QRCode q", QRCode.class)
+        return em.createQuery(
+                "SELECT q FROM QRCode q", QRCode.class)
                 .getResultList();
     }
 
@@ -25,7 +26,9 @@ public class QRCodeDAO {
     }
 
     public List<QRCode> findByStatus(QRCodeStatus status) {
-        return em.createQuery("select qr from QRCode qr where qr.status = :status", QRCode.class)
+        return em.createQuery(
+                "SELECT qr FROM QRCode qr " +
+                        "WHERE qr.status = :status", QRCode.class)
                 .setParameter("status", status)
                 .getResultList();
     }

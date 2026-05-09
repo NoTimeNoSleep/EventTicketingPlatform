@@ -15,7 +15,8 @@ public class EventDAO {
     private EntityManager em;
 
     public List<Event> findAll() {
-        return em.createQuery("SELECT e FROM Event e", Event.class)
+        return em.createQuery(
+                "SELECT e FROM Event e", Event.class)
                 .getResultList();
     }
 

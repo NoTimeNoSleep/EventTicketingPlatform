@@ -16,9 +16,9 @@ public class InvoiceTaxLineDAO {
 
     public List<InvoiceTaxLine> findAll() {
         return em.createQuery(
-                "SELECT itl FROM InvoiceTaxLine itl LEFT JOIN FETCH itl.invoice",
-                InvoiceTaxLine.class
-        ).getResultList();
+                "SELECT itl FROM InvoiceTaxLine itl " +
+                        "LEFT JOIN FETCH itl.invoice", InvoiceTaxLine.class)
+                .getResultList();
     }
 
     public InvoiceTaxLine findById(UUID id) {

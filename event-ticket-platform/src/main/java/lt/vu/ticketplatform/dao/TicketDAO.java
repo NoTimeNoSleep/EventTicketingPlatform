@@ -15,7 +15,8 @@ public class TicketDAO {
     private EntityManager em;
 
     public List<Ticket> findAll() {
-        return em.createQuery("SELECT t FROM Ticket t", Ticket.class)
+        return em.createQuery(
+                "SELECT t FROM Ticket t", Ticket.class)
                 .getResultList();
     }
 
