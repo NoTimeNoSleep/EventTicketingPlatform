@@ -20,7 +20,7 @@ public class Notification {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_delivery_id")
+    @JoinColumn(name = "ticket_delivery_id", nullable = false)
     private TicketDelivery ticketDelivery;
 
     @Enumerated(EnumType.STRING)

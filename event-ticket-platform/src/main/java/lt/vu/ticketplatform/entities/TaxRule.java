@@ -114,6 +114,4 @@ public class TaxRule {
     public void setValidTo(LocalDateTime validTo) {
         this.validTo = validTo;
     }
-
-    // generate getters and setters
 }

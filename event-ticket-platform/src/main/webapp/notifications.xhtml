@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core">
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
     <title>Notifications</title>
 </h:head>
 
 <h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
     <h1>Notifications</h1>
-
-    <h:link outcome="index" value="Back to Home" />
-
-    <br/><br/>
 
     <h:dataTable value="#{notificationBean.notifications}" var="notification" border="1">
 
