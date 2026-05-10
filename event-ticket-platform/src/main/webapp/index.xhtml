@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
 <h:head>
     <title>Event Ticket Platform</title>
     <h:outputStylesheet library="css" name="site.css" />
@@ -40,7 +40,7 @@
             <div class="section-title">Recommended For You</div>
             <div class="grid">
                 <ui:repeat value="#{eventBean.events}" var="e" varStatus="s">
-                    <h:panelGroup rendered="#{s.index ge 5 and s.index lt 11}" layout="block" styleClass="card">
+                    <h:panelGroup rendered="#{s.index lt 11}" layout="block" styleClass="card">
                         <h4><h:link outcome="/events.xhtml" value="#{e.name}" /></h4>
                         <p class="muted">#{e.dateTime} • #{e.venue.name}</p>
                     </h:panelGroup>
