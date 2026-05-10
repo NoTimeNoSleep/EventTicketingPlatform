@@ -3,46 +3,64 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <nav style="margin-bottom: 1rem;">
-        <h:link outcome="/index.xhtml" value="Home" />
-        <span> | </span>
-        <h:link outcome="/events.xhtml" value="Events" />
-        <span> | </span>
-        <h:link outcome="/eventSeats.xhtml" value="Event Seats" />
-        <span> | </span>
-        <h:link outcome="/orders.xhtml" value="Orders" />
-        <span> | </span>
-        <h:link outcome="/bulkPurchases.xhtml" value="Bulk Purchase" />
-        <span> | </span>
-        <h:link outcome="/payments.xhtml" value="Payments" />
-        <span> | </span>
-        <h:link outcome="/qrCodes.xhtml" value="QR Codes" />
-        <span> | </span>
-        <h:link outcome="/roles.xhtml" value="Roles" />
-        <span> | </span>
-        <h:link outcome="/seats.xhtml" value="Seats" />
-        <span> | </span>
-        <h:link outcome="/ticketDeliveries.xhtml" value="Ticket Deliveries" />
-        <span> | </span>
-        <h:link outcome="/tickets.xhtml" value="Tickets" />
-        <span> | </span>
-        <h:link outcome="/ticketTypes.xhtml" value="Ticket Types" />
-        <span> | </span>
-        <h:link outcome="/users.xhtml" value="Users" />
-        <span> | </span>
-        <h:link outcome="/venues.xhtml" value="Venues" />
-        <span> | </span>
-        <h:link value="Invoices" outcome="/invoices" />
-        <span> | </span>
-        <h:link value="Invoice Tax Lines" outcome="/invoiceTaxLines" />
-        <span> | </span>
-        <h:link value="Tax Rules" outcome="/taxRules" />
-        <span> | </span>
-        <h:link value="Tax Lines" outcome="/taxLines" />
-        <span> | </span>
-        <h:link value="Notifications" outcome="/notifications" />
-        <span> | </span>
-        <h:link value="EmailJob" outcome="/emailJobs" />
-    </nav>
+    <h:form class="container" style="max-width: 1100px; margin: 1rem auto; padding: 0 1rem;">
+        <nav class="top-navbar" style="background-color: #f8f9fa; padding: 1rem; border-bottom: 1px solid #dee2e6; display: flex; justify-content: space-between; align-items: center;">
+            <div class="navbar-logo">
+                <h:link outcome="/index.xhtml" value="EventTicketing" style="font-weight: bold; font-size: 1.25rem; text-decoration: none;"/>
+            </div>
+
+            <div class="navbar-search" style="padding: 0.5rem; width: 300px; border: 1px solid #ddd; border-radius: 4px;">
+                <h:inputText placeholder="Search events..."/>
+            </div>
+
+            <div class="navbar-actions" style="display: flex; gap: 1rem;">
+                <h:link outcome="/users.xhtml" value="User" style="text-decoration: none; cursor: pointer;"/>           <!--TODO: placeholder, chage to user profile-->
+                <h:link outcome="/orders.xhtml" value="Cart" style="text-decoration: none; cursor: pointer;"/>          <!--TODO: placeholder, change to cart-->
+            </div>
+        </nav>
+
+        <nav class="secondary-navbar" style="background-color: #fff; padding: 0.75rem 1rem; border-bottom: 1px solid #dee2e6; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <h:link outcome="/index.xhtml" value="Home" />
+            <span> | </span>
+            <h:link outcome="/events.xhtml" value="Events" />
+            <span> | </span>
+            <h:link outcome="/eventSeats.xhtml" value="Event Seats" />
+            <span> | </span>
+            <h:link outcome="/orders.xhtml" value="Orders" />
+            <span> | </span>
+            <h:link outcome="/bulkPurchases.xhtml" value="Bulk Purchase" />
+            <span> | </span>
+            <h:link outcome="/payments.xhtml" value="Payments" />
+            <span> | </span>
+            <h:link outcome="/qrCodes.xhtml" value="QR Codes" />
+            <span> | </span>
+            <h:link outcome="/roles.xhtml" value="Roles" />
+            <span> | </span>
+            <h:link outcome="/seats.xhtml" value="Seats" />
+            <span> | </span>
+            <h:link outcome="/ticketDeliveries.xhtml" value="Ticket Deliveries" />
+            <span> | </span>
+            <h:link outcome="/tickets.xhtml" value="Tickets" />
+            <span> | </span>
+            <h:link outcome="/ticketTypes.xhtml" value="Ticket Types" />
+            <span> | </span>
+            <h:link outcome="/users.xhtml" value="Users" />
+            <span> | </span>
+            <h:link outcome="/venues.xhtml" value="Venues" />
+            <span> | </span>
+            <h:link value="Invoices" outcome="/invoices" />
+            <span> | </span>
+            <h:link value="Invoice Tax Lines" outcome="/invoiceTaxLines" />
+            <span> | </span>
+            <h:link value="Tax Rules" outcome="/taxRules" />
+            <span> | </span>
+            <h:link value="Tax Lines" outcome="/taxLines" />
+            <span> | </span>
+            <h:link value="Notifications" outcome="/notifications" />
+            <span> | </span>
+            <h:link value="EmailJob" outcome="/emailJobs" />
+        </nav>
+    </h:form>
+
 
 </ui:composition>
