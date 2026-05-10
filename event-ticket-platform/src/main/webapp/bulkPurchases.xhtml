@@ -5,49 +5,55 @@
 
 <h:head>
     <title>Bulk Purchases</title>
+    <h:outputStylesheet library="css" name="site.css" />
 </h:head>
 
 
 <h:body>
-    <h1>Bulk Purchases</h1>
-
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
-    <h:dataTable value="#{bulkPurchaseBean.bulkPurchases}" var="bulk" border="1">
-        <h:column>
-            <f:facet name="header">Id</f:facet>
-            #{bulk.id}
-        </h:column>
+    <main class="main-content">
 
-        <h:column>
-            <f:facet name="header">Order Id</f:facet>
-            #{bulk.order.id}
-        </h:column>
+        <h1>Bulk Purchases</h1>
 
-        <h:column>
-            <f:facet name="header">Bulk Type</f:facet>
-            #{bulk.type}
-        </h:column>
+        <h:dataTable value="#{bulkPurchaseBean.bulkPurchases}" var="bulk" border="1">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                #{bulk.id}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Company Name</f:facet>
-            #{bulk.companyName}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Order Id</f:facet>
+                #{bulk.order.id}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Company Email</f:facet>
-            #{bulk.companyEmail}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Bulk Type</f:facet>
+                #{bulk.type}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Tax Id</f:facet>
-            #{bulk.taxId}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Company Name</f:facet>
+                #{bulk.companyName}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Created At</f:facet>
-            #{bulk.createdAt}
-        </h:column>
-    </h:dataTable>
+            <h:column>
+                <f:facet name="header">Company Email</f:facet>
+                #{bulk.companyEmail}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Tax Id</f:facet>
+                #{bulk.taxId}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Created At</f:facet>
+                #{bulk.createdAt}
+            </h:column>
+        </h:dataTable>
+    </main>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
 </h:body>
 </html>

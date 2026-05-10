@@ -6,65 +6,70 @@
 
 <h:head>
     <title>Email Jobs</title>
+    <h:outputStylesheet library="css" name="site.css" />
 </h:head>
 
 
 <h:body>
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
-    <h1>Email Jobs</h1>
+    <main class="main-content">
 
-    <h:link outcome="index" value="Back to Home" />
+        <h1>Email Jobs</h1>
 
-    <br/><br/>
+        <h:link outcome="index" value="Back to Home" />
 
-    <h:dataTable value="#{emailJobBean.emailJobs}" var="emailJob" border="1">
+        <br/><br/>
 
-        <h:column>
-            <f:facet name="header">ID</f:facet>
-            #{emailJob.id}
-        </h:column>
+        <h:dataTable value="#{emailJobBean.emailJobs}" var="emailJob" border="1">
 
-        <h:column>
-            <f:facet name="header">Notification</f:facet>
-            #{empty emailJob.notification ? '-' : emailJob.notification.title}
-        </h:column>
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                #{emailJob.id}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Recipient Email</f:facet>
-            #{emailJob.recipientEmail}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Notification</f:facet>
+                #{empty emailJob.notification ? '-' : emailJob.notification.title}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Job Status</f:facet>
-            #{emailJob.jobStatus}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Recipient Email</f:facet>
+                #{emailJob.recipientEmail}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Attempts</f:facet>
-            #{emailJob.attempts}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Job Status</f:facet>
+                #{emailJob.jobStatus}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Max Attempts</f:facet>
-            #{emailJob.maxAttempts}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Attempts</f:facet>
+                #{emailJob.attempts}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Created At</f:facet>
-            #{emailJob.createdAt}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Max Attempts</f:facet>
+                #{emailJob.maxAttempts}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Scheduled At</f:facet>
-            #{empty emailJob.scheduledAt ? '-' : emailJob.scheduledAt}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Created At</f:facet>
+                #{emailJob.createdAt}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Sent At</f:facet>
-            #{empty emailJob.sentAt ? '-' : emailJob.sentAt}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Scheduled At</f:facet>
+                #{empty emailJob.scheduledAt ? '-' : emailJob.scheduledAt}
+            </h:column>
 
-    </h:dataTable>
+            <h:column>
+                <f:facet name="header">Sent At</f:facet>
+                #{empty emailJob.sentAt ? '-' : emailJob.sentAt}
+            </h:column>
+        </h:dataTable>
+    </main>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
 </h:body>
 </html>

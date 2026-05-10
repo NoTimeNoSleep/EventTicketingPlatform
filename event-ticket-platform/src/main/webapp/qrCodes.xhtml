@@ -6,39 +6,44 @@
 
 <h:head>
     <title>QR Codes</title>
+    <h:outputStylesheet library="css" name="site.css" />
 </h:head>
-
 
 <h:body>
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
-    <h1>QR Codes</h1>
+    <main class="main-content">
 
-    <h:dataTable value="#{qrCodeBean.qrCodes}" var="qr" border="1">
-        <h:column>
-            <f:facet name="header">ID</f:facet>
-            #{qr.id}
-        </h:column>
+        <h1>QR Codes</h1>
 
-        <h:column>
-            <f:facet name="header">TicketId</f:facet>
-            #{qr.ticket.id}
-        </h:column>
+        <h:dataTable value="#{qrCodeBean.qrCodes}" var="qr" border="1">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                #{qr.id}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Code Value</f:facet>
-            #{qr.codeValue}
-        </h:column>
+            <h:column>
+                <f:facet name="header">TicketId</f:facet>
+                #{qr.ticket.id}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Generated At</f:facet>
-            #{qr.generatedAt}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Code Value</f:facet>
+                #{qr.codeValue}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Status</f:facet>
-            #{qr.status}
-        </h:column>
-    </h:dataTable>
+            <h:column>
+                <f:facet name="header">Generated At</f:facet>
+                #{qr.generatedAt}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Status</f:facet>
+                #{qr.status}
+            </h:column>
+        </h:dataTable>
+    </main>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
 </h:body>
 </html>

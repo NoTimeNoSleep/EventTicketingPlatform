@@ -3,23 +3,25 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <h:form class="container" style="max-width: 1100px; margin: 1rem auto; padding: 0 1rem;">
-        <nav class="top-navbar" style="background-color: #f8f9fa; padding: 1rem; border-bottom: 1px solid #dee2e6; display: flex; justify-content: space-between; align-items: center;">
+    <h:outputStylesheet library="css" name="navbar.css" />
+
+    <h:form styleClass="navbar-wrapper">
+        <nav class="top-navbar">
             <div class="navbar-logo">
-                <h:link outcome="/index.xhtml" value="EventTicketing" style="font-weight: bold; font-size: 1.25rem; text-decoration: none;"/>
+                <h:link outcome="/index.xhtml" value="EventTicketing" styleClass="brand-link"/>
             </div>
 
-            <div class="navbar-search" style="padding: 0.5rem; width: 300px; border: 1px solid #ddd; border-radius: 4px;">
+            <div class="navbar-search">
                 <h:inputText placeholder="Search events..."/>
             </div>
 
-            <div class="navbar-actions" style="display: flex; gap: 1rem;">
-                <h:link outcome="/users.xhtml" value="User" style="text-decoration: none; cursor: pointer;"/>           <!--TODO: placeholder, chage to user profile-->
-                <h:link outcome="/orders.xhtml" value="Cart" style="text-decoration: none; cursor: pointer;"/>          <!--TODO: placeholder, change to cart-->
+            <div class="navbar-actions">
+                <h:link outcome="/users.xhtml" value="User" styleClass="action-link"/>           <!--TODO: placeholder, chage to user profile-->
+                <h:link outcome="/orders.xhtml" value="Cart" styleClass="action-link"/>          <!--TODO: placeholder, change to cart-->
             </div>
         </nav>
 
-        <nav class="secondary-navbar" style="background-color: #fff; padding: 0.75rem 1rem; border-bottom: 1px solid #dee2e6; display: flex; gap: 1rem; flex-wrap: wrap;">
+        <nav class="secondary-navbar">
             <h:link outcome="/index.xhtml" value="Home" />
             <span> | </span>
             <h:link outcome="/events.xhtml" value="Events" />

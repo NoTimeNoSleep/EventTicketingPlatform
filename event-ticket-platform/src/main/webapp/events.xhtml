@@ -6,43 +6,49 @@
 
 <h:head>
     <title>Events</title>
+    <h:outputStylesheet library="css" name="site.css" />
 </h:head>
 
 <h:body>
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
-    <h1>Events</h1>
+    <main class="main-content">
 
-    <h:dataTable value="#{eventBean.events}" var="event" border="1">
-        <h:column>
-            <f:facet name="header">ID</f:facet>
-            #{event.id}
-        </h:column>
+        <h1>Events</h1>
 
-        <h:column>
-            <f:facet name="header">Name</f:facet>
-            #{event.name}
-        </h:column>
+        <h:dataTable value="#{eventBean.events}" var="event" border="1">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                #{event.id}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Description</f:facet>
-            #{event.description}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                #{event.name}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Date Time</f:facet>
-            #{event.dateTime}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Description</f:facet>
+                #{event.description}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Category</f:facet>
-            #{event.category}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Date Time</f:facet>
+                #{event.dateTime}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Venue</f:facet>
-            #{event.venue.name}
-        </h:column>
-    </h:dataTable>
+            <h:column>
+                <f:facet name="header">Category</f:facet>
+                #{event.category}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Venue</f:facet>
+                #{event.venue.name}
+            </h:column>
+        </h:dataTable>
+    </main>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
 </h:body>
 </html>

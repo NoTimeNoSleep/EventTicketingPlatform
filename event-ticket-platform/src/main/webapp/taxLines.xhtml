@@ -6,44 +6,49 @@
 
 <h:head>
     <title>Tax Lines</title>
+    <h:outputStylesheet library="css" name="site.css" />
 </h:head>
 
 <h:body>
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
-    <h1>Tax Lines</h1>
+    <main class="main-content">
 
-    <h:dataTable value="#{taxLineBean.taxLines}" var="taxLine" border="1">
-        <h:column>
-            <f:facet name="header">ID</f:facet>
-            #{taxLine.id}
-        </h:column>
+        <h1>Tax Lines</h1>
 
-        <h:column>
-            <f:facet name="header">Order ID</f:facet>
-            #{taxLine.order.id}
-        </h:column>
+        <h:dataTable value="#{taxLineBean.taxLines}" var="taxLine" border="1">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                #{taxLine.id}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Ticket ID</f:facet>
-            #{empty taxLine.ticket ? 'No ticket' : taxLine.ticket.id}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Order ID</f:facet>
+                #{taxLine.order.id}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Name</f:facet>
-            #{taxLine.name}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Ticket ID</f:facet>
+                #{empty taxLine.ticket ? 'No ticket' : taxLine.ticket.id}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Rate</f:facet>
-            #{taxLine.rate}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                #{taxLine.name}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Amount</f:facet>
-            #{taxLine.amount}
-        </h:column>
-    </h:dataTable>
+            <h:column>
+                <f:facet name="header">Rate</f:facet>
+                #{taxLine.rate}
+            </h:column>
 
+            <h:column>
+                <f:facet name="header">Amount</f:facet>
+                #{taxLine.amount}
+            </h:column>
+        </h:dataTable>
+    </main>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
 </h:body>
 </html>

@@ -6,55 +6,59 @@
 
 <h:head>
     <title>Ticket Types</title>
+    <h:outputStylesheet library="css" name="site.css" />
 </h:head>
 
 
 <h:body>
-    <h1>Ticket Types</h1>
-
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
-    <h:dataTable value="#{ticketTypeBean.ticketTypes}" var="tt" border="1">
-        <h:column>
-            <f:facet name="header">ID</f:facet>
-            #{tt.id}
-        </h:column>
+    <main class="main-content">
+        <h1>Ticket Types</h1>
 
-        <h:column>
-            <f:facet name="header">Event</f:facet>
-            #{tt.event.name}
-        </h:column>
+        <h:dataTable value="#{ticketTypeBean.ticketTypes}" var="tt" border="1">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                #{tt.id}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Name</f:facet>
-            #{tt.name}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Event</f:facet>
+                #{tt.event.name}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Type</f:facet>
-            #{tt.type}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                #{tt.name}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Price</f:facet>
-            #{tt.price}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Type</f:facet>
+                #{tt.type}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Capacity</f:facet>
-            #{tt.capacity}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Price</f:facet>
+                #{tt.price}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Reserved</f:facet>
-            #{tt.reserved}
-        </h:column>
+            <h:column>
+                <f:facet name="header">Capacity</f:facet>
+                #{tt.capacity}
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">Sold</f:facet>
-            #{tt.sold}
-        </h:column>
-    </h:dataTable>
+            <h:column>
+                <f:facet name="header">Reserved</f:facet>
+                #{tt.reserved}
+            </h:column>
 
+            <h:column>
+                <f:facet name="header">Sold</f:facet>
+                #{tt.sold}
+            </h:column>
+        </h:dataTable>
+    </main>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
 </h:body>
 </html>
