@@ -3,46 +3,36 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <nav style="margin-bottom: 1rem;">
-        <h:link outcome="/index.xhtml" value="Home" />
-        <span> | </span>
-        <h:link outcome="/events.xhtml" value="Events" />
-        <span> | </span>
-        <h:link outcome="/eventSeats.xhtml" value="Event Seats" />
-        <span> | </span>
-        <h:link outcome="/orders.xhtml" value="Orders" />
-        <span> | </span>
-        <h:link outcome="/bulkPurchases.xhtml" value="Bulk Purchase" />
-        <span> | </span>
-        <h:link outcome="/payments.xhtml" value="Payments" />
-        <span> | </span>
-        <h:link outcome="/qrCodes.xhtml" value="QR Codes" />
-        <span> | </span>
-        <h:link outcome="/roles.xhtml" value="Roles" />
-        <span> | </span>
-        <h:link outcome="/seats.xhtml" value="Seats" />
-        <span> | </span>
-        <h:link outcome="/ticketDeliveries.xhtml" value="Ticket Deliveries" />
-        <span> | </span>
-        <h:link outcome="/tickets.xhtml" value="Tickets" />
-        <span> | </span>
-        <h:link outcome="/ticketTypes.xhtml" value="Ticket Types" />
-        <span> | </span>
-        <h:link outcome="/users.xhtml" value="Users" />
-        <span> | </span>
-        <h:link outcome="/venues.xhtml" value="Venues" />
-        <span> | </span>
-        <h:link value="Invoices" outcome="/invoices" />
-        <span> | </span>
-        <h:link value="Invoice Tax Lines" outcome="/invoiceTaxLines" />
-        <span> | </span>
-        <h:link value="Tax Rules" outcome="/taxRules" />
-        <span> | </span>
-        <h:link value="Tax Lines" outcome="/taxLines" />
-        <span> | </span>
-        <h:link value="Notifications" outcome="/notifications" />
-        <span> | </span>
-        <h:link value="EmailJob" outcome="/emailJobs" />
+    <nav class="navbar">
+        <div class="navbar-top">
+            <div>
+                <div class="navbar-logo">TicketPlatform</div>
+                <div class="navbar-subtitle">by NoTimeNoSleep</div>
+            </div>
+        </div>
+
+        <div class="navbar-links">
+            <h:link outcome="/index.xhtml" value="Home" />
+            <h:link outcome="/events.xhtml" value="Events" />
+            <h:link outcome="/eventSeats.xhtml" value="Event Seats" />
+            <h:link outcome="/orders.xhtml" value="Orders" />
+            <h:link outcome="/bulkPurchases.xhtml" value="Bulk Purchases" />
+            <h:link outcome="/payments.xhtml" value="Payments" />
+            <h:link outcome="/qrCodes.xhtml" value="QR Codes" />
+            <h:link outcome="/roles.xhtml" value="Roles" />
+            <h:link outcome="/seats.xhtml" value="Seats" />
+            <h:link outcome="/ticketDeliveries.xhtml" value="Ticket Deliveries" />
+            <h:link outcome="/tickets.xhtml" value="Tickets" />
+            <h:link outcome="/ticketTypes.xhtml" value="Ticket Types" />
+            <h:link outcome="/users.xhtml" value="Users" />
+            <h:link outcome="/venues.xhtml" value="Venues" />
+            <h:link outcome="/invoices.xhtml" value="Invoices" />
+            <h:link outcome="/invoiceTaxLines.xhtml" value="Invoice Tax Lines" />
+            <h:link outcome="/taxRules.xhtml" value="Tax Rules" />
+            <h:link outcome="/taxLines.xhtml" value="Tax Lines" />
+            <h:link outcome="/notifications.xhtml" value="Notifications" />
+            <h:link outcome="/emailJobs.xhtml" value="Email Jobs" />
+        </div>
     </nav>
 
 </ui:composition>
