@@ -1,62 +1,123 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core" 
+      xmlns:f="jakarta.faces.core"
       xmlns:ui="jakarta.faces.facelets">
 
 <h:head>
     <title>Ticket Types</title>
     <h:outputStylesheet library="css" name="site.css" />
+    <h:outputStylesheet library="css" name="index.css" />
+    <h:outputStylesheet library="css" name="style.css" />
 </h:head>
-
 
 <h:body>
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
     <main class="main-content">
-        <h1>Ticket Types</h1>
+        <div class="container">
 
-        <h:dataTable value="#{ticketTypeBean.ticketTypes}" var="tt" border="1">
-            <h:column>
-                <f:facet name="header">ID</f:facet>
-                #{tt.id}
-            </h:column>
+            <section class="section">
+                <h1>Ticket Types</h1>
+                <p class="muted">Create and manage ticket categories for events.</p>
+            </section>
 
-            <h:column>
-                <f:facet name="header">Event</f:facet>
-                #{tt.event.name}
-            </h:column>
+            <section class="card">
+                <h2>Create new ticket type</h2>
 
-            <h:column>
-                <f:facet name="header">Name</f:facet>
-                #{tt.name}
-            </h:column>
+                <h:form>
+                    <div class="form-grid">
+                        <div>
+                            <h:outputLabel value="Event:" />
+                            <h:selectOneMenu value="#{ticketTypeBean.selectedEventId}">
+                                <f:selectItem itemLabel="Select event" itemValue="#{null}" />
+                                <f:selectItems value="#{ticketTypeBean.events}"
+                                               var="event"
+                                               itemValue="#{event.id.toString()}"
+                                               itemLabel="#{event.name}" />
+                            </h:selectOneMenu>
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Type</f:facet>
-                #{tt.type}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Name:" />
+                            <h:inputText value="#{ticketTypeBean.newTicketType.name}" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Price</f:facet>
-                #{tt.price}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Type:" />
+                            <h:selectOneMenu value="#{ticketTypeBean.newTicketType.type}">
+                                <f:selectItem itemLabel="Select type" itemValue="#{null}" />
+                                <f:selectItems value="#{ticketTypeBean.ticketKinds}"
+                                               var="kind"
+                                               itemValue="#{kind}"
+                                               itemLabel="#{kind}" />
+                            </h:selectOneMenu>
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Capacity</f:facet>
-                #{tt.capacity}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Price:" />
+                            <h:inputText value="#{ticketTypeBean.newTicketType.price}" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Reserved</f:facet>
-                #{tt.reserved}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Capacity:" />
+                            <h:inputText value="#{ticketTypeBean.newTicketType.capacity}" />
+                        </div>
+                    </div>
 
-            <h:column>
-                <f:facet name="header">Sold</f:facet>
-                #{tt.sold}
-            </h:column>
-        </h:dataTable>
+                    <h:commandButton value="Create ticket type"
+                                     action="#{ticketTypeBean.createTicketType}"
+                                     styleClass="btn-primary" />
+                </h:form>
+            </section>
+
+            <section class="card">
+                <h2>Existing ticket types</h2>
+
+                <div class="table-wrapper">
+                    <h:dataTable value="#{ticketTypeBean.ticketTypes}"
+                                 var="tt"
+                                 styleClass="data-table">
+
+                        <h:column>
+                            <f:facet name="header">Event</f:facet>
+                            #{tt.event.name}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Name</f:facet>
+                            #{tt.name}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Type</f:facet>
+                            #{tt.type}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Price</f:facet>
+                            #{tt.price}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Capacity</f:facet>
+                            #{tt.capacity}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Reserved</f:facet>
+                            #{tt.reserved}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Sold</f:facet>
+                            #{tt.sold}
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </section>
+
+        </div>
     </main>
 
     <ui:include src="/WEB-INF/includes/footer.xhtml" />
