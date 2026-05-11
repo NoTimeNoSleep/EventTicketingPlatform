@@ -1,72 +1,77 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
     <title>Log In | TicketPlatform</title>
+    <h:outputStylesheet library="css" name="style.css"/>
     <h:outputStylesheet library="css" name="auth.css"/>
 </h:head>
 
 <h:body>
-    <header class="topbar">
-        <h:link outcome="/index.xhtml" styleClass="brand-link">
-            <span class="brand-mark">▣</span>
-            <span class="brand-name">TicketPlatform</span>
-        </h:link>
-    </header>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
-    <main class="auth-page">
-        <section class="auth-card">
-            <p class="eyebrow">Welcome back</p>
-            <h1>Log in</h1>
-            <p class="subtitle">
-                Access your tickets, orders, and account details.
-            </p>
-
-            <h:messages globalOnly="true"
-                        layout="list"
-                        styleClass="message-list"/>
-
-            <h:panelGroup rendered="#{param.registered eq 'true'}" layout="block" styleClass="success-message">
-                Account created successfully. You can log in now.
-            </h:panelGroup>
-
-            <h:form styleClass="auth-form">
-                <div class="field">
-                    <h:outputLabel for="email" value="Email"/>
-                    <h:inputText id="email"
-                                 value="#{loginBean.email}"
-                                 required="true"
-                                 requiredMessage="Email is required."
-                                 autocomplete="email">
-                        <f:validateLength minimum="3" maximum="255"/>
-                    </h:inputText>
-                    <h:message for="email" styleClass="field-error"/>
-                </div>
-
-                <div class="field">
-                    <h:outputLabel for="password" value="Password"/>
-                    <h:inputSecret id="password"
-                                   value="#{loginBean.password}"
-                                   required="true"
-                                   requiredMessage="Password is required."
-                                   autocomplete="current-password">
-                        <f:validateLength minimum="1" maximum="255"/>
-                    </h:inputSecret>
-                    <h:message for="password" styleClass="field-error"/>
-                </div>
-
-                <h:commandButton value="Log In"
-                                 action="#{loginBean.login}"
-                                 styleClass="primary-button"/>
-            </h:form>
-
-            <p class="switch-text">
-                Do not have an account?
-                <h:link outcome="/register.xhtml" value="Register"/>
-            </p>
-        </section>
+    <main class="page-container" aria-hidden="true">
     </main>
+
+    <div class="modal-backdrop" role="dialog" aria-modal="true">
+        <div class="modal">
+            <section class="auth-card">
+                <div class="modal-close">
+                    <h:link outcome="/index.xhtml" styleClass="close-link" value="✕" />
+                </div>
+
+                <p class="eyebrow">Welcome back</p>
+                <h1>Log in</h1>
+                <p class="subtitle">
+                    Access your tickets, orders, and account details.
+                </p>
+
+                <h:messages globalOnly="true"
+                            layout="list"
+                            styleClass="message-list"/>
+
+                <h:panelGroup rendered="#{param.registered eq 'true'}" layout="block" styleClass="success-message">
+                    Account created successfully. You can log in now.
+                </h:panelGroup>
+
+                <h:form styleClass="auth-form">
+                    <div class="form-group">
+                        <h:outputLabel for="email" value="Email"/>
+                        <h:inputText id="email"
+                                     value="#{loginBean.email}"
+                                     required="true"
+                                     requiredMessage="Email is required."
+                                     autocomplete="email"
+                                     styleClass="input"/>
+                        <h:message for="email" styleClass="field-error"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="password" value="Password"/>
+                        <h:inputSecret id="password"
+                                       value="#{loginBean.password}"
+                                       required="true"
+                                       requiredMessage="Password is required."
+                                       autocomplete="current-password"
+                                       styleClass="input"/>
+                        <h:message for="password" styleClass="field-error"/>
+                    </div>
+
+                    <h:commandButton value="Log In"
+                                     action="#{loginBean.login}"
+                                     styleClass="btn-primary"/>
+                </h:form>
+
+                <p class="switch-text">
+                    Do not have an account?
+                    <h:link outcome="/register.xhtml" value="Register"/>
+                </p>
+            </section>
+        </div>
+    </div>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
 </h:body>
 </html>
