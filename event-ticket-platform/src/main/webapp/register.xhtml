@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <title>Register | TicketPlatform</title>
+    <h:outputStylesheet library="css" name="auth.css"/>
+</h:head>
+
+<h:body>
+    <header class="topbar">
+        <h:link outcome="/index.xhtml" styleClass="brand-link">
+            <span class="brand-mark">▣</span>
+            <span class="brand-name">TicketPlatform</span>
+        </h:link>
+    </header>
+
+    <main class="auth-page">
+        <section class="auth-card">
+            <p class="eyebrow">Create account</p>
+            <h1>Register</h1>
+            <p class="subtitle">
+                Save your tickets, track orders, and receive event updates.
+            </p>
+
+            <h:messages globalOnly="true"
+                        layout="list"
+                        styleClass="message-list"/>
+
+            <h:form styleClass="auth-form">
+                <div class="two-column-grid">
+                    <div class="field">
+                        <h:outputLabel for="name" value="Name"/>
+                        <h:inputText id="name"
+                                     value="#{registerBean.name}"
+                                     required="true"
+                                     requiredMessage="Name is required."
+                                     autocomplete="given-name">
+                            <f:validateLength minimum="1" maximum="255"/>
+                        </h:inputText>
+                        <h:message for="name" styleClass="field-error"/>
+                    </div>
+
+                    <div class="field">
+                        <h:outputLabel for="surname" value="Surname"/>
+                        <h:inputText id="surname"
+                                     value="#{registerBean.surname}"
+                                     required="true"
+                                     requiredMessage="Surname is required."
+                                     autocomplete="family-name">
+                            <f:validateLength minimum="1" maximum="255"/>
+                        </h:inputText>
+                        <h:message for="surname" styleClass="field-error"/>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <h:outputLabel for="email" value="Email"/>
+                    <h:inputText id="email"
+                                 value="#{registerBean.email}"
+                                 required="true"
+                                 requiredMessage="Email is required."
+                                 autocomplete="email">
+                        <f:validateLength minimum="3" maximum="255"/>
+                    </h:inputText>
+                    <h:message for="email" styleClass="field-error"/>
+                </div>
+
+                <div class="field">
+                    <h:outputLabel for="password" value="Password"/>
+                    <h:inputSecret id="password"
+                                   value="#{registerBean.password}"
+                                   required="true"
+                                   requiredMessage="Password is required."
+                                   autocomplete="new-password">
+                        <f:validateLength minimum="8" maximum="255"/>
+                    </h:inputSecret>
+                    <h:message for="password" styleClass="field-error"/>
+                </div>
+
+                <div class="field">
+                    <h:outputLabel for="confirmPassword" value="Confirm password"/>
+                    <h:inputSecret id="confirmPassword"
+                                   value="#{registerBean.confirmPassword}"
+                                   required="true"
+                                   requiredMessage="Please confirm your password."
+                                   autocomplete="new-password">
+                        <f:validateLength minimum="8" maximum="255"/>
+                    </h:inputSecret>
+                    <h:message for="confirmPassword" styleClass="field-error"/>
+                </div>
+
+                <h:commandButton value="Create Account"
+                                 action="#{registerBean.register}"
+                                 styleClass="primary-button"/>
+            </h:form>
+
+            <p class="switch-text">
+                Already have an account?
+                <h:link outcome="/login.xhtml" value="Log in"/>
+            </p>
+        </section>
+    </main>
+</h:body>
+</html>
