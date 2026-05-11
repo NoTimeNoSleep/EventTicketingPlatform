@@ -6,46 +6,34 @@
 
 <h:head>
     <title>Venues</title>
-    <h:outputStylesheet name="css/style.css" />
+    <h:outputStylesheet library="css" name="site.css" />
 </h:head>
-
 
 <h:body>
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
-    <div class="page-container">
+    <main class="main-content">
+        <div class="container">
 
-        <div class="page-header">
             <h1>Venues</h1>
-            <p>Create and manage event venues used by the ticket platform.</p>
-        </div>
 
-        <div class="card">
             <h2>Create new venue</h2>
 
-            <h:form styleClass="form">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <h:outputLabel value="Name:" />
-                        <h:inputText value="#{venueBean.newVenue.name}" styleClass="input" />
-                    </div>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Name:" />
+                    <h:inputText value="#{venueBean.newVenue.name}" />
 
-                    <div class="form-group">
-                        <h:outputLabel value="Location:" />
-                        <h:inputText value="#{venueBean.newVenue.location}" styleClass="input" />
-                    </div>
-                </div>
+                    <h:outputLabel value="Location:" />
+                    <h:inputText value="#{venueBean.newVenue.location}" />
+                </h:panelGrid>
 
-                <h:commandButton value="Create venue"
-                                 action="#{venueBean.createVenue}"
-                                 styleClass="btn-primary" />
+                <h:commandButton value="Create venue" action="#{venueBean.createVenue}" />
             </h:form>
-        </div>
 
-        <div class="card">
             <h2>Existing venues</h2>
 
-            <h:dataTable value="#{venueBean.venues}" var="venue" styleClass="data-table">
+            <h:dataTable value="#{venueBean.venues}" var="venue" border="1">
                 <h:column>
                     <f:facet name="header">Name</f:facet>
                     <h:outputText value="#{venue.name}" />
@@ -56,8 +44,10 @@
                     <h:outputText value="#{venue.location}" />
                 </h:column>
             </h:dataTable>
-        </div>
 
-    </div>
+        </div>
+    </main>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
 </h:body>
 </html>

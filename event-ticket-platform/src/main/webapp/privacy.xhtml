@@ -5,7 +5,7 @@
       xmlns:ui="jakarta.faces.facelets">
 
 <h:head>
-    <title>Roles</title>
+    <title>Privacy</title>
     <h:outputStylesheet library="css" name="site.css" />
 </h:head>
 
@@ -14,19 +14,9 @@
 
     <main class="main-content">
 
-        <h1>Roles</h1>
+        <h1>Privacy</h1>
 
-        <h:dataTable value="#{roleBean.roles}" var="role" border="1">
-            <h:column>
-                <f:facet name="header">ID</f:facet>
-                #{role.id}
-            </h:column>
-
-            <h:column>
-                <f:facet name="header">Type</f:facet>
-                #{role.type}
-            </h:column>
-        </h:dataTable>
+        <p>To be implemented</p>
     </main>
 
     <ui:include src="/WEB-INF/includes/footer.xhtml" />

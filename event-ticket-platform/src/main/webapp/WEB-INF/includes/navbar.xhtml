@@ -3,36 +3,66 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <nav class="navbar">
-        <div class="navbar-top">
-            <div>
-                <div class="navbar-logo">TicketPlatform</div>
-                <div class="navbar-subtitle">by NoTimeNoSleep</div>
-            </div>
-        </div>
+    <h:outputStylesheet library="css" name="navbar.css" />
 
-        <div class="navbar-links">
+    <h:form styleClass="navbar-wrapper">
+        <nav class="top-navbar">
+            <div class="navbar-logo">
+                <h:link outcome="/index.xhtml" value="EventTicketing" styleClass="brand-link"/>
+            </div>
+
+            <div class="navbar-search">
+                <h:inputText placeholder="Search events..."/>
+            </div>
+
+            <div class="navbar-actions">
+                <h:link outcome="/users.xhtml" value="User" styleClass="action-link"/>           <!--TODO: placeholder, chage to user profile-->
+                <h:link outcome="/orders.xhtml" value="Cart" styleClass="action-link"/>          <!--TODO: placeholder, change to cart-->
+            </div>
+        </nav>
+
+        <nav class="secondary-navbar">
             <h:link outcome="/index.xhtml" value="Home" />
+            <span> | </span>
             <h:link outcome="/events.xhtml" value="Events" />
+            <span> | </span>
             <h:link outcome="/eventSeats.xhtml" value="Event Seats" />
+            <span> | </span>
             <h:link outcome="/orders.xhtml" value="Orders" />
-            <h:link outcome="/bulkPurchases.xhtml" value="Bulk Purchases" />
+            <span> | </span>
+            <h:link outcome="/bulkPurchases.xhtml" value="Bulk Purchase" />
+            <span> | </span>
             <h:link outcome="/payments.xhtml" value="Payments" />
+            <span> | </span>
             <h:link outcome="/qrCodes.xhtml" value="QR Codes" />
+            <span> | </span>
             <h:link outcome="/roles.xhtml" value="Roles" />
+            <span> | </span>
             <h:link outcome="/seats.xhtml" value="Seats" />
+            <span> | </span>
             <h:link outcome="/ticketDeliveries.xhtml" value="Ticket Deliveries" />
+            <span> | </span>
             <h:link outcome="/tickets.xhtml" value="Tickets" />
+            <span> | </span>
             <h:link outcome="/ticketTypes.xhtml" value="Ticket Types" />
+            <span> | </span>
             <h:link outcome="/users.xhtml" value="Users" />
+            <span> | </span>
             <h:link outcome="/venues.xhtml" value="Venues" />
-            <h:link outcome="/invoices.xhtml" value="Invoices" />
-            <h:link outcome="/invoiceTaxLines.xhtml" value="Invoice Tax Lines" />
-            <h:link outcome="/taxRules.xhtml" value="Tax Rules" />
-            <h:link outcome="/taxLines.xhtml" value="Tax Lines" />
-            <h:link outcome="/notifications.xhtml" value="Notifications" />
-            <h:link outcome="/emailJobs.xhtml" value="Email Jobs" />
-        </div>
-    </nav>
+            <span> | </span>
+            <h:link value="Invoices" outcome="/invoices" />
+            <span> | </span>
+            <h:link value="Invoice Tax Lines" outcome="/invoiceTaxLines" />
+            <span> | </span>
+            <h:link value="Tax Rules" outcome="/taxRules" />
+            <span> | </span>
+            <h:link value="Tax Lines" outcome="/taxLines" />
+            <span> | </span>
+            <h:link value="Notifications" outcome="/notifications" />
+            <span> | </span>
+            <h:link value="EmailJob" outcome="/emailJobs" />
+        </nav>
+    </h:form>
+
 
 </ui:composition>
