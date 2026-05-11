@@ -18,8 +18,9 @@ public class SeatDAO {
 
     public List<Seat> findAll() {
         return em.createQuery(
-                "SELECT s FROM Seat s", Seat.class)
-                .getResultList();
+                "SELECT s FROM Seat s LEFT JOIN FETCH s.venue",
+                Seat.class
+        ).getResultList();
     }
 
     public List<Seat> findByVenueId(String venueId) {
