@@ -121,3 +121,28 @@ body {
     color: #2563eb;
     background: #eaf1ff;
 }
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.data-table-header {
+    background-color: #f3f4f6;
+}
+
+.data-table th,
+.data-table td {
+    border: 1px solid #d1d5db !important;
+    padding: 10px 12px;
+    text-align: left;
+}
+
+.data-table-row:hover {
+    background-color: #f9fafb;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}

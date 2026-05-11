@@ -7,6 +7,7 @@
 <h:head>
     <title>Venues</title>
     <h:outputStylesheet library="css" name="site.css" />
+    <h:outputStylesheet library="css" name="index.css" />
 </h:head>
 
 <h:body>
@@ -17,46 +18,52 @@
 
             <h1>Venues</h1>
 
-            <h2>Create new venue</h2>
+            <p>Create and manage venues used by events.</p>
 
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="Name:" />
-                    <h:inputText value="#{venueBean.newVenue.name}" />
+            <div class="card">
+                <h2>Create new venue</h2>
 
-                    <h:outputLabel value="Location:" />
-                    <h:inputText value="#{venueBean.newVenue.location}" />
-                </h:panelGrid>
+                <h:form>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Name:" />
+                        <h:inputText value="#{venueBean.newVenue.name}" />
 
-                <h:commandButton value="Create venue" action="#{venueBean.createVenue}" />
-            </h:form>
+                        <h:outputLabel value="Location:" />
+                        <h:inputText value="#{venueBean.newVenue.location}" />
+                    </h:panelGrid>
 
-            <h2>Existing venues</h2>
+                    <h:commandButton value="Create venue"
+                                     action="#{venueBean.createVenue}" />
+                </h:form>
+            </div>
 
-            <h:dataTable value="#{venueBean.venues}" var="venue" border="1">
-                <h:column>
-                    <f:facet name="header">Name</f:facet>
-                    <h:outputText value="#{venue.name}" />
-                </h:column>
+            <div class="card">
+                <h2>Existing venues</h2>
 
-                <h:column>
-                    <f:facet name="header">Location</f:facet>
-                    <h:outputText value="#{venue.location}" />
-                </h:column>
+                <h:dataTable value="#{venueBean.venues}" var="venue">
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        #{venue.name}
+                    </h:column>
 
-                <h:column>
-                    <f:facet name="header">Seats</f:facet>
+                    <h:column>
+                        <f:facet name="header">Location</f:facet>
+                        #{venue.location}
+                    </h:column>
 
-                    <ui:fragment rendered="#{empty venue.seats}">
-                        -
-                    </ui:fragment>
+                    <h:column>
+                        <f:facet name="header">Seats</f:facet>
 
-                    <ui:repeat value="#{venue.seats}" var="seat">
-                        #{seat.section}-#{seat.row}-#{seat.number}<br/>
-                    </ui:repeat>
-                </h:column>
+                        <ui:fragment rendered="#{empty venue.seats}">
+                            -
+                        </ui:fragment>
 
-            </h:dataTable>
+                        <ui:repeat value="#{venue.seats}" var="seat">
+                            #{seat.section}-#{seat.row}-#{seat.number}<br/>
+                        </ui:repeat>
+                    </h:column>
+                </h:dataTable>
+            </div>
 
         </div>
     </main>
