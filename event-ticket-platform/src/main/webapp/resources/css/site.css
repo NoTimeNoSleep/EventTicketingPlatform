@@ -1,0 +1,9 @@
+/* Layout helpers */
+html, body { height: 100%; margin: 0; }
+body { display: flex; flex-direction: column; min-height: 100vh; }
+main.main-content { flex: 1 0 auto; }
+
+/* Page container */
+.container { max-width: 1100px; margin: 1rem auto; padding: 0 1rem; }
+
+

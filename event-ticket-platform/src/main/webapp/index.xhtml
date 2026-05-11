@@ -1,15 +1,55 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
 <h:head>
     <title>Event Ticket Platform</title>
+    <h:outputStylesheet library="css" name="site.css" />
+    <h:outputStylesheet library="css" name="index.css" />
 </h:head>
 
-<ui:include src="/WEB-INF/includes/navbar.xhtml" />
-
 <h:body>
-    <h1>Event Ticket Platform</h1>
-    <p>Project setup is working.</p>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
+    <main class="main-content">
+        <div class="container">
+        <!-- HERO -->
+        <section class="hero">
+            <h2>Discover Events Near You</h2>
+            <p>Find concerts, theater, sports and more — book tickets in a few clicks.</p>
+            <div>
+                <h:link outcome="/events.xhtml" value="Browse Events" styleClass="cta" />
+            </div>
+        </section>
+
+        <!-- TOP EVENTS HORIZONTAL LIST -->
+        <section>
+            <div class="section-title">Top Events</div>
+            <div class="scroll-row" aria-label="Top events">
+                <ui:repeat value="#{eventBean.events}" var="e" varStatus="s">
+                    <h:panelGroup rendered="#{s.index lt 5}" layout="block" styleClass="event-card">
+                        <h3><h:link outcome="/events.xhtml" value="#{e.name}" /></h3>
+                        <p class="muted">#{e.dateTime} • #{e.venue.name}</p>
+                    </h:panelGroup>
+                </ui:repeat>
+            </div>
+        </section>
+
+        <!-- RECOMMENDED GRID -->
+        <section style="margin-top:1rem;">
+            <div class="section-title">Recommended For You</div>
+            <div class="grid">
+                <ui:repeat value="#{eventBean.events}" var="e" varStatus="s">
+                    <h:panelGroup rendered="#{s.index lt 11}" layout="block" styleClass="card">
+                        <h4><h:link outcome="/events.xhtml" value="#{e.name}" /></h4>
+                        <p class="muted">#{e.dateTime} • #{e.venue.name}</p>
+                    </h:panelGroup>
+                </ui:repeat>
+            </div>
+        </section>
+        </div>
+    </main>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
 </h:body>
 </html>

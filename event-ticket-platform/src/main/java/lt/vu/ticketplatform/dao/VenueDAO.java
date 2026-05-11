@@ -16,8 +16,10 @@ public class VenueDAO {
 
     public List<Venue> findAll() {
         return em.createQuery(
-                "SELECT v FROM Venue v", Venue.class)
-                .getResultList();
+                "SELECT DISTINCT v FROM Venue v " +
+                        "LEFT JOIN FETCH v.seats",
+                Venue.class
+        ).getResultList();
     }
 
     public Venue findById(UUID id) {

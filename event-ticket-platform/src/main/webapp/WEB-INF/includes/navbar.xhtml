@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="jakarta.faces.html"
-                xmlns:ui="jakarta.faces.facelets">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <nav style="margin-bottom: 1rem;">
         <h:link outcome="/index.xhtml" value="Home" />
@@ -43,22 +43,6 @@
         <h:link value="Notifications" outcome="/notifications" />
         <span> | </span>
         <h:link value="EmailJob" outcome="/emailJobs" />
-
-        <h:panelGroup rendered="#{not currentUserBean.loggedIn}">
-            <span> | </span>
-            <h:link value="Log In" outcome="/login.xhtml" />
-            <span> | </span>
-            <h:link value="Register" outcome="/register.xhtml" />
-        </h:panelGroup>
-
-        <h:panelGroup rendered="#{currentUserBean.loggedIn}">
-            <span> | </span>
-            <h:outputText value="#{currentUserBean.email}" />
-            <span> | </span>
-            <h:form style="display: inline;">
-                <h:commandLink value="Log Out" action="#{currentUserBean.logOut}" />
-            </h:form>
-        </h:panelGroup>
     </nav>
 
 </ui:composition>

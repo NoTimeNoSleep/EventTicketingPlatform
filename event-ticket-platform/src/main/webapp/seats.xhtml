@@ -1,44 +1,100 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
 
 <h:head>
     <title>Seats</title>
+    <h:outputStylesheet library="css" name="site.css" />
+    <h:outputStylesheet library="css" name="index.css" />
 </h:head>
-
 
 <h:body>
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
-    <h1>Seats</h1>
+    <main class="main-content">
+        <div class="container">
 
-    <h:dataTable value="#{seatBean.seats}" var="seat" border="1">
-        <h:column>
-            <f:facet name="header">ID</f:facet>
-            #{seat.id}
-        </h:column>
+            <section class="section">
+                <h1>Seats</h1>
+                <p class="muted">Create and manage seats assigned to venues.</p>
+            </section>
 
-        <h:column>
-            <f:facet name="header">Venue</f:facet>
-            #{seat.venue.name}
-        </h:column>
+            <section class="card">
+                <h2>Create new seat</h2>
 
-        <h:column>
-            <f:facet name="header">Section</f:facet>
-            #{seat.section}
-        </h:column>
+                <h:form>
+                    <div class="form-grid">
+                        <div>
+                            <h:outputLabel value="Venue:" />
+                            <h:selectOneMenu value="#{seatBean.selectedVenueId}">
+                                <f:selectItem itemLabel="Select venue" itemValue="#{null}" />
+                                <f:selectItems value="#{seatBean.venues}"
+                                               var="venue"
+                                               itemValue="#{venue.id.toString()}"
+                                               itemLabel="#{venue.name}" />
+                            </h:selectOneMenu>
+                        </div>
 
-        <h:column>
-            <f:facet name="header">Row</f:facet>
-            #{seat.row}
-        </h:column>
+                        <div>
+                            <h:outputLabel value="Section:" />
+                            <h:inputText value="#{seatBean.newSeat.section}" />
+                        </div>
 
-        <h:column>
-            <f:facet name="header">Number</f:facet>
-            #{seat.number}
-        </h:column>
-    </h:dataTable>
+                        <div>
+                            <h:outputLabel value="Row:" />
+                            <h:inputText value="#{seatBean.newSeat.row}" />
+                        </div>
+
+                        <div>
+                            <h:outputLabel value="Number:" />
+                            <h:inputText value="#{seatBean.newSeat.number}" />
+                        </div>
+                    </div>
+
+                    <h:commandButton value="Create seat"
+                                     action="#{seatBean.createSeat}"
+                                     styleClass="btn-primary" />
+                </h:form>
+            </section>
+
+            <section class="card">
+                <h2>Existing seats</h2>
+
+                <div class="table-wrapper">
+                    <h:dataTable value="#{seatBean.seats}" var="seat" styleClass="data-table">
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                            #{seat.id}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Venue</f:facet>
+                            #{seat.venue.name}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Section</f:facet>
+                            #{seat.section}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Row</f:facet>
+                            #{seat.row}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Number</f:facet>
+                            #{seat.number}
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
 </h:body>
 </html>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:outputStylesheet library="css" name="footer.css" />
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-column">
+                <h:outputText value="EventTicketing" styleClass="footer-title" />
+                <br/>
+                <span class="footer-muted">123 Main St, City • contact@example.com • +1 555 1234</span>
+            </div>
+
+            <div class="footer-column">
+                <h:outputText value="Useful Links" styleClass="footer-title" />
+                <br/>
+                <h:link outcome="/index.xhtml" value="Home" />
+                <br/>
+                <h:link outcome="/events.xhtml" value="Events" />
+                <br/>
+                <h:link outcome="/users.xhtml" value="My Account" />
+                <br/>
+                <h:link outcome="/orders.xhtml" value="Orders" />
+            </div>
+
+            <div class="footer-column">
+                <h:outputText value="Legal" styleClass="footer-title" />
+                <br/>
+                <h:link outcome="/privacy.xhtml" value="Privacy Policy" />
+                <br/>
+                <h:link outcome="/terms.xhtml" value="Terms of Service" />
+                <br/>
+                <h:link outcome="/contact.xhtml" value="Contact" />
+            </div>
+        </div>
+        <div class="copyright">© 2026 EventTicketing. All rights reserved.</div>
+    </footer>
+
+</ui:composition>
