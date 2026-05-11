@@ -43,6 +43,19 @@
                     <f:facet name="header">Location</f:facet>
                     <h:outputText value="#{venue.location}" />
                 </h:column>
+
+                <h:column>
+                    <f:facet name="header">Seats</f:facet>
+
+                    <ui:fragment rendered="#{empty venue.seats}">
+                        -
+                    </ui:fragment>
+
+                    <ui:repeat value="#{venue.seats}" var="seat">
+                        #{seat.section}-#{seat.row}-#{seat.number}<br/>
+                    </ui:repeat>
+                </h:column>
+
             </h:dataTable>
 
         </div>
