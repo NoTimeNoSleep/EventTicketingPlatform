@@ -16,7 +16,13 @@ public class TicketDAO {
 
     public List<Ticket> findAll() {
         return em.createQuery(
-                "SELECT t FROM Ticket t", Ticket.class)
+                        "SELECT DISTINCT t FROM Ticket t " +
+                                "LEFT JOIN FETCH t.event " +
+                                "LEFT JOIN FETCH t.ticketType " +
+                                "LEFT JOIN FETCH t.seat " +
+                                "LEFT JOIN FETCH t.order " +
+                                "LEFT JOIN FETCH t.qrCode",
+                        Ticket.class)
                 .getResultList();
     }
 
