@@ -16,7 +16,20 @@
             </div>
 
             <div class="navbar-actions">
-                <h:link outcome="/users.xhtml" value="User" styleClass="action-link"/>           <!--TODO: placeholder, chage to user profile-->
+                <h:panelGroup rendered="#{not currentUserBean.loggedIn}">
+                    <h:link outcome="/login.xhtml" value="Log In" styleClass="action-link"/>
+                    <h:link outcome="/register.xhtml" value="Register" styleClass="action-link"/>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{currentUserBean.loggedIn}">
+                    <h:link outcome="/users.xhtml"
+                            value="#{currentUserBean.email}"
+                            styleClass="action-link"/>          <!--TODO: placeholder, change to user profile page-->
+                    <h:commandLink value="Log Out"
+                                   action="#{currentUserBean.logOut}"
+                                   styleClass="action-link"/>
+                </h:panelGroup>
+
                 <h:link outcome="/orders.xhtml" value="Cart" styleClass="action-link"/>          <!--TODO: placeholder, change to cart-->
             </div>
         </nav>
