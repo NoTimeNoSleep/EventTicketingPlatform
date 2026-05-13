@@ -7,6 +7,8 @@
 <h:head>
     <title>Tickets</title>
     <h:outputStylesheet library="css" name="site.css" />
+    <h:outputStylesheet library="css" name="index.css" />
+    <h:outputStylesheet library="css" name="style.css" />
 </h:head>
 
 
@@ -17,38 +19,106 @@
 
         <h1>Tickets</h1>
 
-        <h:dataTable value="#{ticketBean.tickets}" var="ticket" border="1">
+        <section class="card">
+            <h2>Create Ticket</h2>
 
-            <h:column>
-                <f:facet name="header">ID</f:facet>
-                #{ticket.id}
-            </h:column>
+            <h:form>
+                <div class="form-grid">
 
-            <h:column>
-                <f:facet name="header">Event</f:facet>
-                #{ticket.event.name}
-            </h:column>
+                    <div>
+                        <h:outputLabel value="Ticket Type:" />
+                        <h:selectOneMenu value="#{ticketBean.selectedTicketTypeId}" required="true">
+                            <f:selectItem itemLabel="Select ticket type" itemValue="#{null}" />
+                            <f:selectItems value="#{ticketBean.ticketTypes}"
+                                           var="tt"
+                                           itemValue="#{tt.id.toString()}"
+                                           itemLabel="#{tt.name} - #{tt.event.name}" />
+                        </h:selectOneMenu>
+                    </div>
 
-            <h:column>
-                <f:facet name="header">Ticket Type</f:facet>
-                #{ticket.ticketType.name}
-            </h:column>
+                    <div>
+                        <h:outputLabel value="Order:" />
+                        <h:selectOneMenu value="#{ticketBean.selectedOrderId}" required="true">
+                            <f:selectItem itemLabel="Select order" itemValue="#{null}" />
+                            <f:selectItems value="#{ticketBean.orders}"
+                                           var="order"
+                                           itemValue="#{order.id.toString()}"
+                                           itemLabel="#{order.id}" />
+                        </h:selectOneMenu>
+                    </div>
 
-            <h:column>
-                <f:facet name="header">Seat</f:facet>
-                #{ticket.seat != null ? ticket.seat.section.concat(' - ').concat(ticket.seat.row).concat(' - ').concat(ticket.seat.number) : 'No seat'}
-            </h:column>
+                    <div>
+                        <h:outputLabel value="Seat:" />
+                        <h:selectOneMenu value="#{ticketBean.selectedSeatId}">
+                            <f:selectItem itemLabel="No seat" itemValue="" />
+                            <f:selectItems value="#{ticketBean.seats}"
+                                           var="seat"
+                                           itemValue="#{seat.id.toString()}"
+                                           itemLabel="#{seat.section} - #{seat.row} - #{seat.number}" />
+                        </h:selectOneMenu>
+                    </div>
 
-            <h:column>
-                <f:facet name="header">Status</f:facet>
-                #{ticket.status}
-            </h:column>
+<!--                    <div>-->
+<!--                        <h:outputLabel value="Status:" />-->
+<!--                        <h:selectOneMenu value="#{ticketBean.newTicket.status}" required="true">-->
+<!--                            <f:selectItems value="#{ticketBean.ticketStatuses}"-->
+<!--                                           var="status"-->
+<!--                                           itemValue="#{status}"-->
+<!--                                           itemLabel="#{status}" />-->
+<!--                        </h:selectOneMenu>-->
+<!--                    </div>-->
 
-            <h:column>
-                <f:facet name="header">QR code value</f:facet>
-                #{ticket.QRCode.codeValue}
-            </h:column>
-        </h:dataTable>
+                </div>
+
+                <h:commandButton value="Create ticket"
+                                 action="#{ticketBean.createTicket}"
+                                 styleClass="btn-primary" />
+            </h:form>
+        </section>
+
+
+
+        <section class="card">
+            <h2>Existing Tickets</h2>
+
+            <div class="table-wrapper">
+                <h:dataTable value="#{ticketBean.tickets}"
+                             var="ticket"
+                             styleClass="data-table">
+
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        #{ticket.id}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Event</f:facet>
+                        #{ticket.event.name}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Ticket Type</f:facet>
+                        #{ticket.ticketType.name}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Seat</f:facet>
+                        #{ticket.seat != null ? ticket.seat.section.concat(' - ').concat(ticket.seat.row).concat(' - ').concat(ticket.seat.number) : 'No seat'}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Status</f:facet>
+                        #{ticket.status}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">QR code value</f:facet>
+                        #{ticket.QRCode != null ? ticket.QRCode.codeValue : 'No QR code'}
+                    </h:column>
+
+                </h:dataTable>
+            </div>
+        </section>
     </main>
 
     <ui:include src="/WEB-INF/includes/footer.xhtml" />

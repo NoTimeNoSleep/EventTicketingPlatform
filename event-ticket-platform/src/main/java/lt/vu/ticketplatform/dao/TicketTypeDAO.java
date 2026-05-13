@@ -16,8 +16,11 @@ public class TicketTypeDAO {
     private EntityManager em;
 
     public List<TicketType> findAll() {
-        return em.createQuery(
-                "SELECT tt FROM TicketType tt", TicketType.class)
+        return em
+                .createQuery(
+                        "SELECT tt FROM TicketType tt LEFT JOIN FETCH tt.event",
+                        TicketType.class
+                )
                 .getResultList();
     }
 
