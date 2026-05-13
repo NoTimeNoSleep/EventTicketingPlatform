@@ -8,9 +8,23 @@
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-column">
-                <h:outputText value="EventTicketing" styleClass="footer-title" />
+                <h:outputText value="#{empty businessBean.business ? 'EventTicketing' : businessBean.business.name}"
+                              styleClass="footer-title" />
                 <br/>
-                <span class="footer-muted">123 Main St, City • contact@example.com • +1 555 1234</span>
+                <h:panelGroup rendered="#{not empty businessBean.business}">
+                    <span class="footer-muted">
+                        <h:outputText value="#{businessBean.business.address}, #{businessBean.business.city}, #{businessBean.business.country}" />
+                        <br/>
+                        <h:outputText value="#{businessBean.business.email}"
+                                      style="display:inline;" />
+                        <h:outputText value="#{not empty businessBean.business.phone ? ' • ' : ''}" style="display:inline;" />
+                        <h:outputText value="#{businessBean.business.phone}"
+                                      rendered="#{not empty businessBean.business.phone}" />
+                    </span>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{empty businessBean.business}">
+                    <span class="footer-muted">No business information available.</span>
+                </h:panelGroup>
             </div>
 
             <div class="footer-column">

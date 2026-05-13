@@ -36,6 +36,12 @@ VALUES
   ('00000000-0000-0000-0000-000000000302', '00000000-0000-0000-0000-000000000201', 'A', '1', '2'),
   ('00000000-0000-0000-0000-000000000303', '00000000-0000-0000-0000-000000000202', 'B', '2', '5');
 
+-- ===================== BUSINESSES =====================
+
+INSERT INTO event_ticketing.businesses (id, name, email, phone, website, tax_id, address, city, postal_code, country, registration_date, legal_form, industry, description, logo_url)
+VALUES 
+  ('00000000-0000-0000-0000-000000000f10', 'EventTicketing', 'info@eventticketing.com', '+1-555-0123', 'www.eventticketing.com', 'TAX-PE-2024-001', 'MIF', 'Vilnius', 'VU 10001', 'Lithuania', NOW(), 'LLC', 'Entertainment & Events', 'Leading event management company specializing in concert productions and live entertainment', 'https://assets.eventticketing.com/logo.png');
+
 -- ===================== EVENTS =====================
 
 INSERT INTO event_ticketing.events (id, name, description, datetime, category, venue_id)
@@ -150,6 +156,8 @@ UNION ALL
 SELECT 'Venues', COUNT(*) FROM event_ticketing.venues
 UNION ALL
 SELECT 'Seats', COUNT(*) FROM event_ticketing.seats
+UNION ALL
+SELECT 'Businesses', COUNT(*) FROM event_ticketing.businesses
 UNION ALL
 SELECT 'Events', COUNT(*) FROM event_ticketing.events
 UNION ALL

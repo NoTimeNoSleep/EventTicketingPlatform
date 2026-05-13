@@ -65,6 +65,26 @@ CREATE TABLE seats (
   FOREIGN KEY (venue_id) REFERENCES venues(id) ON DELETE CASCADE
 );
 
+-- ===================== BUSINESSES =====================
+
+CREATE TABLE businesses (
+  id UUID PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  phone TEXT,
+  website TEXT,
+  tax_id TEXT,
+  country TEXT NOT NULL,
+  city TEXT NOT NULL,
+  address TEXT NOT NULL,
+  postal_code TEXT,
+  registration_date TIMESTAMP NOT NULL,
+  legal_form VARCHAR(50),
+  industry VARCHAR(100),
+  description TEXT,
+  logo_url TEXT
+);
+
 -- ===================== EVENTS =====================
 
 CREATE TABLE events (
@@ -288,6 +308,7 @@ CREATE TABLE email_jobs (
 CREATE INDEX idx_user_roles_user_id ON user_roles(user_id);
 CREATE INDEX idx_user_roles_role_id ON user_roles(role_id);
 CREATE INDEX idx_seats_venue_id ON seats(venue_id);
+CREATE INDEX idx_businesses_email ON businesses(email);
 CREATE INDEX idx_events_venue_id ON events(venue_id);
 CREATE INDEX idx_ticket_types_event_id ON ticket_types(event_id);
 CREATE INDEX idx_event_seats_event_id ON event_seats(event_id);
