@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core" 
+      xmlns:f="jakarta.faces.core"
       xmlns:ui="jakarta.faces.facelets">
 
 <h:head>
@@ -19,21 +19,18 @@
         <div class="container">
 
             <section class="section">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <h1>Manage Events</h1>
-                        <p class="muted">Create and manage your events.</p>
-                    </div>
-                    <h:link outcome="/createEvent.xhtml" value="Create Event" styleClass="btn-primary" />
+                <div>
+                    <h1>Events</h1>
+                    <p class="muted">Browse all upcoming events and book your tickets.</p>
                 </div>
             </section>
 
             <section class="card">
-                <h2>Your Events</h2>
+                <h2>Upcoming Events</h2>
 
                 <h:panelGroup rendered="#{eventBean.events.isEmpty()}">
                     <p class="muted" style="text-align: center; padding: 2rem 0;">
-                        No events yet. Create your first event to get started!
+                        No events available at the moment.
                     </p>
                 </h:panelGroup>
 
@@ -46,12 +43,14 @@
                                     <span class="category-badge">#{event.category}</span>
                                 </div>
                                 <p class="event-meta">
-                                    <strong>?? #{event.venue.name}</strong>
+                                    <strong>📍 #{event.venue.name}</strong>
                                 </p>
                                 <p class="event-meta">
-                                    ?? <h:outputText value="#{event.dateTime}"
+                                    📅 <h:outputText value="#{event.dateTime}"
                                                      pattern="yyyy-MM-dd HH:mm"/>
                                 </p>
+                                <p class="event-description">#{event.description}</p>
+                                <h:link outcome="/tickets.xhtml" value="Book Tickets" styleClass="btn-link" style="margin-top: auto; align-self: flex-start;" />
                             </div>
                         </ui:repeat>
                     </div>
@@ -98,3 +97,4 @@
     <ui:include src="/WEB-INF/includes/footer.xhtml" />
 </h:body>
 </html>
+
