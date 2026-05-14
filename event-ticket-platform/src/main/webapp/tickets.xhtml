@@ -76,11 +76,12 @@
             </h:form>
         </section>
 
-
-
         <section class="card">
             <h2>Existing Tickets</h2>
 
+            <h:messages globalOnly="true" />
+
+            <h:form>
             <div class="table-wrapper">
                 <h:dataTable value="#{ticketBean.tickets}"
                              var="ticket"
@@ -116,8 +117,14 @@
                         #{ticket.QRCode != null ? ticket.QRCode.codeValue : 'No QR code'}
                     </h:column>
 
+                    <h:column>
+                        <f:facet name="header">Add to Cart</f:facet>
+                        <h:commandButton value="Add to Cart" action="#{cartBean.addToCart(ticket)}" immediate="false" />
+                    </h:column>
+
                 </h:dataTable>
             </div>
+            </h:form>
         </section>
     </main>
 
