@@ -30,7 +30,7 @@ public class Event {
     //    @Version
     //    private Integer version;
 
-    @Column
+    @Column(name = "event_category")
     @Enumerated(EnumType.STRING)
     private EventCategory category;
 

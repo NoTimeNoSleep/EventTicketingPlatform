@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
       xmlns:ui="jakarta.faces.facelets">
 <h:head>
     <title>Event Ticket Platform</title>
     <h:outputStylesheet library="css" name="site.css" />
     <h:outputStylesheet library="css" name="index.css" />
+    <h:outputStylesheet library="css" name="events.css" />
 </h:head>
 
 <h:body>
@@ -13,7 +15,6 @@
 
     <main class="main-content">
         <div class="container">
-        <!-- HERO -->
         <section class="hero">
             <h2>Discover Events Near You</h2>
             <p>Find concerts, theater, sports and more — book tickets in a few clicks.</p>
@@ -22,27 +23,41 @@
             </div>
         </section>
 
-        <!-- TOP EVENTS HORIZONTAL LIST -->
         <section>
             <div class="section-title">Top Events</div>
             <div class="scroll-row" aria-label="Top events">
                 <ui:repeat value="#{eventBean.events}" var="e" varStatus="s">
-                    <h:panelGroup rendered="#{s.index lt 5}" layout="block" styleClass="event-card">
-                        <h3><h:link outcome="/events.xhtml" value="#{e.name}" /></h3>
-                        <p class="muted">#{e.dateTime} • #{e.venue.name}</p>
+                    <h:panelGroup rendered="#{s.index lt 5}" layout="block" styleClass="event-card-detailed" style="min-width: 250px;">
+                        <div class="event-card-header">
+                            <h3 style="margin: 0; font-size: 16px;"><h:link outcome="/user-events.xhtml" value="#{e.name}" /></h3>
+                            <span class="category-badge">#{e.category}</span>
+                        </div>
+                        <p class="event-meta">
+                            <strong>📍 #{e.venue.name}</strong>
+                        </p>
+                        <p class="event-meta">
+                            📅 <h:outputText value="#{e.dateTime}" pattern="yyyy-MM-dd HH:mm"/>
+                        </p>
                     </h:panelGroup>
                 </ui:repeat>
             </div>
         </section>
 
-        <!-- RECOMMENDED GRID -->
         <section style="margin-top:1rem;">
             <div class="section-title">Recommended For You</div>
-            <div class="grid">
+            <div class="events-grid" style="grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));">
                 <ui:repeat value="#{eventBean.events}" var="e" varStatus="s">
-                    <h:panelGroup rendered="#{s.index lt 11}" layout="block" styleClass="card">
-                        <h4><h:link outcome="/events.xhtml" value="#{e.name}" /></h4>
-                        <p class="muted">#{e.dateTime} • #{e.venue.name}</p>
+                    <h:panelGroup rendered="#{s.index lt 11}" layout="block" styleClass="event-card-detailed">
+                        <div class="event-card-header">
+                            <h3 style="margin: 0; font-size: 16px;"><h:link outcome="/user-events.xhtml" value="#{e.name}" /></h3>
+                            <span class="category-badge">#{e.category}</span>
+                        </div>
+                        <p class="event-meta">
+                            <strong>📍 #{e.venue.name}</strong>
+                        </p>
+                        <p class="event-meta">
+                            📅 <h:outputText value="#{e.dateTime}" pattern="yyyy-MM-dd HH:mm"/>
+                        </p>
                     </h:panelGroup>
                 </ui:repeat>
             </div>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+
+<h:head>
+    <title>Create Event</title>
+    <h:outputStylesheet library="css" name="site.css" />
+    <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputStylesheet library="css" name="index.css"/>
+    <h:outputStylesheet library="css" name="events.css"/>
+</h:head>
+
+<h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
+    <main class="main-content">
+        <div class="container">
+
+            <section class="section">
+                <h1>Create Event</h1>
+                <p class="muted">Fill in the details below to create a new event.</p>
+            </section>
+
+            <section class="card">
+                <h:form id="createEventForm">
+                    <div class="form-grid">
+                        <div>
+                            <h:outputLabel value="Event name:"/>
+                            <h:inputText id="eventName" value="#{eventBean.newEvent.name}"
+                                        styleClass="input"
+                                        required="true"
+                                        requiredMessage="Event name is required"/>
+                            <h:message for="eventName" styleClass="error-message" />
+                        </div>
+
+                        <div>
+                            <h:outputLabel value="Category:"/>
+                            <h:selectOneMenu id="category" value="#{eventBean.newEvent.category}" styleClass="input" required="true" requiredMessage="Category is required">
+                                <f:selectItem itemLabel="Select category" itemValue="#{null}"/>
+                                <f:selectItem itemLabel="Concert" itemValue="CONCERT"/>
+                                <f:selectItem itemLabel="Sports" itemValue="SPORTS"/>
+                                <f:selectItem itemLabel="Festival" itemValue="FESTIVAL"/>
+                                <f:selectItem itemLabel="Theater" itemValue="THEATER"/>
+                                <f:selectItem itemLabel="Museum" itemValue="MUSEUM"/>
+                                <f:selectItem itemLabel="Movie" itemValue="MOVIE"/>
+                            </h:selectOneMenu>
+                            <h:message for="category" styleClass="error-message" />
+                        </div>
+
+                        <div>
+                            <h:outputLabel value="Date &amp; Time:"/>
+                            <h:inputText id="dateTime" value="#{eventBean.newEvent.dateTime}"
+                                        styleClass="input"
+                                        type="datetime-local"
+                                        required="true"
+                                        requiredMessage="Date and time are required"
+                                        min="#{eventBean.minimumDateTime}">
+                                <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd'T'HH:mm" />
+                            </h:inputText>
+                            <h:message for="dateTime" styleClass="error-message" />
+                        </div>
+
+                        <div>
+                            <h:outputLabel value="Venue:"/>
+                            <h:selectOneMenu id="venue" value="#{eventBean.selectedVenueId}" styleClass="input" required="true" requiredMessage="Venue is required">
+                                <f:selectItem itemLabel="Select venue" itemValue="#{null}"/>
+                                <f:selectItems value="#{eventBean.venues}"
+                                              var="venue"
+                                              itemValue="#{venue.id.toString()}"
+                                              itemLabel="#{venue.name}"/>
+                            </h:selectOneMenu>
+                            <h:message for="venue" styleClass="error-message" />
+                        </div>
+
+                        <div style="grid-column: 1 / -1;">
+                            <h:outputLabel value="Description:"/>
+                            <h:inputTextarea value="#{eventBean.newEvent.description}"
+                                            styleClass="input"
+                                            rows="4"
+                                            style="resize: vertical;"/>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-top: 18px;">
+                        <h:commandButton value="Create Event"
+                                        action="#{eventBean.createEvent()}"
+                                        styleClass="btn-primary"/>
+                        <h:link outcome="/events.xhtml" value="Cancel" styleClass="btn-secondary" />
+                    </div>
+                </h:form>
+            </section>
+        </div>
+    </main>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
+</h:body>
+</html>
+
