@@ -72,10 +72,10 @@ CREATE TABLE events (
   name TEXT NOT NULL,
   description TEXT,
   datetime TIMESTAMP NOT NULL,
-  event_category VARCHAR(50),
+  category VARCHAR(50),
   venue_id UUID NOT NULL,
   FOREIGN KEY (venue_id) REFERENCES venues(id),
-  CHECK (event_category IN ('CONCERT', 'SPORTS', 'FESTIVAL', 'THEATER', 'MUSEUM', 'MOVIE'))
+  CHECK (category IN ('CONCERT', 'SPORTS', 'FESTIVAL', 'THEATER', 'MUSEUM', 'MOVIE'))
 );
 
 -- ===================== TICKET TYPES =====================
