@@ -1,58 +1,145 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core" 
+      xmlns:f="jakarta.faces.core"
       xmlns:ui="jakarta.faces.facelets">
 
 <h:head>
     <title>Payments</title>
     <h:outputStylesheet library="css" name="site.css" />
+    <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputStylesheet library="css" name="index.css"/>
+    <h:outputStylesheet library="css" name="events.css"/>
 </h:head>
-
 
 <h:body>
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
     <main class="main-content">
+        <div class="container">
 
-        <h1>Payments</h1>
+            <section class="section">
+                <h1>Payments</h1>
+                <p class="muted">Create a new payment or view existing ones.</p>
+            </section>
 
-        <h:dataTable value="#{paymentBean.payments}" var="payment" border="1">
-            <h:column>
-                <f:facet name="header">Id</f:facet>
-                #{payment.id}
-            </h:column>
+            <section class="card">
+                <h2>Create new payment</h2>
+                <h:form id="createPaymentForm">
+                    <div class="form-grid">
+                        <div>
+                            <h:outputLabel value="Order:"/>
+                            <h:selectOneMenu id="order"
+                                             value="#{paymentBean.selectedOrderId}"
+                                             styleClass="input"
+                                             required="true"
+                                             requiredMessage="Order is required">
+                                <f:selectItem itemLabel="Select order" itemValue="#{null}"/>
+                                <f:selectItems value="#{paymentBean.orders}"
+                                               var="order"
+                                               itemValue="#{order.id.toString()}"
+                                               itemLabel="#{order.id} - #{order.totalAmount} EUR"/>
+                            </h:selectOneMenu>
+                            <h:message for="order" styleClass="error-message" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Order Id</f:facet>
-                #{payment.order.id}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Amount:"/>
+                            <h:inputText id="amount"
+                                         value="#{paymentBean.newPayment.amount}"
+                                         styleClass="input"
+                                         required="true"
+                                         requiredMessage="Amount is required"/>
+                            <h:message for="amount" styleClass="error-message" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Amount</f:facet>
-                #{payment.amount}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Method:"/>
+                            <h:selectOneMenu id="method"
+                                             value="#{paymentBean.newPayment.paymentMethod}"
+                                             styleClass="input"
+                                             required="true"
+                                             requiredMessage="Method is required">
+                                <f:selectItem itemLabel="Select method" itemValue="#{null}"/>
+                                <f:selectItem itemLabel="Card" itemValue="CARD"/>
+                                <f:selectItem itemLabel="Bank transfer" itemValue="BANK_TRANSFER"/>
+                            </h:selectOneMenu>
+                            <h:message for="method" styleClass="error-message" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Payment Method</f:facet>
-                #{payment.paymentMethod}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Status:"/>
+                            <h:selectOneMenu id="status"
+                                             value="#{paymentBean.newPayment.paymentStatus}"
+                                             styleClass="input"
+                                             required="true"
+                                             requiredMessage="Status is required">
+                                <f:selectItem itemLabel="Select status" itemValue="#{null}"/>
+                                <f:selectItem itemLabel="Pending" itemValue="PENDING"/>
+                                <f:selectItem itemLabel="Paid" itemValue="PAID"/>
+                                <f:selectItem itemLabel="Failed" itemValue="FAILED"/>
+                                <f:selectItem itemLabel="Refunded" itemValue="REFUNDED"/>
+                            </h:selectOneMenu>
+                            <h:message for="status" styleClass="error-message" />
+                        </div>
+                    </div>
 
-            <h:column>
-                <f:facet name="header">Status</f:facet>
-                #{payment.paymentStatus}
-            </h:column>
+                    <div style="display: flex; gap: 10px; margin-top: 18px;">
+                        <h:commandButton value="Create Payment"
+                                         action="#{paymentBean.createPayment()}"
+                                         styleClass="btn-primary"/>
+                    </div>
+                </h:form>
+            </section>
 
-            <h:column>
-                <f:facet name="header">Created At</f:facet>
-                #{payment.createdAt}
-            </h:column>
+            <section class="card">
+                <h2>All payments</h2>
 
-            <h:column>
-                <f:facet name="header">Paid At</f:facet>
-                #{payment.paidAt}
-            </h:column>
-        </h:dataTable>
+                <h:panelGroup rendered="#{paymentBean.payments.isEmpty()}">
+                    <p class="muted" style="text-align: center; padding: 2rem 0;">
+                        No payments yet. Create your first payment above.
+                    </p>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{!paymentBean.payments.isEmpty()}">
+                    <div class="table-wrapper">
+                        <h:dataTable value="#{paymentBean.payments}"
+                                     var="payment"
+                                     styleClass="data-table">
+                            <h:column>
+                                <f:facet name="header">Order</f:facet>
+                                #{payment.order.id}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Amount</f:facet>
+                                #{payment.amount}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Method</f:facet>
+                                #{payment.paymentMethod}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                #{payment.paymentStatus}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Created At</f:facet>
+                                <h:outputText value="#{payment.createdAt}" pattern="yyyy-MM-dd HH:mm"/>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Paid At</f:facet>
+                                <h:outputText value="#{payment.paidAt}" pattern="yyyy-MM-dd HH:mm"/>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                </h:panelGroup>
+            </section>
+        </div>
     </main>
 
     <ui:include src="/WEB-INF/includes/footer.xhtml" />

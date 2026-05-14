@@ -1,53 +1,156 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core" 
+      xmlns:f="jakarta.faces.core"
       xmlns:ui="jakarta.faces.facelets">
 
 <h:head>
     <title>Orders</title>
     <h:outputStylesheet library="css" name="site.css" />
+    <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputStylesheet library="css" name="index.css"/>
+    <h:outputStylesheet library="css" name="events.css"/>
 </h:head>
-
 
 <h:body>
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
     <main class="main-content">
+        <div class="container">
 
-        <h1>Orders</h1>
+            <section class="section">
+                <h1>Orders</h1>
+                <p class="muted">Create a new order or view existing ones.</p>
+            </section>
 
-        <h:dataTable value="#{orderBean.orders}" var="order" border="1">
-            <h:column>
-                <f:facet name="header">User</f:facet>
-                #{order.user.email}
-            </h:column>
+            <section class="card">
+                <h2>Create new order</h2>
+                <h:form id="createOrderForm">
+                    <div class="form-grid">
+                        <div>
+                            <h:outputLabel value="User:"/>
+                            <h:selectOneMenu id="user"
+                                             value="#{orderBean.selectedUserId}"
+                                             styleClass="input"
+                                             required="true"
+                                             requiredMessage="User is required">
+                                <f:selectItem itemLabel="Select user" itemValue="#{null}"/>
+                                <f:selectItems value="#{orderBean.users}"
+                                               var="user"
+                                               itemValue="#{user.id.toString()}"
+                                               itemLabel="#{user.email}"/>
+                            </h:selectOneMenu>
+                            <h:message for="user" styleClass="error-message" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Subtotal</f:facet>
-                #{order.subtotal}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Status:"/>
+                            <h:selectOneMenu id="status"
+                                             value="#{orderBean.newOrder.status}"
+                                             styleClass="input"
+                                             required="true"
+                                             requiredMessage="Status is required">
+                                <f:selectItem itemLabel="Select status" itemValue="#{null}"/>
+                                <f:selectItem itemLabel="Created" itemValue="CREATED"/>
+                                <f:selectItem itemLabel="Pending payment" itemValue="PENDING_PAYMENT"/>
+                                <f:selectItem itemLabel="Paid" itemValue="PAID"/>
+                                <f:selectItem itemLabel="Completed" itemValue="COMPLETED"/>
+                            </h:selectOneMenu>
+                            <h:message for="status" styleClass="error-message" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Tax Total</f:facet>
-                #{order.taxTotal}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Subtotal:"/>
+                            <h:inputText id="subtotal"
+                                         value="#{orderBean.newOrder.subtotal}"
+                                         styleClass="input"
+                                         required="true"
+                                         requiredMessage="Subtotal is required"/>
+                            <h:message for="subtotal" styleClass="error-message" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Total</f:facet>
-                #{order.totalAmount}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Tax Total:"/>
+                            <h:inputText id="taxTotal"
+                                         value="#{orderBean.newOrder.taxTotal}"
+                                         styleClass="input"
+                                         required="true"
+                                         requiredMessage="Tax total is required"/>
+                            <h:message for="taxTotal" styleClass="error-message" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Status</f:facet>
-                #{order.status}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Total Amount:"/>
+                            <h:inputText id="totalAmount"
+                                         value="#{orderBean.newOrder.totalAmount}"
+                                         styleClass="input"
+                                         required="true"
+                                         requiredMessage="Total amount is required"/>
+                            <h:message for="totalAmount" styleClass="error-message" />
+                        </div>
+                    </div>
 
-            <h:column>
-                <f:facet name="header">Created</f:facet>
-                #{order.createdAt}
-            </h:column>
-        </h:dataTable>
+                    <div style="display: flex; gap: 10px; margin-top: 18px;">
+                        <h:commandButton value="Create Order"
+                                         action="#{orderBean.createOrder()}"
+                                         styleClass="btn-primary"/>
+                    </div>
+                </h:form>
+            </section>
+
+            <section class="card">
+                <h2>All orders</h2>
+
+                <h:panelGroup rendered="#{orderBean.orders.isEmpty()}">
+                    <p class="muted" style="text-align: center; padding: 2rem 0;">
+                        No orders yet. Create your first order above.
+                    </p>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{!orderBean.orders.isEmpty()}">
+                    <div class="table-wrapper">
+                        <h:dataTable value="#{orderBean.orders}"
+                                     var="order"
+                                     styleClass="data-table">
+                            <h:column>
+                                <f:facet name="header">User</f:facet>
+                                #{order.user.email}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Subtotal</f:facet>
+                                #{order.subtotal}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Tax Total</f:facet>
+                                #{order.taxTotal}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Total</f:facet>
+                                #{order.totalAmount}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                #{order.status}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Created</f:facet>
+                                <h:outputText value="#{order.createdAt}" pattern="yyyy-MM-dd HH:mm"/>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Payments</f:facet>
+                                #{order.payments.size()}
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                </h:panelGroup>
+            </section>
+        </div>
     </main>
 
     <ui:include src="/WEB-INF/includes/footer.xhtml" />

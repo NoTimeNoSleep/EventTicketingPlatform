@@ -37,6 +37,11 @@ public class Payment {
     @Column(name = "paid_at")
     private LocalDateTime paidAt;
 
+    public Payment() {
+        this.id = UUID.randomUUID();
+        this.createdAt = LocalDateTime.now();
+    }
+
     public UUID getId() {
         return id;
     }
