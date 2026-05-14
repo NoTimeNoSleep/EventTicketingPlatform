@@ -12,9 +12,12 @@ import lt.vu.ticketplatform.dao.VenueDAO;
 import lt.vu.ticketplatform.entities.Seat;
 import lt.vu.ticketplatform.entities.Venue;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,6 +34,7 @@ public class SeatBean {
     private VenueDAO venueDAO;
 
     private List<Seat> seats;
+    private List<SeatGroup> seatGroups = new ArrayList<>();
     private List<Venue> venues;
     private Map<UUID, Long> seatCounts = new HashMap<>();
 
@@ -60,14 +64,20 @@ public class SeatBean {
             UUID venueId = UUID.fromString(selectedVenueId);
             selectedVenue = venueDAO.findById(venueId);
             seats = selectedVenue == null ? Collections.emptyList() : seatDAO.findByVenueId(venueId);
+            loadSeatGroups();
         } catch (IllegalArgumentException e) {
             selectedVenue = null;
             seats = Collections.emptyList();
+            seatGroups = Collections.emptyList();
         }
     }
 
     public List<Seat> getSeats() {
         return seats;
+    }
+
+    public List<SeatGroup> getSeatGroups() {
+        return seatGroups;
     }
 
     public List<Venue> getVenues() {
@@ -179,6 +189,7 @@ public class SeatBean {
         }
 
         seats = seatDAO.findByVenueId(selectedVenue.getId());
+        loadSeatGroups();
         section = null;
         rowStart = null;
         rowEnd = null;
@@ -253,5 +264,99 @@ public class SeatBean {
 
     private String seatKey(String section, String row, String number) {
         return section + "|" + row + "|" + number;
+    }
+
+    private void loadSeatGroups() {
+        if (seats == null || seats.isEmpty()) {
+            seatGroups = Collections.emptyList();
+            return;
+        }
+
+        List<Seat> sortedSeats = new ArrayList<>(seats);
+        sortedSeats.sort(Comparator
+                .comparing(Seat::getSection, Comparator.nullsLast(String::compareTo))
+                .thenComparing(Seat::getRow, this::compareSeatPart)
+                .thenComparing(Seat::getNumber, this::compareSeatPart));
+
+        Map<String, SeatGroup> groups = new LinkedHashMap<>();
+
+        for (Seat seat : sortedSeats) {
+            String groupKey = seatKey(seat.getSection(), seat.getRow(), "");
+            SeatGroup group = groups.computeIfAbsent(groupKey,
+                    key -> new SeatGroup(seat.getSection(), seat.getRow()));
+            group.addSeatNumber(seat.getNumber());
+        }
+
+        seatGroups = new ArrayList<>(groups.values());
+    }
+
+    private int compareSeatPart(String first, String second) {
+        Integer firstNumber = parseInteger(first);
+        Integer secondNumber = parseInteger(second);
+
+        if (firstNumber != null && secondNumber != null) {
+            return firstNumber.compareTo(secondNumber);
+        }
+
+        if (firstNumber != null) {
+            return -1;
+        }
+
+        if (secondNumber != null) {
+            return 1;
+        }
+
+        if (first == null && second == null) {
+            return 0;
+        }
+
+        if (first == null) {
+            return 1;
+        }
+
+        if (second == null) {
+            return -1;
+        }
+
+        return first.compareTo(second);
+    }
+
+    private Integer parseInteger(String value) {
+        try {
+            return value == null ? null : Integer.valueOf(value);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    public static class SeatGroup {
+        private final String section;
+        private final String row;
+        private final List<String> seatNumbers = new ArrayList<>();
+
+        public SeatGroup(String section, String row) {
+            this.section = section;
+            this.row = row;
+        }
+
+        public String getSection() {
+            return section;
+        }
+
+        public String getRow() {
+            return row;
+        }
+
+        public String getSeatNumbers() {
+            return String.join(", ", seatNumbers);
+        }
+
+        public int getSeatCount() {
+            return seatNumbers.size();
+        }
+
+        private void addSeatNumber(String seatNumber) {
+            seatNumbers.add(seatNumber == null ? "-" : seatNumber);
+        }
     }
 }

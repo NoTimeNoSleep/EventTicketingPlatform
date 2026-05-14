@@ -127,23 +127,28 @@
             </h:panelGroup>
 
             <h:panelGroup layout="block" styleClass="card" rendered="#{seatBean.venueSelected}">
-                <h2>Existing seats</h2>
+                <h2>Existing seat groups</h2>
 
                 <div class="table-wrapper">
-                    <h:dataTable value="#{seatBean.seats}" var="seat" styleClass="data-table">
+                    <h:dataTable value="#{seatBean.seatGroups}" var="seatGroup" styleClass="data-table">
                         <h:column>
                             <f:facet name="header">Section</f:facet>
-                            #{seat.section}
+                            #{seatGroup.section}
                         </h:column>
 
                         <h:column>
                             <f:facet name="header">Row</f:facet>
-                            #{seat.row}
+                            #{seatGroup.row}
                         </h:column>
 
                         <h:column>
-                            <f:facet name="header">Number</f:facet>
-                            #{seat.number}
+                            <f:facet name="header">Seat numbers</f:facet>
+                            #{seatGroup.seatNumbers}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Count</f:facet>
+                            #{seatGroup.seatCount}
                         </h:column>
                     </h:dataTable>
                 </div>
