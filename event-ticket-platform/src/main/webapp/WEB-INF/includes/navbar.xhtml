@@ -23,7 +23,7 @@
 
                 <h:panelGroup rendered="#{currentUserBean.loggedIn}">
                     <h:link outcome="/account.xhtml"
-                            value="#{currentUserBean.email}"
+                            value="#{currentUserBean.name}"
                             styleClass="action-link"/>
                     <h:commandLink value="Log Out"
                                    action="#{currentUserBean.logOut}"
