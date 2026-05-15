@@ -31,6 +31,9 @@
                 </h:panelGroup>
 
                 <h:link outcome="/cart.xhtml" value="Cart" styleClass="action-link"/>
+                <h:panelGroup rendered="#{cartBean.cartTimed}" styleClass="action-link cart-timer-inline">
+                    <span class="cart-timer" data-cart-expiry="#{cartBean.cartExpiresAtEpochMillis}">#{cartBean.timeLeft}</span>
+                </h:panelGroup>
             </div>
         </nav>
 
@@ -77,6 +80,8 @@
             <span> | </span>
             <h:link value="EmailJob" outcome="/emailJobs" />
         </nav>
+
+        <h:outputScript library="js" name="cart-timer.js" target="body" />
     </h:form>
 
 

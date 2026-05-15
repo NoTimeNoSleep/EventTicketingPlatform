@@ -19,9 +19,9 @@
             <!-- Display messages -->
             <h:messages globalOnly="true" />
 
-            <h:panelGroup rendered="#{cartBean.cartTimed}">
+            <h:panelGroup id="cart-expiry-panel" rendered="#{cartBean.cartTimed}">
                 <h:outputText value="Cart expires in: " />
-                <h:outputText value="#{cartBean.timeLeft}" />
+                <span class="cart-timer" data-cart-expiry="#{cartBean.cartExpiresAtEpochMillis}">#{cartBean.timeLeft}</span>
             </h:panelGroup>
 
             <h:form>

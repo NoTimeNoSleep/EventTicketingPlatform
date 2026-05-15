@@ -6,3 +6,22 @@ main.main-content { flex: 1 0 auto; }
 /* Page container */
 .container { max-width: 1100px; margin: 1rem auto; padding: 0 1rem; }
 section { max-width: 1100px; margin: 1rem auto; padding: 0 1rem; }
+
+.cart-timer {
+	font-weight: 600;
+}
+
+.cart-timer-warning {
+	color: #dc3545;
+	font-weight: 700;
+	animation: cartTimerPulse 1s ease-in-out infinite;
+}
+
+@keyframes cartTimerPulse {
+	0%, 100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+}

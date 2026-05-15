@@ -166,6 +166,11 @@ public class CartBean implements Serializable {
         return String.format("%02d:%02d", minutes, seconds);
     }
 
+    public long getCartExpiresAtEpochMillis() {
+        cleanupExpiredCart();
+        return cartExpiresAt == null ? 0L : cartExpiresAt.toEpochMilli();
+    }
+
     public boolean isCartTimed() {
         return cartExpiresAt != null && !isCartExpired();
     }
