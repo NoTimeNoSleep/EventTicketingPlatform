@@ -20,79 +20,139 @@
 
             <section class="section">
                 <h1>Seats</h1>
-                <p class="muted">Create and manage seats assigned to venues.</p>
+                <p class="muted">
+                    <h:outputText value="Manage seats for #{seatBean.selectedVenue.name}"
+                                  rendered="#{seatBean.venueSelected}" />
+                    <h:outputText value="Select a venue to manage its seats."
+                                  rendered="#{not seatBean.venueSelected}" />
+                </p>
             </section>
 
-            <section class="card">
-                <h2>Create new seat</h2>
+            <h:messages globalOnly="true" />
 
-                <h:form>
+            <h:panelGroup layout="block" styleClass="card" rendered="#{not seatBean.venueSelected}">
+                <h2>Select venue</h2>
+
+                <div class="table-wrapper">
+                    <h:dataTable value="#{seatBean.venues}" var="venue" styleClass="data-table">
+                        <h:column>
+                            <f:facet name="header">Name</f:facet>
+                            #{venue.name}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Location</f:facet>
+                            #{venue.location}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Seat count</f:facet>
+                            #{seatBean.seatCounts[venue.id]}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Actions</f:facet>
+                            <h:link value="Manage seats"
+                                    outcome="seats"
+                                    styleClass="btn-primary btn-table">
+                                <f:param name="venueId" value="#{venue.id}" />
+                            </h:link>
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </h:panelGroup>
+
+            <h:panelGroup layout="block" styleClass="card" rendered="#{seatBean.venueSelected}">
+                <h2>Generate seats</h2>
+
+                <h:form id="seatForm">
+                    <h:inputHidden value="#{seatBean.selectedVenueId}" />
+
                     <div class="form-grid">
                         <div>
-                            <h:outputLabel value="Venue:" />
-                            <h:selectOneMenu value="#{seatBean.selectedVenueId}">
-                                <f:selectItem itemLabel="Select venue" itemValue="#{null}" />
-                                <f:selectItems value="#{seatBean.venues}"
-                                               var="venue"
-                                               itemValue="#{venue.id.toString()}"
-                                               itemLabel="#{venue.name}" />
-                            </h:selectOneMenu>
-                        </div>
-
-                        <div>
                             <h:outputLabel value="Section:" />
-                            <h:inputText value="#{seatBean.newSeat.section}" />
+                            <h:inputText id="section"
+                                         value="#{seatBean.section}"
+                                         required="true"
+                                         requiredMessage="Section is required." />
+                            <h:message for="section" />
                         </div>
 
                         <div>
-                            <h:outputLabel value="Row:" />
-                            <h:inputText value="#{seatBean.newSeat.row}" />
+                            <h:outputLabel value="Row start:" />
+                            <h:inputText id="rowStart"
+                                         value="#{seatBean.rowStart}"
+                                         required="true"
+                                         requiredMessage="Row start is required."
+                                         converterMessage="Row start must be a number."
+                                         validatorMessage="Row start must be at least 1.">
+                                <f:validateLongRange minimum="1" />
+                            </h:inputText>
+                            <h:message for="rowStart" />
                         </div>
 
                         <div>
-                            <h:outputLabel value="Number:" />
-                            <h:inputText value="#{seatBean.newSeat.number}" />
+                            <h:outputLabel value="Row end:" />
+                            <h:inputText id="rowEnd"
+                                         value="#{seatBean.rowEnd}"
+                                         required="true"
+                                         requiredMessage="Row end is required."
+                                         converterMessage="Row end must be a number."
+                                         validatorMessage="Row end must be at least 1.">
+                                <f:validateLongRange minimum="1" />
+                            </h:inputText>
+                            <h:message for="rowEnd" />
+                        </div>
+
+                        <div>
+                            <h:outputLabel value="Seats per row:" />
+                            <h:inputText id="seatsPerRow"
+                                         value="#{seatBean.seatsPerRow}"
+                                         required="true"
+                                         requiredMessage="Seats per row is required."
+                                         converterMessage="Seats per row must be a number."
+                                         validatorMessage="Seats per row must be at least 1.">
+                                <f:validateLongRange minimum="1" />
+                            </h:inputText>
+                            <h:message for="seatsPerRow" />
                         </div>
                     </div>
 
-                    <h:commandButton value="Create seat"
-                                     action="#{seatBean.createSeat}"
-                                     styleClass="btn-primary" />
+                    <h:commandButton value="Generate seats"
+                                     action="#{seatBean.createSeats}"
+                                     styleClass="btn-primary">
+                        <f:param name="venueId" value="#{seatBean.selectedVenueId}" />
+                    </h:commandButton>
                 </h:form>
-            </section>
+            </h:panelGroup>
 
-            <section class="card">
-                <h2>Existing seats</h2>
+            <h:panelGroup layout="block" styleClass="card" rendered="#{seatBean.venueSelected}">
+                <h2>Existing seat groups</h2>
 
                 <div class="table-wrapper">
-                    <h:dataTable value="#{seatBean.seats}" var="seat" styleClass="data-table">
-                        <h:column>
-                            <f:facet name="header">ID</f:facet>
-                            #{seat.id}
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name="header">Venue</f:facet>
-                            #{seat.venue.name}
-                        </h:column>
-
+                    <h:dataTable value="#{seatBean.seatGroups}" var="seatGroup" styleClass="data-table">
                         <h:column>
                             <f:facet name="header">Section</f:facet>
-                            #{seat.section}
+                            #{seatGroup.section}
                         </h:column>
 
                         <h:column>
                             <f:facet name="header">Row</f:facet>
-                            #{seat.row}
+                            #{seatGroup.row}
                         </h:column>
 
                         <h:column>
-                            <f:facet name="header">Number</f:facet>
-                            #{seat.number}
+                            <f:facet name="header">Seat numbers</f:facet>
+                            #{seatGroup.seatNumbers}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Count</f:facet>
+                            #{seatGroup.seatCount}
                         </h:column>
                     </h:dataTable>
                 </div>
-            </section>
+            </h:panelGroup>
 
         </div>
     </main>

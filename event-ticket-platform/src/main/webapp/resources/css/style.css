@@ -51,6 +51,7 @@ body {
 }
 
 .btn-primary {
+    display: inline-block;
     margin-top: 18px;
     padding: 10px 16px;
     border: none;
@@ -59,6 +60,22 @@ body {
     color: white;
     font-weight: bold;
     cursor: pointer;
+    text-decoration: none;
+    line-height: 1.2;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    color: white;
+}
+
+.btn-table {
+    margin-top: 0;
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
 }
 
 .data-table {

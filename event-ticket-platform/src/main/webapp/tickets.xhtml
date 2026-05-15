@@ -16,14 +16,18 @@
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
     <main class="main-content">
+        <div class="container">
 
-        <h1>Tickets</h1>
+            <section class="section">
+                <h1>Tickets</h1>
+                <p class="muted">Create and manage tickets for customer orders.</p>
+            </section>
 
-        <section class="card">
-            <h2>Create Ticket</h2>
+            <section class="card">
+                <h2>Create ticket</h2>
 
-            <h:form>
-                <div class="form-grid">
+                <h:form>
+                    <div class="form-grid">
 
                     <div>
                         <h:outputLabel value="Ticket Type:" />
@@ -68,23 +72,23 @@
 <!--                        </h:selectOneMenu>-->
 <!--                    </div>-->
 
-                </div>
+                    </div>
 
-                <h:commandButton value="Create ticket"
-                                 action="#{ticketBean.createTicket}"
-                                 styleClass="btn-primary" />
-            </h:form>
-        </section>
+                    <h:commandButton value="Create ticket"
+                                     action="#{ticketBean.createTicket}"
+                                     styleClass="btn-primary" />
+                </h:form>
+            </section>
 
 
 
-        <section class="card">
-            <h2>Existing Tickets</h2>
+            <section class="card">
+                <h2>Existing tickets</h2>
 
-            <div class="table-wrapper">
-                <h:dataTable value="#{ticketBean.tickets}"
-                             var="ticket"
-                             styleClass="data-table">
+                <div class="table-wrapper">
+                    <h:dataTable value="#{ticketBean.tickets}"
+                                 var="ticket"
+                                 styleClass="data-table">
 
                     <h:column>
                         <f:facet name="header">ID</f:facet>
@@ -116,9 +120,11 @@
                         #{ticket.QRCode != null ? ticket.QRCode.codeValue : 'No QR code'}
                     </h:column>
 
-                </h:dataTable>
-            </div>
-        </section>
+                    </h:dataTable>
+                </div>
+            </section>
+
+        </div>
     </main>
 
     <ui:include src="/WEB-INF/includes/footer.xhtml" />

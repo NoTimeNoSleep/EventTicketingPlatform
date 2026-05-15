@@ -38,6 +38,14 @@ public class VenueBean {
         this.newVenue = newVenue;
     }
 
+    public long seatCount(Venue venue) {
+        if (venue == null || venue.getId() == null) {
+            return 0;
+        }
+
+        return venueDAO.countSeats(venue.getId());
+    }
+
     @Transactional
     public String createVenue() {
         venueDAO.persist(newVenue);

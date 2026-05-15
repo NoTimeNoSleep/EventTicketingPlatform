@@ -16,14 +16,21 @@ public class VenueDAO {
 
     public List<Venue> findAll() {
         return em.createQuery(
-                "SELECT DISTINCT v FROM Venue v " +
-                        "LEFT JOIN FETCH v.seats",
+                "SELECT v FROM Venue v",
                 Venue.class
         ).getResultList();
     }
 
     public Venue findById(UUID id) {
         return em.find(Venue.class, id);
+    }
+
+    public long countSeats(UUID venueId) {
+        return em.createQuery(
+                        "SELECT COUNT(s) FROM Seat s WHERE s.venue.id = :venueId",
+                        Long.class)
+                .setParameter("venueId", venueId)
+                .getSingleResult();
     }
 
     public List<Venue> findByName(String name) {
