@@ -7,6 +7,7 @@ import lt.vu.ticketplatform.entities.User;
 import lt.vu.ticketplatform.enums.RoleType;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -66,5 +67,15 @@ public class CurrentUserBean implements Serializable {
 
     public Set<RoleType> getRoles() {
         return roles;
+    }
+
+    public List<RoleType> getVisibleRoles() {
+        if (roles == null) {
+            return List.of();
+        }
+
+        return roles.stream()
+                .filter(role -> role != RoleType.CUSTOMER)
+                .toList();
     }
 }

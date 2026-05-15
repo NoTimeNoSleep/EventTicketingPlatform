@@ -28,13 +28,15 @@
                 <dt>Email</dt>
                 <dd>#{currentUserBean.email}</dd>
 
-                <dt>Roles</dt>
-                <dd>
-                    <ui:repeat value="#{currentUserBean.roles}" var="role" varStatus="status">
-                        <h:outputText value="#{role}" />
-                        <h:outputText value=", " rendered="#{not status.last}" />
-                    </ui:repeat>
-                </dd>
+                <ui:fragment rendered="#{not empty currentUserBean.visibleRoles}">
+                    <dt>Roles</dt>
+                    <dd>
+                        <ui:repeat value="#{currentUserBean.visibleRoles}" var="role" varStatus="status">
+                            <h:outputText value="#{role}" />
+                            <h:outputText value=", " rendered="#{not status.last}" />
+                        </ui:repeat>
+                    </dd>
+                </ui:fragment>
             </dl>
 
             <h:form>
