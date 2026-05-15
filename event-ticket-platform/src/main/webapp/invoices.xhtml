@@ -1,67 +1,148 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core" 
+      xmlns:f="jakarta.faces.core"
       xmlns:ui="jakarta.faces.facelets">
 
 <h:head>
     <title>Invoices</title>
     <h:outputStylesheet library="css" name="site.css" />
+    <h:outputStylesheet library="css" name="index.css" />
+    <h:outputStylesheet library="css" name="style.css" />
 </h:head>
 
 <h:body>
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
     <main class="main-content">
+        <div class="container">
 
-        <h1>Invoices</h1>
+            <h1>Invoices</h1>
+            <p>Create and view billing documents connected to orders.</p>
 
-        <h:dataTable value="#{invoiceBean.invoices}" var="invoice" border="1">
-            <h:column>
-                <f:facet name="header">ID</f:facet>
-                #{invoice.id}
-            </h:column>
+            <section class="card">
+                <h2>Create invoice</h2>
 
-            <h:column>
-                <f:facet name="header">Order ID</f:facet>
-                #{invoice.order.id}
-            </h:column>
+                <h:form>
+                    <div class="form-grid">
 
-            <h:column>
-                <f:facet name="header">Company</f:facet>
-                #{invoice.companyName}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Order:" />
+                            <h:selectOneMenu value="#{invoiceBean.selectedOrderId}" required="true">
+                                <f:selectItem itemLabel="Select order" itemValue="#{null}" />
+                                <f:selectItems value="#{invoiceBean.orders}"
+                                               var="order"
+                                               itemValue="#{order.id.toString()}"
+                                               itemLabel="#{order.id}" />
+                            </h:selectOneMenu>
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Tax ID</f:facet>
-                #{invoice.taxId}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Company name:" />
+                            <h:inputText value="#{invoiceBean.newInvoice.companyName}" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Subtotal</f:facet>
-                #{invoice.subtotal}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Tax ID:" />
+                            <h:inputText value="#{invoiceBean.newInvoice.taxId}" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Tax Total</f:facet>
-                #{invoice.taxTotal}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Billing address:" />
+                            <h:inputText value="#{invoiceBean.newInvoice.billingAddress}" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Total</f:facet>
-                #{invoice.totalAmount}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Subtotal:" />
+                            <h:inputText value="#{invoiceBean.newInvoice.subtotal}" required="true" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Status</f:facet>
-                #{invoice.status}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Tax total:" />
+                            <h:inputText value="#{invoiceBean.newInvoice.taxTotal}" required="true" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Issued At</f:facet>
-                #{invoice.issuedAt}
-            </h:column>
-        </h:dataTable>
+                        <div>
+                            <h:outputLabel value="Total amount:" />
+                            <h:inputText value="#{invoiceBean.newInvoice.totalAmount}" required="true" />
+                        </div>
+
+                        <div>
+                            <h:outputLabel value="Status:" />
+                            <h:selectOneMenu value="#{invoiceBean.newInvoice.status}" required="true">
+                                <f:selectItems value="#{invoiceBean.invoiceStatuses}"
+                                               var="status"
+                                               itemValue="#{status}"
+                                               itemLabel="#{status}" />
+                            </h:selectOneMenu>
+                        </div>
+
+                    </div>
+
+                    <h:commandButton value="Create invoice"
+                                     action="#{invoiceBean.createInvoice}"
+                                     styleClass="btn-primary" />
+                </h:form>
+            </section>
+
+            <section class="card">
+                <h2>Existing invoices</h2>
+
+                <div class="table-wrapper">
+                    <h:dataTable value="#{invoiceBean.invoices}"
+                                 var="invoice"
+                                 styleClass="data-table">
+
+                        <h:column>
+                            <f:facet name="header">Order ID</f:facet>
+                            #{invoice.order.id}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Company</f:facet>
+                            #{invoice.companyName}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Tax ID</f:facet>
+                            #{invoice.taxId}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Billing Address</f:facet>
+                            #{invoice.billingAddress}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Subtotal</f:facet>
+                            #{invoice.subtotal}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Tax Total</f:facet>
+                            #{invoice.taxTotal}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Total</f:facet>
+                            #{invoice.totalAmount}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Status</f:facet>
+                            #{invoice.status}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Issued At</f:facet>
+                            #{invoice.issuedAt}
+                        </h:column>
+
+                    </h:dataTable>
+                </div>
+            </section>
+
+        </div>
     </main>
 
     <ui:include src="/WEB-INF/includes/footer.xhtml" />
