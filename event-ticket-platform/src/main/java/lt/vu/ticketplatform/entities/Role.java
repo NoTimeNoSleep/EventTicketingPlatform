@@ -2,8 +2,6 @@ package lt.vu.ticketplatform.entities;
 
 import jakarta.persistence.*;
 import lt.vu.ticketplatform.enums.RoleType;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,9 +14,8 @@ public class Role {
     @Column(nullable = false, unique = true)
     private UUID id;
 
-    @Column(nullable = false, unique = true, columnDefinition = "event_ticketing.role_type_enum")
+    @Column(nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private RoleType type;
 
     @ManyToMany(mappedBy = "roles")
