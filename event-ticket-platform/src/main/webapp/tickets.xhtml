@@ -16,14 +16,18 @@
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
     <main class="main-content">
+        <div class="container">
 
-        <h1>Tickets</h1>
+            <section class="section">
+                <h1>Tickets</h1>
+                <p class="muted">Create and manage tickets for customer orders.</p>
+            </section>
 
-        <section class="card">
-            <h2>Create Ticket</h2>
+            <section class="card">
+                <h2>Create ticket</h2>
 
-            <h:form>
-                <div class="form-grid">
+                <h:form>
+                    <div class="form-grid">
 
                     <div>
                         <h:outputLabel value="Ticket Type:" />
@@ -68,13 +72,13 @@
 <!--                        </h:selectOneMenu>-->
 <!--                    </div>-->
 
-                </div>
+                    </div>
 
-                <h:commandButton value="Create ticket"
-                                 action="#{ticketBean.createTicket}"
-                                 styleClass="btn-primary" />
-            </h:form>
-        </section>
+                    <h:commandButton value="Create ticket"
+                                     action="#{ticketBean.createTicket}"
+                                     styleClass="btn-primary" />
+                </h:form>
+            </section>
 
         <section class="card">
             <h2>Existing Tickets</h2>
