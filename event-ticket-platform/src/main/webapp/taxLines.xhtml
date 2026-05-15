@@ -1,52 +1,114 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core" 
+      xmlns:f="jakarta.faces.core"
       xmlns:ui="jakarta.faces.facelets">
 
 <h:head>
     <title>Tax Lines</title>
     <h:outputStylesheet library="css" name="site.css" />
+    <h:outputStylesheet library="css" name="index.css" />
+    <h:outputStylesheet library="css" name="style.css" />
 </h:head>
 
 <h:body>
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
     <main class="main-content">
+        <div class="container">
 
-        <h1>Tax Lines</h1>
+            <h1>Tax Lines</h1>
+            <p>Create and view taxes applied to orders or tickets.</p>
 
-        <h:dataTable value="#{taxLineBean.taxLines}" var="taxLine" border="1">
-            <h:column>
-                <f:facet name="header">ID</f:facet>
-                #{taxLine.id}
-            </h:column>
+            <section class="card">
+                <h2>Create tax line</h2>
 
-            <h:column>
-                <f:facet name="header">Order ID</f:facet>
-                #{taxLine.order.id}
-            </h:column>
+                <h:form>
+                    <div class="form-grid">
 
-            <h:column>
-                <f:facet name="header">Ticket ID</f:facet>
-                #{empty taxLine.ticket ? 'No ticket' : taxLine.ticket.id}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Order:" />
+                            <h:selectOneMenu value="#{taxLineBean.selectedOrderId}" required="true">
+                                <f:selectItem itemLabel="Select order" itemValue="#{null}" />
+                                <f:selectItems value="#{taxLineBean.orders}"
+                                               var="order"
+                                               itemValue="#{order.id.toString()}"
+                                               itemLabel="#{order.id}" />
+                            </h:selectOneMenu>
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Name</f:facet>
-                #{taxLine.name}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Ticket:" />
+                            <h:selectOneMenu value="#{taxLineBean.selectedTicketId}">
+                                <f:selectItem itemLabel="No ticket" itemValue="" />
+                                <f:selectItems value="#{taxLineBean.tickets}"
+                                               var="ticket"
+                                               itemValue="#{ticket.id.toString()}"
+                                               itemLabel="#{ticket.id}" />
+                            </h:selectOneMenu>
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Rate</f:facet>
-                #{taxLine.rate}
-            </h:column>
+                        <div>
+                            <h:outputLabel value="Name:" />
+                            <h:inputText value="#{taxLineBean.newTaxLine.name}" required="true" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Amount</f:facet>
-                #{taxLine.amount}
-            </h:column>
-        </h:dataTable>
+                        <div>
+                            <h:outputLabel value="Rate:" />
+                            <h:inputText value="#{taxLineBean.newTaxLine.rate}" required="true" />
+                        </div>
+
+                        <div>
+                            <h:outputLabel value="Amount:" />
+                            <h:inputText value="#{taxLineBean.newTaxLine.amount}" required="true" />
+                        </div>
+
+                    </div>
+
+                    <h:commandButton value="Create tax line"
+                                     action="#{taxLineBean.createTaxLine}"
+                                     styleClass="btn-primary" />
+                </h:form>
+            </section>
+
+            <section class="card">
+                <h2>Existing tax lines</h2>
+
+                <div class="table-wrapper">
+                    <h:dataTable value="#{taxLineBean.taxLines}"
+                                 var="taxLine"
+                                 styleClass="data-table">
+
+                        <h:column>
+                            <f:facet name="header">Order ID</f:facet>
+                            #{taxLine.order.id}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Ticket ID</f:facet>
+                            #{empty taxLine.ticket ? 'No ticket' : taxLine.ticket.id}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Name</f:facet>
+                            #{taxLine.name}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Rate</f:facet>
+                            #{taxLine.rate}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Amount</f:facet>
+                            #{taxLine.amount}
+                        </h:column>
+
+                    </h:dataTable>
+                </div>
+            </section>
+
+        </div>
     </main>
 
     <ui:include src="/WEB-INF/includes/footer.xhtml" />
