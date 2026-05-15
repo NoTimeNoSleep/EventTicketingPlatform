@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<h:head>
+    <title>My Account | TicketPlatform</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+
+<h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
+    <main class="page-container">
+        <section class="page-header">
+            <h1>My Account</h1>
+            <p>View your saved account identity and role access.</p>
+        </section>
+
+        <h:panelGroup rendered="#{currentUserBean.loggedIn}" layout="block" styleClass="card">
+            <dl class="account-details">
+                <dt>Name</dt>
+                <dd>#{currentUserBean.name}</dd>
+
+                <dt>Surname</dt>
+                <dd>#{currentUserBean.surname}</dd>
+
+                <dt>Email</dt>
+                <dd>#{currentUserBean.email}</dd>
+
+                <dt>Roles</dt>
+                <dd>
+                    <ui:repeat value="#{currentUserBean.roles}" var="role" varStatus="status">
+                        <h:outputText value="#{role}" />
+                        <h:outputText value=", " rendered="#{not status.last}" />
+                    </ui:repeat>
+                </dd>
+            </dl>
+
+            <h:form>
+                <h:commandButton value="Log Out"
+                                 action="#{currentUserBean.logOut}"
+                                 styleClass="btn-primary"/>
+            </h:form>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{not currentUserBean.loggedIn}" layout="block" styleClass="card">
+            <p>You need to log in to view your account.</p>
+            <h:link outcome="/login.xhtml" value="Log In" styleClass="btn-primary"/>
+        </h:panelGroup>
+    </main>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
+</h:body>
+</html>
