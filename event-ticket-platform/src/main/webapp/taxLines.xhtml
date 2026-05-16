@@ -17,58 +17,9 @@
     <main class="main-content">
         <div class="container">
 
-            <h1>Tax Lines</h1>
-            <p>Create and view taxes applied to orders or tickets.</p>
-
-            <section class="card">
-                <h2>Create tax line</h2>
-
-                <h:form>
-                    <div class="form-grid">
-
-                        <div>
-                            <h:outputLabel value="Order:" />
-                            <h:selectOneMenu value="#{taxLineBean.selectedOrderId}" required="true">
-                                <f:selectItem itemLabel="Select order" itemValue="#{null}" />
-                                <f:selectItems value="#{taxLineBean.orders}"
-                                               var="order"
-                                               itemValue="#{order.id.toString()}"
-                                               itemLabel="#{order.id}" />
-                            </h:selectOneMenu>
-                        </div>
-
-                        <div>
-                            <h:outputLabel value="Ticket:" />
-                            <h:selectOneMenu value="#{taxLineBean.selectedTicketId}">
-                                <f:selectItem itemLabel="No ticket" itemValue="" />
-                                <f:selectItems value="#{taxLineBean.tickets}"
-                                               var="ticket"
-                                               itemValue="#{ticket.id.toString()}"
-                                               itemLabel="#{ticket.id}" />
-                            </h:selectOneMenu>
-                        </div>
-
-                        <div>
-                            <h:outputLabel value="Name:" />
-                            <h:inputText value="#{taxLineBean.newTaxLine.name}" required="true" />
-                        </div>
-
-                        <div>
-                            <h:outputLabel value="Rate:" />
-                            <h:inputText value="#{taxLineBean.newTaxLine.rate}" required="true" />
-                        </div>
-
-                        <div>
-                            <h:outputLabel value="Amount:" />
-                            <h:inputText value="#{taxLineBean.newTaxLine.amount}" required="true" />
-                        </div>
-
-                    </div>
-
-                    <h:commandButton value="Create tax line"
-                                     action="#{taxLineBean.createTaxLine}"
-                                     styleClass="btn-primary" />
-                </h:form>
+            <section class="section">
+                <h1>Tax Lines</h1>
+                <p class="muted">Review tax amounts that were applied to orders and tickets.</p>
             </section>
 
             <section class="card">
@@ -80,13 +31,8 @@
                                  styleClass="data-table">
 
                         <h:column>
-                            <f:facet name="header">Order ID</f:facet>
-                            #{taxLine.order.id}
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name="header">Ticket ID</f:facet>
-                            #{empty taxLine.ticket ? 'No ticket' : taxLine.ticket.id}
+                            <f:facet name="header">ID</f:facet>
+                            #{taxLine.id}
                         </h:column>
 
                         <h:column>
@@ -102,6 +48,25 @@
                         <h:column>
                             <f:facet name="header">Amount</f:facet>
                             #{taxLine.amount}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Order</f:facet>
+                            <!-- TODO: replace this with a link to a specific order details page when implemented -->
+                            <h:link value="#{taxLine.order.id}"
+                                    outcome="orders"
+                                    styleClass="table-link" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Ticket</f:facet>
+                            <!-- TODO: replace this with a link to a specific ticket details page when implemented -->
+                            <h:link value="#{taxLine.ticket.id}"
+                                    outcome="tickets"
+                                    styleClass="table-link"
+                                    rendered="#{not empty taxLine.ticket}" />
+                            <h:outputText value="No ticket"
+                                          rendered="#{empty taxLine.ticket}" />
                         </h:column>
 
                     </h:dataTable>
