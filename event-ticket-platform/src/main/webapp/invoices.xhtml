@@ -24,11 +24,16 @@
                 <h2>Create invoice</h2>
 
                 <h:form>
+                    <h:messages />
+
                     <div class="form-grid">
 
                         <div>
-                            <h:outputLabel value="Order:" />
-                            <h:selectOneMenu value="#{invoiceBean.selectedOrderId}" required="true">
+                            <h:outputLabel for="order" value="Order:" />
+                            <h:selectOneMenu id="order"
+                                             value="#{invoiceBean.selectedOrderId}"
+                                             required="true"
+                                             requiredMessage="Please select an order.">
                                 <f:selectItem itemLabel="Select order" itemValue="#{null}" />
                                 <f:selectItems value="#{invoiceBean.orders}"
                                                var="order"
@@ -38,38 +43,50 @@
                         </div>
 
                         <div>
-                            <h:outputLabel value="Company name:" />
-                            <h:inputText value="#{invoiceBean.newInvoice.companyName}" />
+                            <h:outputLabel for="companyName" value="Company name:" />
+                            <h:inputText id="companyName" value="#{invoiceBean.newInvoice.companyName}" />
                         </div>
 
                         <div>
-                            <h:outputLabel value="Tax ID:" />
-                            <h:inputText value="#{invoiceBean.newInvoice.taxId}" />
+                            <h:outputLabel for="taxId" value="Tax ID:" />
+                            <h:inputText id="taxId" value="#{invoiceBean.newInvoice.taxId}" />
                         </div>
 
                         <div>
-                            <h:outputLabel value="Billing address:" />
-                            <h:inputText value="#{invoiceBean.newInvoice.billingAddress}" />
+                            <h:outputLabel for="billingAddress" value="Billing address:" />
+                            <h:inputText id="billingAddress" value="#{invoiceBean.newInvoice.billingAddress}" />
                         </div>
 
                         <div>
-                            <h:outputLabel value="Subtotal:" />
-                            <h:inputText value="#{invoiceBean.newInvoice.subtotal}" required="true" />
+                            <h:outputLabel for="subtotal" value="Subtotal:" />
+                            <h:inputText id="subtotal"
+                                         value="#{invoiceBean.newInvoice.subtotal}"
+                                         required="true"
+                                         requiredMessage="Please enter a subtotal." />
                         </div>
 
                         <div>
-                            <h:outputLabel value="Tax total:" />
-                            <h:inputText value="#{invoiceBean.newInvoice.taxTotal}" required="true" />
+                            <h:outputLabel for="taxTotal" value="Tax total:" />
+                            <h:inputText id="taxTotal"
+                                         value="#{invoiceBean.newInvoice.taxTotal}"
+                                         required="true"
+                                         requiredMessage="Please enter a tax total." />
                         </div>
 
                         <div>
-                            <h:outputLabel value="Total amount:" />
-                            <h:inputText value="#{invoiceBean.newInvoice.totalAmount}" required="true" />
+                            <h:outputLabel for="totalAmount" value="Total amount:" />
+                            <h:inputText id="totalAmount"
+                                         value="#{invoiceBean.newInvoice.totalAmount}"
+                                         required="true"
+                                         requiredMessage="Please enter a total amount." />
                         </div>
 
                         <div>
-                            <h:outputLabel value="Status:" />
-                            <h:selectOneMenu value="#{invoiceBean.newInvoice.status}" required="true">
+                            <h:outputLabel for="status" value="Status:" />
+                            <h:selectOneMenu id="status"
+                                             value="#{invoiceBean.newInvoice.status}"
+                                             required="true"
+                                             requiredMessage="Please select a status.">
                                 <f:selectItems value="#{invoiceBean.invoiceStatuses}"
                                                var="status"
                                                itemValue="#{status}"
