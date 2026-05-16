@@ -80,56 +80,57 @@
                 </h:form>
             </section>
 
-        <section class="card">
-            <h2>Existing Tickets</h2>
+            <section class="card">
+                <h2>Existing Tickets</h2>
 
-            <h:messages globalOnly="true" />
+                <h:messages globalOnly="true" />
 
-            <h:form>
-            <div class="table-wrapper">
-                <h:dataTable value="#{ticketBean.tickets}"
-                             var="ticket"
-                             styleClass="data-table">
+                <h:form>
+                    <div class="table-wrapper">
+                        <h:dataTable value="#{ticketBean.tickets}"
+                                     var="ticket"
+                                     styleClass="data-table">
 
-                    <h:column>
-                        <f:facet name="header">ID</f:facet>
-                        #{ticket.id}
-                    </h:column>
+                            <h:column>
+                                <f:facet name="header">ID</f:facet>
+                                #{ticket.id}
+                            </h:column>
 
-                    <h:column>
-                        <f:facet name="header">Event</f:facet>
-                        #{ticket.event.name}
-                    </h:column>
+                            <h:column>
+                                <f:facet name="header">Event</f:facet>
+                                #{ticket.event.name}
+                            </h:column>
 
-                    <h:column>
-                        <f:facet name="header">Ticket Type</f:facet>
-                        #{ticket.ticketType.name}
-                    </h:column>
+                            <h:column>
+                                <f:facet name="header">Ticket Type</f:facet>
+                                #{ticket.ticketType.name}
+                            </h:column>
 
-                    <h:column>
-                        <f:facet name="header">Seat</f:facet>
-                        #{ticket.seat != null ? ticket.seat.section.concat(' - ').concat(ticket.seat.row).concat(' - ').concat(ticket.seat.number) : 'No seat'}
-                    </h:column>
+                            <h:column>
+                                <f:facet name="header">Seat</f:facet>
+                                #{ticket.seat != null ? ticket.seat.section.concat(' - ').concat(ticket.seat.row).concat(' - ').concat(ticket.seat.number) : 'No seat'}
+                            </h:column>
 
-                    <h:column>
-                        <f:facet name="header">Status</f:facet>
-                        #{ticket.status}
-                    </h:column>
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                #{ticket.status}
+                            </h:column>
 
-                    <h:column>
-                        <f:facet name="header">QR code value</f:facet>
-                        #{ticket.QRCode != null ? ticket.QRCode.codeValue : 'No QR code'}
-                    </h:column>
+                            <h:column>
+                                <f:facet name="header">QR code value</f:facet>
+                                #{ticket.QRCode != null ? ticket.QRCode.codeValue : 'No QR code'}
+                            </h:column>
 
-                    <h:column>
-                        <f:facet name="header">Add to Cart</f:facet>
-                        <h:commandButton value="Add to Cart" action="#{cartBean.addToCart(ticket)}" immediate="false" />
-                    </h:column>
+                            <h:column>
+                                <f:facet name="header">Add to Cart</f:facet>
+                                <h:commandButton value="Add to Cart" action="#{cartBean.addToCart(ticket)}" immediate="false" />
+                            </h:column>
 
-                </h:dataTable>
-            </div>
-            </h:form>
-        </section>
+                        </h:dataTable>
+                    </div>
+                </h:form>
+            </section>
+        </div>
     </main>
 
     <ui:include src="/WEB-INF/includes/footer.xhtml" />
