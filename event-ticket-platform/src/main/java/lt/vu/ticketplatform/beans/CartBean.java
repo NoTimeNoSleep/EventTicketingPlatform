@@ -176,7 +176,32 @@ public class CartBean implements Serializable {
     }
 
     public String checkout() {
-        // TODO: implement actual logic and validation before checkout
-        return "/orderConfirmation.xhtml?faces-redirect=true";
+        // TODO: implement actual order creation logic and validation before checkout
+        try {
+            cleanupExpiredCart();
+
+            if (getCartItems().isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Your cart is empty"));
+                return null;
+            }
+
+            // Placeholder: create order using services/DAOs here
+
+            // Add a flash message so it survives the redirect
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Order placed", "Your order has been placed successfully."));
+            facesContext.getExternalContext().getFlash().setKeepMessages(true);
+
+            // Clear the cart after successful checkout
+            clearCart();
+
+            return "/orderConfirmation.xhtml?faces-redirect=true";
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Checkout failed", e.getMessage()));
+            return null;
+        }
     }
 }
