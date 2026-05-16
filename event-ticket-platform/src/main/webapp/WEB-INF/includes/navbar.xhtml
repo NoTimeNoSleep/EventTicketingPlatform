@@ -22,9 +22,9 @@
                 </h:panelGroup>
 
                 <h:panelGroup rendered="#{currentUserBean.loggedIn}">
-                    <h:link outcome="/users.xhtml"
-                            value="#{currentUserBean.email}"
-                            styleClass="action-link"/>          <!--TODO: placeholder, change to user profile page-->
+                    <h:link outcome="/account.xhtml"
+                            value="#{currentUserBean.name}"
+                            styleClass="action-link"/>
                     <h:commandLink value="Log Out"
                                    action="#{currentUserBean.logOut}"
                                    styleClass="action-link"/>

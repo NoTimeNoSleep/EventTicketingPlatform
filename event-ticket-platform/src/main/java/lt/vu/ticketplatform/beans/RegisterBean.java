@@ -14,6 +14,9 @@ public class RegisterBean {
     @Inject
     private AuthService authService;
 
+    @Inject
+    private CurrentUserBean currentUserBean;
+
     private String name;
     private String surname;
     private String email;
@@ -41,7 +44,7 @@ public class RegisterBean {
                 password
         );
 
-        if (result == AuthService.RegistrationResult.EMAIL_ALREADY_USED) {
+        if (!result.isSuccess()) {
             FacesContext.getCurrentInstance().addMessage(
                     null,
                     new FacesMessage(
@@ -54,7 +57,9 @@ public class RegisterBean {
             return null;
         }
 
-        return "/login.xhtml?faces-redirect=true&registered=true";
+        currentUserBean.logIn(result.getUser());
+
+        return "/index.xhtml?faces-redirect=true";
     }
 
     public boolean isRegistered() {
