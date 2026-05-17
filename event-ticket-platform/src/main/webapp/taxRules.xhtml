@@ -7,61 +7,139 @@
 <h:head>
     <title>Tax Rules</title>
     <h:outputStylesheet library="css" name="site.css" />
+    <h:outputStylesheet library="css" name="index.css" />
+    <h:outputStylesheet library="css" name="style.css" />
 </h:head>
 
 <h:body>
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
     <main class="main-content">
+        <div class="container">
 
-        <h1>Tax Rules</h1>
+            <section class="section">
+                <h1>Tax Rules</h1>
+                <p class="muted">Create and manage tax rules used during ticket pricing.</p>
+            </section>
 
-        <h:dataTable value="#{taxRuleBean.taxRules}" var="taxRule" border="1">
-            <h:column>
-                <f:facet name="header">ID</f:facet>
-                #{taxRule.id}
-            </h:column>
+            <section class="card">
+                <h2>Create new tax rule</h2>
 
-            <h:column>
-                <f:facet name="header">Name</f:facet>
-                #{taxRule.name}
-            </h:column>
+                <h:form>
+                    <div class="form-grid">
+                        <div>
+                            <h:outputLabel for="name" value="Name:" />
+                            <h:inputText id="name" value="#{taxRuleBean.newTaxRule.name}" required="true" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Rate</f:facet>
-                #{taxRule.rate}
-            </h:column>
+                        <div>
+                            <h:outputLabel for="rate" value="Rate:" />
+                            <h:inputText id="rate" value="#{taxRuleBean.newTaxRule.rate}" required="true" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Type</f:facet>
-                #{taxRule.type}
-            </h:column>
+                        <div>
+                            <h:outputLabel for="type" value="Type:" />
+                            <h:selectOneMenu id="type" value="#{taxRuleBean.newTaxRule.type}" required="true">
+                                <f:selectItem itemLabel="Select type" itemValue="#{null}" />
+                                <f:selectItems value="#{taxRuleBean.taxTypes}"
+                                               var="taxType"
+                                               itemValue="#{taxType}"
+                                               itemLabel="#{taxType}" />
+                            </h:selectOneMenu>
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Country</f:facet>
-                #{taxRule.country}
-            </h:column>
+                        <div>
+                            <h:outputLabel for="country" value="Country:" />
+                            <h:inputText id="country" value="#{taxRuleBean.newTaxRule.country}" required="true" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Region</f:facet>
-                #{taxRule.region}
-            </h:column>
+                        <div>
+                            <h:outputLabel for="region" value="Region:" />
+                            <h:inputText id="region" value="#{taxRuleBean.newTaxRule.region}" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Included In Price</f:facet>
-                #{taxRule.includedInPrice}
-            </h:column>
+                        <div>
+                            <h:outputLabel for="includedInPrice" value="Included in price:" />
+                            <h:selectBooleanCheckbox id="includedInPrice"
+                                                     value="#{taxRuleBean.newTaxRule.includedInPrice}" />
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Valid From</f:facet>
-                #{taxRule.validFrom}
-            </h:column>
+                        <div>
+                            <h:outputLabel for="validFrom" value="Valid from:" />
+                            <h:inputText id="validFrom"
+                                         value="#{taxRuleBean.newTaxRule.validFrom}"
+                                         required="true"
+                                         type="datetime-local">
+                                <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd'T'HH:mm" />
+                            </h:inputText>
+                        </div>
 
-            <h:column>
-                <f:facet name="header">Valid To</f:facet>
-                #{taxRule.validTo}
-            </h:column>
-        </h:dataTable>
+                        <div>
+                            <h:outputLabel for="validTo" value="Valid to:" />
+                            <h:inputText id="validTo"
+                                         value="#{taxRuleBean.newTaxRule.validTo}"
+                                         type="datetime-local">
+                                <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd'T'HH:mm" />
+                            </h:inputText>
+                        </div>
+                    </div>
+
+                    <h:commandButton value="Create tax rule"
+                                     action="#{taxRuleBean.createTaxRule}"
+                                     styleClass="btn-primary" />
+                </h:form>
+            </section>
+
+            <section class="card">
+                <h2>Existing tax rules</h2>
+
+                <div class="table-wrapper">
+                    <h:dataTable value="#{taxRuleBean.taxRules}"
+                                 var="taxRule"
+                                 styleClass="data-table">
+                        <h:column>
+                            <f:facet name="header">Name</f:facet>
+                            #{taxRule.name}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Rate</f:facet>
+                            #{taxRule.rate}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Type</f:facet>
+                            #{taxRule.type}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Country</f:facet>
+                            #{taxRule.country}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Region</f:facet>
+                            #{taxRule.region}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Included In Price</f:facet>
+                            #{taxRule.includedInPrice}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Valid From</f:facet>
+                            #{taxRule.validFrom}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Valid To</f:facet>
+                            #{taxRule.validTo}
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </section>
+        </div>
     </main>
 
     <ui:include src="/WEB-INF/includes/footer.xhtml" />

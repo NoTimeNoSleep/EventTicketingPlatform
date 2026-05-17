@@ -1,52 +1,79 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core" 
+      xmlns:f="jakarta.faces.core"
       xmlns:ui="jakarta.faces.facelets">
 
 <h:head>
     <title>Tax Lines</title>
     <h:outputStylesheet library="css" name="site.css" />
+    <h:outputStylesheet library="css" name="index.css" />
+    <h:outputStylesheet library="css" name="style.css" />
 </h:head>
 
 <h:body>
     <ui:include src="/WEB-INF/includes/navbar.xhtml" />
 
     <main class="main-content">
+        <div class="container">
 
-        <h1>Tax Lines</h1>
+            <section class="section">
+                <h1>Tax Lines</h1>
+                <p class="muted">Review tax amounts that were applied to orders and tickets.</p>
+            </section>
 
-        <h:dataTable value="#{taxLineBean.taxLines}" var="taxLine" border="1">
-            <h:column>
-                <f:facet name="header">ID</f:facet>
-                #{taxLine.id}
-            </h:column>
+            <section class="card">
+                <h2>Existing tax lines</h2>
 
-            <h:column>
-                <f:facet name="header">Order ID</f:facet>
-                #{taxLine.order.id}
-            </h:column>
+                <div class="table-wrapper">
+                    <h:dataTable value="#{taxLineBean.taxLines}"
+                                 var="taxLine"
+                                 styleClass="data-table">
 
-            <h:column>
-                <f:facet name="header">Ticket ID</f:facet>
-                #{empty taxLine.ticket ? 'No ticket' : taxLine.ticket.id}
-            </h:column>
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                            #{taxLine.id}
+                        </h:column>
 
-            <h:column>
-                <f:facet name="header">Name</f:facet>
-                #{taxLine.name}
-            </h:column>
+                        <h:column>
+                            <f:facet name="header">Name</f:facet>
+                            #{taxLine.name}
+                        </h:column>
 
-            <h:column>
-                <f:facet name="header">Rate</f:facet>
-                #{taxLine.rate}
-            </h:column>
+                        <h:column>
+                            <f:facet name="header">Rate</f:facet>
+                            #{taxLine.rate}
+                        </h:column>
 
-            <h:column>
-                <f:facet name="header">Amount</f:facet>
-                #{taxLine.amount}
-            </h:column>
-        </h:dataTable>
+                        <h:column>
+                            <f:facet name="header">Amount</f:facet>
+                            #{taxLine.amount}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Order</f:facet>
+                            <!-- TODO: replace this with a link to a specific order details page when implemented -->
+                            <h:link value="#{taxLine.order.id}"
+                                    outcome="orders"
+                                    styleClass="table-link" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Ticket</f:facet>
+                            <!-- TODO: replace this with a link to a specific ticket details page when implemented -->
+                            <h:link value="#{taxLine.ticket.id}"
+                                    outcome="tickets"
+                                    styleClass="table-link"
+                                    rendered="#{not empty taxLine.ticket}" />
+                            <h:outputText value="No ticket"
+                                          rendered="#{empty taxLine.ticket}" />
+                        </h:column>
+
+                    </h:dataTable>
+                </div>
+            </section>
+
+        </div>
     </main>
 
     <ui:include src="/WEB-INF/includes/footer.xhtml" />
