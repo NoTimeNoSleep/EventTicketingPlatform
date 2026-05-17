@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+<h:head>
+    <title>Order Confirmation</title>
+    <h:outputStylesheet library="css" name="site.css" />
+</h:head>
+
+<h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
+    <main class="main-content">
+        <section>
+            <h1>Order Confirmation</h1>
+
+            <!-- Messages (flash kept) -->
+            <h:messages globalOnly="true" />
+
+            <p>Thank you for your purchase. If you provided an email, you will receive an order confirmation there.</p>
+
+            <p>
+                <h:link outcome="/index.xhtml" value="Continue shopping" />
+            </p>
+        </section>
+    </main>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
+</h:body>
+</html>
