@@ -29,6 +29,18 @@ public class InvoiceDAO {
         return em.find(Invoice.class, id);
     }
 
+    public Invoice findByOrderId(UUID orderId) {
+        return em.createQuery(
+                        "SELECT i FROM Invoice i " +
+                                "LEFT JOIN FETCH i.order " +
+                                "WHERE i.order.id = :orderId",
+                        Invoice.class)
+                .setParameter("orderId", orderId)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+    }
+
     public boolean existsByOrderId(UUID orderId) {
         Long count = em.createQuery(
                         "SELECT COUNT(i) FROM Invoice i WHERE i.order.id = :orderId",
