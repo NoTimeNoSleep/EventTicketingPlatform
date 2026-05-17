@@ -18,10 +18,10 @@
         <div class="container">
 
             <h1>Invoices</h1>
-            <p>Create and view billing documents connected to orders.</p>
+            <p>Generate and view billing documents connected to orders.</p>
 
             <section class="card">
-                <h2>Create invoice</h2>
+                <h2>Generate Invoice</h2>
 
                 <h:form>
                     <h:messages />
@@ -42,62 +42,10 @@
                             </h:selectOneMenu>
                         </div>
 
-                        <div>
-                            <h:outputLabel for="companyName" value="Company name:" />
-                            <h:inputText id="companyName" value="#{invoiceBean.newInvoice.companyName}" />
-                        </div>
-
-                        <div>
-                            <h:outputLabel for="taxId" value="Tax ID:" />
-                            <h:inputText id="taxId" value="#{invoiceBean.newInvoice.taxId}" />
-                        </div>
-
-                        <div>
-                            <h:outputLabel for="billingAddress" value="Billing address:" />
-                            <h:inputText id="billingAddress" value="#{invoiceBean.newInvoice.billingAddress}" />
-                        </div>
-
-                        <div>
-                            <h:outputLabel for="subtotal" value="Subtotal:" />
-                            <h:inputText id="subtotal"
-                                         value="#{invoiceBean.newInvoice.subtotal}"
-                                         required="true"
-                                         requiredMessage="Please enter a subtotal." />
-                        </div>
-
-                        <div>
-                            <h:outputLabel for="taxTotal" value="Tax total:" />
-                            <h:inputText id="taxTotal"
-                                         value="#{invoiceBean.newInvoice.taxTotal}"
-                                         required="true"
-                                         requiredMessage="Please enter a tax total." />
-                        </div>
-
-                        <div>
-                            <h:outputLabel for="totalAmount" value="Total amount:" />
-                            <h:inputText id="totalAmount"
-                                         value="#{invoiceBean.newInvoice.totalAmount}"
-                                         required="true"
-                                         requiredMessage="Please enter a total amount." />
-                        </div>
-
-                        <div>
-                            <h:outputLabel for="status" value="Status:" />
-                            <h:selectOneMenu id="status"
-                                             value="#{invoiceBean.newInvoice.status}"
-                                             required="true"
-                                             requiredMessage="Please select a status.">
-                                <f:selectItems value="#{invoiceBean.invoiceStatuses}"
-                                               var="status"
-                                               itemValue="#{status}"
-                                               itemLabel="#{status}" />
-                            </h:selectOneMenu>
-                        </div>
-
                     </div>
 
-                    <h:commandButton value="Create invoice"
-                                     action="#{invoiceBean.createInvoice}"
+                    <h:commandButton value="Generate invoice"
+                                     action="#{invoiceBean.generateInvoiceFromOrder}"
                                      styleClass="btn-primary" />
                 </h:form>
             </section>
@@ -111,23 +59,18 @@
                                  styleClass="data-table">
 
                         <h:column>
+                            <f:facet name="header">Invoice ID</f:facet>
+                            #{invoice.id}
+                        </h:column>
+
+                        <h:column>
                             <f:facet name="header">Order ID</f:facet>
-                            #{invoice.order.id}
+                            #{invoice.order != null ? invoice.order.id : 'No order'}
                         </h:column>
 
                         <h:column>
-                            <f:facet name="header">Company</f:facet>
-                            #{invoice.companyName}
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name="header">Tax ID</f:facet>
-                            #{invoice.taxId}
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name="header">Billing Address</f:facet>
-                            #{invoice.billingAddress}
+                            <f:facet name="header">Order Status</f:facet>
+                            #{invoice.order != null ? invoice.order.status : ''}
                         </h:column>
 
                         <h:column>

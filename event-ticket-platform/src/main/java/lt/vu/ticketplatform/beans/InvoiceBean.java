@@ -2,6 +2,8 @@ package lt.vu.ticketplatform.beans;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.transaction.Transactional;
@@ -28,26 +30,59 @@ public class InvoiceBean {
     private List<Invoice> invoices;
     private List<Order> orders;
 
-    private Invoice newInvoice = new Invoice();
     private String selectedOrderId;
 
     @PostConstruct
     public void init() {
-        invoices = invoiceDAO.findAll();
+        invoices = invoiceDAO.findAllWithOrder();
         orders = orderDAO.findAll();
-
-        newInvoice.setIssuedAt(LocalDateTime.now());
-        newInvoice.setStatus(InvoiceStatus.DRAFT);
     }
 
     @Transactional
-    public String createInvoice() {
-        Order selectedOrder = orderDAO.findById(UUID.fromString(selectedOrderId));
-        newInvoice.setOrder(selectedOrder);
+    public String generateInvoiceFromOrder() {
+        if (selectedOrderId == null || selectedOrderId.isBlank()) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Please select an order.");
+            return null;
+        }
 
-        invoiceDAO.persist(newInvoice);
+        UUID orderId;
+        try {
+            orderId = UUID.fromString(selectedOrderId);
+        } catch (IllegalArgumentException e) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Selected order is invalid.");
+            return null;
+        }
 
-        return "invoices?faces-redirect=true";
+        if (invoiceDAO.existsByOrderId(orderId)) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "This order already has an invoice.");
+
+            return null;
+        }
+
+        Order selectedOrder = orderDAO.findById(orderId);
+        if (selectedOrder == null) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Selected order was not found.");
+            return null;
+        }
+
+        Invoice invoice = new Invoice();
+        invoice.setOrder(selectedOrder);
+        invoice.setSubtotal(selectedOrder.getSubtotal());
+        invoice.setTaxTotal(selectedOrder.getTaxTotal());
+        invoice.setTotalAmount(selectedOrder.getTotalAmount());
+        invoice.setIssuedAt(LocalDateTime.now());
+        invoice.setStatus(InvoiceStatus.ISSUED);
+
+        invoiceDAO.persist(invoice);
+        invoices = invoiceDAO.findAllWithOrder();
+        selectedOrderId = null;
+        addMessage(FacesMessage.SEVERITY_INFO, "Invoice generated successfully.");
+
+        return null;
+    }
+
+    private void addMessage(FacesMessage.Severity severity, String summary) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, null));
     }
 
     public List<Invoice> getInvoices() {
@@ -58,23 +93,11 @@ public class InvoiceBean {
         return orders;
     }
 
-    public Invoice getNewInvoice() {
-        return newInvoice;
-    }
-
-    public void setNewInvoice(Invoice newInvoice) {
-        this.newInvoice = newInvoice;
-    }
-
     public String getSelectedOrderId() {
         return selectedOrderId;
     }
 
     public void setSelectedOrderId(String selectedOrderId) {
         this.selectedOrderId = selectedOrderId;
-    }
-
-    public InvoiceStatus[] getInvoiceStatuses() {
-        return InvoiceStatus.values();
     }
 }
