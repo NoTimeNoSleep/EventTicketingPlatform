@@ -31,6 +31,14 @@ public class InvoiceTaxLineDAO {
         return em.find(InvoiceTaxLine.class, id);
     }
 
+    public long countByInvoiceId(UUID invoiceId) {
+        return em.createQuery(
+                        "SELECT COUNT(itl) FROM InvoiceTaxLine itl WHERE itl.invoice.id = :invoiceId",
+                        Long.class)
+                .setParameter("invoiceId", invoiceId)
+                .getSingleResult();
+    }
+
     public boolean existsByInvoiceIdAndNameAndRateAndAmount(
             UUID invoiceId,
             String name,
