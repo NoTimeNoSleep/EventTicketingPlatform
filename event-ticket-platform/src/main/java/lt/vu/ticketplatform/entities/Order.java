@@ -20,7 +20,7 @@ public class Order {
     private Invoice invoice;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "order")
@@ -28,6 +28,9 @@ public class Order {
 
     @OneToMany(mappedBy = "order")
     private List<Ticket> tickets;
+
+    @Column
+    private String email;
 
     @Column(nullable = false)
     private BigDecimal subtotal;
@@ -102,6 +105,12 @@ public class Order {
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {}
 
     public BigDecimal getSubtotal() {
         return subtotal;
