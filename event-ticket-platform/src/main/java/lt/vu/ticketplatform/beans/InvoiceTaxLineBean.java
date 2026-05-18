@@ -16,6 +16,6 @@ public class InvoiceTaxLineBean {
     private InvoiceTaxLineDAO invoiceTaxLineDAO;
 
     public List<InvoiceTaxLine> getInvoiceTaxLines() {
-        return invoiceTaxLineDAO.findAll();
+        return invoiceTaxLineDAO.findAllWithInvoice();
     }
 }

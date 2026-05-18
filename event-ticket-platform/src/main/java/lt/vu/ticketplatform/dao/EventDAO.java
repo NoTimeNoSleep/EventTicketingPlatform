@@ -24,6 +24,16 @@ public class EventDAO {
         return em.find(Event.class, id);
     }
 
+    public Event findByIdWithVenue(UUID id) {
+        return em.createQuery(
+                        "SELECT e FROM Event e JOIN FETCH e.venue WHERE e.id = :id",
+                        Event.class)
+                .setParameter("id", id)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+    }
+
     public Event findByName(String eventName) {
         return em.find(Event.class, eventName);
     }

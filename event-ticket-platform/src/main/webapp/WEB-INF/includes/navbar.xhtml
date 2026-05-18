@@ -12,7 +12,13 @@
             </div>
 
             <div class="navbar-search">
-                <h:inputText placeholder="Search events..."/>
+                <h:inputText value="#{searchBean.query}"
+                             placeholder="Search events, artists, venues..."
+                             styleClass="search-input"/>
+
+                <h:commandButton value="Search"
+                                 action="#{searchBean.search}"
+                                 styleClass="navbar-search-button"/>
             </div>
 
             <div class="navbar-actions">
