@@ -95,12 +95,18 @@ public class InvoiceBean {
 
         invoices = invoiceDAO.findAllWithOrder();
         selectedOrderId = null;
-        addMessage(
-                FacesMessage.SEVERITY_INFO,
-                existingInvoice
-                        ? "Invoice already existed. Added " + createdTaxLineCount + " missing tax line(s)."
-                        : "Invoice generated successfully."
-        );
+        if (taxLines.isEmpty()) {
+            addMessage(FacesMessage.SEVERITY_WARN, "Invoice generated, but no tax lines were found for this order.");
+        } else if (existingInvoice && createdTaxLineCount == 0) {
+            addMessage(FacesMessage.SEVERITY_INFO, "Invoice already exists and all tax lines are already copied.");
+        } else {
+            addMessage(
+                    FacesMessage.SEVERITY_INFO,
+                    existingInvoice
+                            ? "Invoice already existed. Added " + createdTaxLineCount + " missing tax line(s)."
+                            : "Invoice generated successfully."
+            );
+        }
 
         return null;
     }
