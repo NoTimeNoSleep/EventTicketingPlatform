@@ -34,6 +34,15 @@ public class PaymentBean {
     public void init() {
         payments = paymentDAO.findAll();
         orders = orderDAO.findAll();
+
+        Object selectedOrderIdFromFlash = FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getFlash()
+                .get("selectedOrderId");
+
+        if (selectedOrderIdFromFlash != null) {
+            selectedOrderId = selectedOrderIdFromFlash.toString();
+        }
     }
 
     public List<Payment> getPayments() {

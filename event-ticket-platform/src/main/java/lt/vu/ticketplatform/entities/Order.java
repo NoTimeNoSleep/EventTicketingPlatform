@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.List;
 
-@Entity(name = "CustomerOrder")
+@Entity(name = "Order")
 @Table(name = "orders", schema = "event_ticketing")
 public class Order {
 
@@ -19,17 +19,13 @@ public class Order {
     @OneToOne(mappedBy = "order")
     private Invoice invoice;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
     @OneToMany(mappedBy = "order")
     private List<Payment> payments;
 
     @OneToMany(mappedBy = "order")
     private List<Ticket> tickets;
 
-    @Column
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
@@ -82,22 +78,6 @@ public class Order {
         this.invoice = invoice;
     }
 
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public List<Payment> getPayments() {
         return payments;
     }
@@ -106,11 +86,21 @@ public class Order {
         this.payments = payments;
     }
 
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public BigDecimal getSubtotal() {
         return subtotal;

@@ -25,9 +25,6 @@ public class User {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-    @OneToMany(mappedBy = "user")
-    private List<Order> orders;
-
     @ManyToMany
     @JoinTable(
             name = "user_roles",
@@ -79,14 +76,6 @@ public class User {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
     }
 
     public List<Role> getRoles() {

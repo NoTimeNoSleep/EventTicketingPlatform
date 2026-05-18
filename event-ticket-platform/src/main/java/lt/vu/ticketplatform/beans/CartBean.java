@@ -1,9 +1,14 @@
 package lt.vu.ticketplatform.beans;
 
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.transaction.Transactional;
+import lt.vu.ticketplatform.beans.CurrentUserBean;
+import lt.vu.ticketplatform.dao.OrderDAO;
+import lt.vu.ticketplatform.entities.Order;
 import lt.vu.ticketplatform.entities.Ticket;
 
 import java.io.Serial;
@@ -21,6 +26,14 @@ public class CartBean implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private static final Duration CART_DURATION = Duration.ofMinutes(15);
+
+    @Inject
+    private OrderDAO orderDAO;
+
+    @Inject
+    private CurrentUserBean currentUserBean;
+
+    private String checkoutEmail;
 
     public static class CartItem implements Serializable {
         @Serial
@@ -175,6 +188,23 @@ public class CartBean implements Serializable {
         return cartExpiresAt != null && !isCartExpired();
     }
 
+    public String getCheckoutEmail() {
+        if (currentUserBean != null && currentUserBean.isLoggedIn()) {
+            return currentUserBean.getEmail();
+        }
+
+        return checkoutEmail;
+    }
+
+    public void setCheckoutEmail(String checkoutEmail) {
+        this.checkoutEmail = checkoutEmail;
+    }
+
+    public boolean isCheckoutEmailRequired() {
+        return currentUserBean == null || !currentUserBean.isLoggedIn();
+    }
+
+    @Transactional
     public String checkout() {
         // TODO: implement actual order creation logic and validation before checkout
         try {
@@ -186,18 +216,33 @@ public class CartBean implements Serializable {
                 return null;
             }
 
-            // Placeholder: create order using services/DAOs here
+            String email = getCheckoutEmail();
+            if (email == null || email.isBlank()) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email required", "Please enter your email to continue."));
+                return null;
+            }
+
+            Order order = new Order();
+            order.setEmail(email.trim());
+            order.setSubtotal(getTotalPrice());
+            order.setTaxTotal(BigDecimal.ZERO);
+            order.setTotalAmount(getTotalPrice());
+            orderDAO.persist(order);
 
             // Add a flash message so it survives the redirect
             FacesContext facesContext = FacesContext.getCurrentInstance();
             facesContext.addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Order placed", "Your order has been placed successfully."));
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Order created", "Your order has been created successfully. Proceed to payment."));
             facesContext.getExternalContext().getFlash().setKeepMessages(true);
+            facesContext.getExternalContext().getFlash().put("selectedOrderId", order.getId().toString());
 
             // Clear the cart after successful checkout
             clearCart();
 
-            return "/orderConfirmation.xhtml?faces-redirect=true";
+            checkoutEmail = null;
+
+            return "/payments.xhtml?faces-redirect=true";
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Checkout failed", e.getMessage()));

@@ -59,33 +59,4 @@ public class OrderBean {
     public void setSelectedUserId(String selectedUserId) {
         this.selectedUserId = selectedUserId;
     }
-
-    @Transactional
-    public String createOrder() {
-        try {
-            if (selectedUserId == null || selectedUserId.isEmpty()) {
-                FacesContext.getCurrentInstance().addMessage("createOrderForm:user",
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                "User required",
-                                "Please select a user."));
-                return null;
-            }
-
-            User user = userDAO.findById(UUID.fromString(selectedUserId));
-            if (user == null) {
-                return null;
-            }
-
-            newOrder.setUser(user);
-            orderDAO.persist(newOrder);
-
-            orders = orderDAO.findAll();
-            newOrder = new Order();
-            selectedUserId = null;
-
-            return "orders?faces-redirect=true";
-        } catch (Exception e) {
-            return null;
-        }
-    }
 }

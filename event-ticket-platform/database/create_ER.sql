@@ -308,7 +308,6 @@ CREATE INDEX idx_ticket_types_event_id ON ticket_types(event_id);
 CREATE INDEX idx_event_seats_event_id ON event_seats(event_id);
 CREATE INDEX idx_event_seats_seat_id ON event_seats(seat_id);
 CREATE INDEX idx_event_seats_ticket_type_id ON event_seats(ticket_type_id);
-CREATE INDEX idx_orders_user_id ON orders(user_id);
 CREATE INDEX idx_payments_order_id ON payments(order_id);
 CREATE UNIQUE INDEX ux_payments_one_paid_per_order ON payments(order_id) WHERE status = 'PAID';
 CREATE INDEX idx_bulk_purchases_order_id ON bulk_purchases(order_id);

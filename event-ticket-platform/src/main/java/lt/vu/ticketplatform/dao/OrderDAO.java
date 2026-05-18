@@ -16,9 +16,8 @@ public class OrderDAO {
 
     public List<Order> findAll() {
         return em.createQuery(
-                        "SELECT DISTINCT o FROM CustomerOrder o " +
-                                "LEFT JOIN FETCH o.user " +
-                                "LEFT JOIN FETCH o.payments", Order.class)
+                "SELECT DISTINCT o FROM Order o " +
+                    "LEFT JOIN FETCH o.payments", Order.class)
                 .getResultList();
     }
 

@@ -48,7 +48,30 @@
                     <h:outputText value="#{cartBean.totalPrice}" />
                 </h:panelGroup>
 
-                <h:commandButton value="Checkout" action="#{cartBean.checkout}" disabled="#{empty cartBean.cartItems}" />
+                <h:panelGroup styleClass="checkout-step">
+                    <h2>Enter Your Email</h2>
+                    <h:panelGroup rendered="#{currentUserBean.loggedIn}">
+                        <h:outputText value="Using logged-in email: " />
+                        <h:outputText value="#{currentUserBean.email}" />
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{not currentUserBean.loggedIn}">
+                        <h:outputLabel for="checkoutEmail" value="Enter your email:" />
+                        <h:inputText id="checkoutEmail"
+                                     value="#{cartBean.checkoutEmail}"
+                                     required="true"
+                                     requiredMessage="Email is required to continue to payment" />
+                        <h:message for="checkoutEmail" styleClass="error-message" />
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h2>Pay</h2>
+                    <h:commandButton value="Create order and proceed to payment"
+                                     action="#{cartBean.checkout}"
+                                     disabled="#{empty cartBean.cartItems}"
+                                     immediate="false" />
+                </h:panelGroup>
             </h:form>
         </section>
     </main>

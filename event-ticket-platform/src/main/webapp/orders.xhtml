@@ -22,82 +22,7 @@
                 <h1>Orders</h1>
                 <p class="muted">Create a new order or view existing ones.</p>
             </section>
-
-            <section class="card">
-                <h2>Create new order</h2>
-                <h:form id="createOrderForm">
-                    <div class="form-grid">
-                        <div>
-                            <h:outputLabel value="User:"/>
-                            <h:selectOneMenu id="user"
-                                             value="#{orderBean.selectedUserId}"
-                                             styleClass="input"
-                                             required="true"
-                                             requiredMessage="User is required">
-                                <f:selectItem itemLabel="Select user" itemValue="#{null}"/>
-                                <f:selectItems value="#{orderBean.users}"
-                                               var="user"
-                                               itemValue="#{user.id.toString()}"
-                                               itemLabel="#{user.email}"/>
-                            </h:selectOneMenu>
-                            <h:message for="user" styleClass="error-message" />
-                        </div>
-
-                        <div>
-                            <h:outputLabel value="Status:"/>
-                            <h:selectOneMenu id="status"
-                                             value="#{orderBean.newOrder.status}"
-                                             styleClass="input"
-                                             required="true"
-                                             requiredMessage="Status is required">
-                                <f:selectItem itemLabel="Select status" itemValue="#{null}"/>
-                                <f:selectItem itemLabel="Created" itemValue="CREATED"/>
-                                <f:selectItem itemLabel="Pending payment" itemValue="PENDING_PAYMENT"/>
-                                <f:selectItem itemLabel="Paid" itemValue="PAID"/>
-                                <f:selectItem itemLabel="Completed" itemValue="COMPLETED"/>
-                            </h:selectOneMenu>
-                            <h:message for="status" styleClass="error-message" />
-                        </div>
-
-                        <div>
-                            <h:outputLabel value="Subtotal:"/>
-                            <h:inputText id="subtotal"
-                                         value="#{orderBean.newOrder.subtotal}"
-                                         styleClass="input"
-                                         required="true"
-                                         requiredMessage="Subtotal is required"/>
-                            <h:message for="subtotal" styleClass="error-message" />
-                        </div>
-
-                        <div>
-                            <h:outputLabel value="Tax Total:"/>
-                            <h:inputText id="taxTotal"
-                                         value="#{orderBean.newOrder.taxTotal}"
-                                         styleClass="input"
-                                         required="true"
-                                         requiredMessage="Tax total is required"/>
-                            <h:message for="taxTotal" styleClass="error-message" />
-                        </div>
-
-                        <div>
-                            <h:outputLabel value="Total Amount:"/>
-                            <h:inputText id="totalAmount"
-                                         value="#{orderBean.newOrder.totalAmount}"
-                                         styleClass="input"
-                                         required="true"
-                                         requiredMessage="Total amount is required"/>
-                            <h:message for="totalAmount" styleClass="error-message" />
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 10px; margin-top: 18px;">
-                        <h:commandButton value="Create Order"
-                                         action="#{orderBean.createOrder()}"
-                                         styleClass="btn-primary"/>
-                    </div>
-                </h:form>
-            </section>
-
+            
             <section class="card">
                 <h2>All orders</h2>
 
@@ -113,8 +38,8 @@
                                      var="order"
                                      styleClass="data-table">
                             <h:column>
-                                <f:facet name="header">User</f:facet>
-                                #{order.user.email}
+                                <f:facet name="header">Checkout Email</f:facet>
+                                #{order.email}
                             </h:column>
 
                             <h:column>
