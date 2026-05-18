@@ -66,10 +66,10 @@ VALUES
 
 -- ===================== ORDERS =====================
 
-INSERT INTO event_ticketing.orders (id, user_id, subtotal, tax_total, total_amount, status, created_at, updated_at, country, region)
+INSERT INTO event_ticketing.orders (id, email, subtotal, tax_total, total_amount, status, created_at, updated_at, country, region)
 VALUES 
-  ('00000000-0000-0000-0000-000000000701', '00000000-0000-0000-0000-000000000001', 150.00, 31.50, 181.50, 'PENDING_PAYMENT', NOW(), NOW(), 'USA', 'NY'),
-  ('00000000-0000-0000-0000-000000000702', '00000000-0000-0000-0000-000000000002', 100.00, 21.00, 121.00, 'PAID', NOW(), NOW(), 'USA', 'CA');
+  ('00000000-0000-0000-0000-000000000701', 'john.doe@example.com', 150.00, 31.50, 181.50, 'PENDING_PAYMENT', NOW(), NOW(), 'USA', 'NY'),
+  ('00000000-0000-0000-0000-000000000702', 'jane.smith@example.com', 100.00, 21.00, 121.00, 'PAID', NOW(), NOW(), 'USA', 'CA');
 
 -- ===================== PAYMENTS =====================
 

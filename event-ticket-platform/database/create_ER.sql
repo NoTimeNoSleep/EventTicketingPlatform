@@ -116,8 +116,7 @@ CREATE TABLE event_seats (
 
 CREATE TABLE orders (
   id UUID PRIMARY KEY,
-  user_id UUID,
-  email TEXT,
+  email TEXT NOT NULL,
   subtotal NUMERIC(12,2) NOT NULL,
   tax_total NUMERIC(12,2) NOT NULL,
   total_amount NUMERIC(12,2) NOT NULL,
@@ -126,11 +125,6 @@ CREATE TABLE orders (
   updated_at TIMESTAMP,
   country TEXT,
   region TEXT,
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  CHECK (
-      (email IS NOT NULL AND user_id IS NULL) OR
-      (email IS NULL AND user_id IS NOT NULL)
-      ),
   CHECK (status IN ('CREATED', 'PENDING_PAYMENT', 'PAID', 'COMPLETED')),
   CHECK (subtotal >= 0 AND tax_total >= 0 AND total_amount >= 0)
 );
