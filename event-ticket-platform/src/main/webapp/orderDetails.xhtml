@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+
+<f:metadata>
+    <f:viewParam name="orderId" value="#{orderBean.selectedOrderId}" />
+    <f:viewAction action="#{orderBean.loadSelectedOrder}" />
+</f:metadata>
+
+<h:head>
+    <title>Order Details</title>
+    <h:outputStylesheet library="css" name="site.css" />
+    <h:outputStylesheet library="css" name="index.css" />
+    <h:outputStylesheet library="css" name="style.css" />
+</h:head>
+
+<h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
+    <main class="main-content">
+        <div class="container">
+            <h:panelGroup rendered="#{empty orderBean.selectedOrder}" layout="block" styleClass="card">
+                <h1>Order Not Found</h1>
+                <p class="muted">The selected order could not be found.</p>
+                <h:link outcome="/orders" value="Back to Orders" styleClass="btn-primary" />
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{not empty orderBean.selectedOrder}" layout="block">
+                <section class="section">
+                    <h1>Order Details</h1>
+                    <p class="muted">Order #{orderBean.selectedOrder.id}</p>
+                </section>
+
+                <section class="card">
+                    <h2>Order Summary</h2>
+                    <!-- TODO: Replace this placeholder with full order details when the order detail page is built. -->
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <tbody>
+                            <tr>
+                                <th>Order ID</th>
+                                <td>#{orderBean.selectedOrder.id}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>#{orderBean.selectedOrder.status}</td>
+                            </tr>
+                            <tr>
+                                <th>Subtotal</th>
+                                <td>#{orderBean.selectedOrder.subtotal}</td>
+                            </tr>
+                            <tr>
+                                <th>Tax Total</th>
+                                <td>#{orderBean.selectedOrder.taxTotal}</td>
+                            </tr>
+                            <tr>
+                                <th>Total</th>
+                                <td>#{orderBean.selectedOrder.totalAmount}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </h:panelGroup>
+        </div>
+    </main>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
+</h:body>
+</html>

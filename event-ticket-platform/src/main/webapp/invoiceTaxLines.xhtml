@@ -38,7 +38,12 @@
 
                         <h:column>
                             <f:facet name="header">Order ID</f:facet>
-                            #{taxLine.invoice.order != null ? taxLine.invoice.order.id : 'No order'}
+                            <h:link outcome="/orderDetails"
+                                    value="#{taxLine.invoice.order.id}"
+                                    rendered="#{taxLine.invoice.order != null}">
+                                <f:param name="orderId" value="#{taxLine.invoice.order.id}" />
+                            </h:link>
+                            <h:outputText value="No order" rendered="#{taxLine.invoice.order == null}" />
                         </h:column>
 
                         <h:column>
