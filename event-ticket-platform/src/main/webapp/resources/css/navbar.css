@@ -24,6 +24,32 @@
     width: 300px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.navbar-search .search-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+}
+
+.navbar-search-button {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #2563eb;
+    border-radius: 4px;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.navbar-search-button:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
 }
 
 .navbar-actions {
