@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+
+<f:metadata>
+    <f:viewParam name="query" value="#{searchBean.query}" />
+    <f:viewAction action="#{searchBean.loadResults}" />
+</f:metadata>
+
+<h:head>
+    <title>Search Results</title>
+    <h:outputStylesheet library="css" name="site.css" />
+    <h:outputStylesheet library="css" name="style.css" />
+    <h:outputStylesheet library="css" name="index.css" />
+    <h:outputStylesheet library="css" name="events.css" />
+</h:head>
+
+<h:body>
+    <ui:include src="/WEB-INF/includes/navbar.xhtml" />
+
+    <main class="main-content">
+        <div class="container">
+            <section class="section">
+                <div>
+                    <h1>Search Results</h1>
+                    <h:panelGroup id="queryDisplay" layout="block">
+                        <p class="muted">
+                            Showing matches for
+                            <strong>
+                                <h:outputText value="#{empty searchBean.query ? 'your search' : searchBean.query}" />
+                            </strong>
+                        </p>
+                    </h:panelGroup>
+                </div>
+            </section>
+
+            <h:form id="resultsSearchForm">
+                <section class="card">
+                    <div class="form-group">
+                        <h:outputLabel for="query" value="Search" />
+                        <h:inputText id="query"
+                                     value="#{searchBean.query}"
+                                     styleClass="input"
+                                     placeholder="Search events, artists, venues...">
+                            <f:ajax event="keyup"
+                                    listener="#{searchBean.loadResults}"
+                                    render="@form" />
+                        </h:inputText>
+                    </div>
+
+                    <h:commandButton value="Search"
+                                     action="#{searchBean.search}"
+                                     styleClass="btn-primary" />
+                </section>
+
+                <section class="card">
+                    <h2>Matching Events</h2>
+
+                    <h:panelGroup rendered="#{empty searchBean.events}">
+                        <p class="muted" style="text-align: center; padding: 2rem 0;">
+                            No matching events found.
+                        </p>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{not empty searchBean.events}">
+                        <div class="table-wrapper">
+                            <h:dataTable value="#{searchBean.events}"
+                                         var="event"
+                                         styleClass="data-table">
+                                <h:column>
+                                    <f:facet name="header">Event Name</f:facet>
+                                    <h:link outcome="/eventDetails.xhtml" value="#{event.name}" styleClass="table-link">
+                                        <f:param name="eventId" value="#{event.id}" />
+                                    </h:link>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Description</f:facet>
+                                    #{event.description}
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Venue</f:facet>
+                                    #{event.venue.name}
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Location</f:facet>
+                                    #{event.venue.location}
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Date &amp; Time</f:facet>
+                                    <h:outputText value="#{event.dateTime}">
+                                        <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd HH:mm" />
+                                    </h:outputText>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Details</f:facet>
+                                    <h:link outcome="/eventDetails.xhtml" value="View" styleClass="btn-primary btn-table">
+                                        <f:param name="eventId" value="#{event.id}" />
+                                    </h:link>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
+                    </h:panelGroup>
+                </section>
+            </h:form>
+        </div>
+    </main>
+
+    <ui:include src="/WEB-INF/includes/footer.xhtml" />
+</h:body>
+</html>

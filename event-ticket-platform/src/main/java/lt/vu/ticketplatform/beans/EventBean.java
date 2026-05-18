@@ -30,6 +30,8 @@ public class EventBean {
     private List<Venue>  venues;
     private Event newEvent = new Event();
     private String selectedVenueId;
+    private String selectedEventId;
+    private Event selectedEvent;
 
     @PostConstruct
     public void init() {
@@ -63,6 +65,31 @@ public class EventBean {
 
     public void setSelectedVenueId(String selectedVenueId) {
         this.selectedVenueId = selectedVenueId;
+    }
+
+    public String getSelectedEventId() {
+        return selectedEventId;
+    }
+
+    public void setSelectedEventId(String selectedEventId) {
+        this.selectedEventId = selectedEventId;
+    }
+
+    public Event getSelectedEvent() {
+        return selectedEvent;
+    }
+
+    public void loadSelectedEvent() {
+        if (selectedEventId == null || selectedEventId.isBlank()) {
+            selectedEvent = null;
+            return;
+        }
+
+        try {
+            selectedEvent = eventDAO.findByIdWithVenue(UUID.fromString(selectedEventId));
+        } catch (IllegalArgumentException e) {
+            selectedEvent = null;
+        }
     }
 
     public String getMinimumDateTime() {
