@@ -5,8 +5,6 @@ import lt.vu.ticketplatform.entities.Seat;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import lt.vu.ticketplatform.entities.Venue;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -23,15 +21,17 @@ public class SeatDAO {
         ).getResultList();
     }
 
-    public List<Seat> findByVenueId(String venueId) {
+    public List<Seat> findByVenueId(UUID venueId) {
         return em.createQuery(
                 "SELECT s FROM Seat s " +
-                        "WHERE s.venue.id = :venueId", Seat.class)
+                        "LEFT JOIN FETCH s.venue " +
+                        "WHERE s.venue.id = :venueId " +
+                        "ORDER BY s.section, s.row, s.number", Seat.class)
                 .setParameter("venueId", venueId)
                 .getResultList();
     }
 
-    public List<Seat> findBySection(String venueId, String section) {
+    public List<Seat> findBySection(UUID venueId, String section) {
         return em.createQuery(
                 "SELECT s FROM Seat s " +
                         "WHERE s.venue.id = :venueId " +
@@ -41,7 +41,7 @@ public class SeatDAO {
                 .getResultList();
     }
 
-    public List<Seat> findByRow(String venueId, String row) {
+    public List<Seat> findByRow(UUID venueId, String row) {
         return em.createQuery(
                 "SELECT s FROM Seat s " +
                         "WHERE s.venue.id = :venueId " +

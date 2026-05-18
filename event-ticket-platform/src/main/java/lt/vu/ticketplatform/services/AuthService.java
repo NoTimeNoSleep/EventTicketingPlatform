@@ -41,7 +41,7 @@ public class AuthService {
     @Transactional
     public RegistrationResult register(String name, String surname, String email, String rawPassword) {
         if (userDAO.existsByEmail(email)) {
-            return RegistrationResult.EMAIL_ALREADY_USED;
+            return RegistrationResult.emailAlreadyUsed();
         }
 
         Role customerRole = roleDAO.findByType(RoleType.CUSTOMER)
@@ -56,11 +56,32 @@ public class AuthService {
 
         userDAO.persist(user);
 
-        return RegistrationResult.SUCCESS;
+        return RegistrationResult.success(user);
     }
 
-    public enum RegistrationResult {
-        SUCCESS,
-        EMAIL_ALREADY_USED
+    public static class RegistrationResult {
+        private final boolean success;
+        private final User user;
+
+        private RegistrationResult(boolean success, User user) {
+            this.success = success;
+            this.user = user;
+        }
+
+        public static RegistrationResult success(User user) {
+            return new RegistrationResult(true, user);
+        }
+
+        public static RegistrationResult emailAlreadyUsed() {
+            return new RegistrationResult(false, null);
+        }
+
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public User getUser() {
+            return user;
+        }
     }
 }

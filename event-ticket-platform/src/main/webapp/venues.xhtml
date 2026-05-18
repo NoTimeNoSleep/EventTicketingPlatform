@@ -18,7 +18,7 @@
         <div class="container">
 
             <h1>Venues</h1>
-            <p>Create and manage venues used by events.</p>
+            <p class="muted">Create and manage venues used by events.</p>
 
             <section class="card">
                 <h2>Create new venue</h2>
@@ -61,15 +61,17 @@
                         </h:column>
 
                         <h:column>
-                            <f:facet name="header">Seats</f:facet>
+                            <f:facet name="header">Seat count</f:facet>
+                            #{venueBean.seatCount(venue)}
+                        </h:column>
 
-                            <ui:fragment rendered="#{empty venue.seats}">
-                                -
-                            </ui:fragment>
-
-                            <ui:repeat value="#{venue.seats}" var="seat">
-                                #{seat.section}-#{seat.row}-#{seat.number}<br />
-                            </ui:repeat>
+                        <h:column>
+                            <f:facet name="header">Actions</f:facet>
+                            <h:link value="Manage seats"
+                                    outcome="seats"
+                                    styleClass="btn-primary btn-table">
+                                <f:param name="venueId" value="#{venue.id}" />
+                            </h:link>
                         </h:column>
 
                     </h:dataTable>

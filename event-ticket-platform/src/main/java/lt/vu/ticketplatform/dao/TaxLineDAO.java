@@ -24,7 +24,16 @@ public class TaxLineDAO {
     }
 
     public TaxLine findById(UUID id) {
-        return em.find(TaxLine.class, id);
+        return em.createQuery(
+                "SELECT tl FROM TaxLine tl " +
+                        "LEFT JOIN FETCH tl.order " +
+                        "LEFT JOIN FETCH tl.ticket " +
+                        "WHERE tl.id = :id",
+                TaxLine.class
+        ).setParameter("id", id)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
     }
 
     public void persist(TaxLine taxLine) {

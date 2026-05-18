@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets">
 
     <h:outputStylesheet library="css" name="navbar.css" />
 
@@ -22,15 +22,18 @@
                 </h:panelGroup>
 
                 <h:panelGroup rendered="#{currentUserBean.loggedIn}">
-                    <h:link outcome="/users.xhtml"
-                            value="#{currentUserBean.email}"
-                            styleClass="action-link"/>          <!--TODO: placeholder, change to user profile page-->
+                    <h:link outcome="/account.xhtml"
+                            value="#{currentUserBean.name}"
+                            styleClass="action-link"/>
                     <h:commandLink value="Log Out"
                                    action="#{currentUserBean.logOut}"
                                    styleClass="action-link"/>
                 </h:panelGroup>
 
-                <h:link outcome="/orders.xhtml" value="Cart" styleClass="action-link"/>          <!--TODO: placeholder, change to cart-->
+                <h:link outcome="/cart.xhtml" value="Cart" styleClass="action-link"/>
+                <h:panelGroup rendered="#{cartBean.cartTimed}" styleClass="action-link cart-timer-inline">
+                    <span class="cart-timer" data-cart-expiry="#{cartBean.cartExpiresAtEpochMillis}">#{cartBean.timeLeft}</span>
+                </h:panelGroup>
             </div>
         </nav>
 
@@ -77,6 +80,8 @@
             <span> | </span>
             <h:link value="EmailJob" outcome="/emailJobs" />
         </nav>
+
+        <h:outputScript library="js" name="cart-timer.js" target="body" />
     </h:form>
 
 
